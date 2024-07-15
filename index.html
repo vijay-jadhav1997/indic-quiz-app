@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"> -->
   <link rel="stylesheet" href="./style.css">
   <script src="./script.js" defer></script>
   <title>QUIZ APP : JS</title>
 </head>
 <body>
-  <div class="homepage">
+  <div class="start-quiz-page">
     <div class="start-quiz">
       <div class="quiz-logo-box">
         <img src="./Images/quiz-logo.png" alt="quiz-logo">
@@ -21,5 +21,48 @@
     <p class="highest-score-board">Your Highest Score: 20/25</p>
   </div>
   
+  <div class="quiz-page inactve">
+    <div class="quiz-container">
+      <div class="quiz-header">
+        <img class="logo" src="./Images/quiz-logo.png" alt="quiz-logo">
+        <span class="volume-icons">
+          <img class="volume-mute-icon" src="./Images/icon _Volume Mute_.png" alt="volume-mute-icon">
+          <img class="volume-up-icon" src="./Images/icon _Volume Up_.png" alt="volume-up-icon">
+        </span>
+      </div>
+      <div class="question-info">
+        <span class="question-num">20/25</span>
+        <span class="question-time">00:30</span>
+      </div>
+      <p class="question">What does HTML stand for?</p>
+      <div class="options-container">
+        <div class="option-box">
+          <p>Hyper Text Markup Language</p>
+          <span class="user-chose">You chose</span>
+          <span class="wrong-icon">&times;</span>
+          <span class="correct-icon">&check;</span>
+        </div>
+        <div class="option-box">
+          <p>Home Tool Markup Language</p>
+          <span class="user-chose">You chose</span>
+          <span class="wrong-icon">&times;</span>
+          <span class="correct-icon">&check;</span>
+        </div>
+        <div class="option-box">
+          <p>Hyperlinks and Text Markup Language</p>
+          <span class="user-chose">You chose</span>
+          <span class="wrong-icon">&times;</span>
+          <span class="correct-icon">&check;</span>
+        </div>
+        <div class="option-box">
+          <p>Hyperlinks and Text Markup Leveler</p>
+          <span class="user-chose">You chose</span>
+          <span class="wrong-icon">&times;</span>
+          <span class="correct-icon">&check;</span>
+        </div>
+      </div>
+      <span class="next-btn">Next ></span>
+    </div>
+  </div>
 </body>
 </html>
