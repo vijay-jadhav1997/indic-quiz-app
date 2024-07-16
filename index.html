@@ -7,10 +7,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"> -->
   <link rel="stylesheet" href="./style.css">
-  <script src="./script.js" defer></script>
+  <script type="module" src="./script.js" defer></script>
   <title>QUIZ APP : JS</title>
 </head>
 <body>
+  <div class="overlay"></div>
   <div class="start-quiz-page">
     <div class="start-quiz">
       <div class="quiz-logo-box">
@@ -18,10 +19,17 @@
       </div>
       <span class="start-now-btn">Start Now >>></span>
     </div>
-    <p class="highest-score-board">Your Highest Score: 20/25</p>
+    <p class="max-score-board hidden">Your Highest Score: 20/25</p>
   </div>
   
-  <div class="quiz-page inactve">
+  <div class="quiz-page inactive">
+    <div class="confirm-finish-popup closed">
+      <p>Are you sure you intend to finish Quiz?</p>
+      <div class="buttons">
+        <button class="confirm-finish-btn">Finish</button>
+        <button class="back-to-quiz-btn">Back</button>
+      </div>
+    </div>
     <div class="quiz-container">
       <div class="quiz-header">
         <img class="logo" src="./Images/quiz-logo.png" alt="quiz-logo">
@@ -61,8 +69,14 @@
           <span class="correct-icon">&check;</span>
         </div>
       </div>
-      <span class="next-btn">Next ></span>
+      <div class="action-btns">
+        <button class="finish-btn">Finish</button>
+        <button class="next-btn">Next &RightTriangle;</button>
+
+      </div>
     </div>
   </div>
+
+  
 </body>
 </html>
