@@ -3,8 +3,12 @@ import questions, {multipleChoiceQuestions} from "./mcq_data.js"
 
 
 //! Selecting key DOM elements for user interaction:
-// * 'quiz-start-page' DOM elements:
+// * 'body' DOM elements:
 const overlayElement = document.querySelector('.overlay');
+const notificationElement = document.querySelector('.notification-container');
+const notificationCloseBtn = document.querySelector('.notification-close-btn');
+
+// * 'quiz-start-page' DOM elements:
 const startQuizPage = document.querySelector('.start-quiz-page');
 const maxScoreElement = document.querySelector('.max-score-board');
 const startQuizBtn = document.querySelector('.start-now-btn');
@@ -18,6 +22,7 @@ const questionElement = document.querySelector('.question');
 const timeElement = document.querySelector('.question-time');
 const questionNumber = document.querySelector('.question-num');
 const nextBtn = document.querySelector('.next-btn');
+const skipBtn = document.querySelector('.skip-btn');
 const finishBtn = document.querySelector('.finish-btn');
 const confirmFinishBtn = document.querySelector('.confirm-finish-btn');
 const backBtn = document.querySelector('.back-to-quiz-btn');
@@ -26,14 +31,14 @@ const backBtn = document.querySelector('.back-to-quiz-btn');
 const resultPage = document.querySelector('.result-page');
 const correctBarElement = document.querySelector('.result-bar .correct-bar');
 const incorrectBarElement = document.querySelector('.result-bar .incorrect-bar');
-const resultStatisticElement = document.querySelector('.result-statistic');
+const resultStatisticElement = document.querySelector('.result-stats');
 const FeedbackMessageElement = document.querySelector('.feedback-message');
 const retryBtn = document.querySelector('.retry-btn');
 const goToHomeBtn = document.querySelector('.go-to-home-btn');
 
 
 // console.log(resultStatisticElement.children[0].innerText);
-console.log(incorrectBarElement.style);
+// console.log(incorrectBarElement.style);
 // alert(overlayElement)
 
 
@@ -54,11 +59,11 @@ let hasUserSelectedAnyOption = false
 
 
 const welcomeMessages = [
-  "Welcome to the 'IndoQuiz'! Ready to play a new Quiz?",
-  "Get ready for some fun! Welcome to 'IndoQuiz'!",
+  "Welcome to the 'Indic Quiz'! Ready to play a new Quiz?",
+  "Get ready for some fun! Welcome to 'Indic Quiz'!",
   "Welcome back, dear learner! Let's dive in!",
   "Namaste, learner! Ready to start your journey?",
-  "Welcome to 'IndoQuiz'! Let's get started!",
+  "Welcome to 'Indic Quiz'! Let's get started!",
   "Glad to see you! Ready for a new challenge?",
   "Namaste! 'Indo-Quiz' welcomes you. Prepare for a new Quiz challenge."
 ]
@@ -98,9 +103,11 @@ function handleQuizFinish (e) {
   nextBtn.classList.remove('hidden')
   overlayElement.classList.remove('open')
   confirmFinishPopup.classList.add('closed')
+  skipBtn.removeAttribute('disabled')
+  skipBtn.classList.remove('hidden')
   
   
-  //* result statistic calculation and DOM manipulation of 'result-page'
+  //* result stats calculation and DOM manipulation of 'result-page'
   calculateAndDisplayResult()
 
 
@@ -132,7 +139,9 @@ function nextQuestion(data, mcqNum) {
   questionElement.innerText = `${data[mcqNum]?.question}`
   timeElement.innerText = `00:30`
   hasUserSelectedAnyOption = false //* Now user can select any option.
-  nextBtn.setAttribute('disabled', '')
+  nextBtn.setAttribute('disabled', '')  
+  skipBtn.removeAttribute('disabled')
+
 
   const previousTotalOptions = optionsContainer.children.length
   for(let i = 0; i < previousTotalOptions; i++ ){
@@ -165,6 +174,7 @@ function nextQuestion(data, mcqNum) {
       }
       else if(count === 0) {
         nextBtn.removeAttribute('disabled')
+        skipBtn.setAttribute('disabled', '')
         optionsContainer.classList.add('no-selection')
         hasUserSelectedAnyOption = true //* Now user can't select any option for this question if user try to so.
         clearInterval(questionTimeInterval)
@@ -174,7 +184,10 @@ function nextQuestion(data, mcqNum) {
   }
 
   if(currentMcqNumber === totalQuestions){
+        skipBtn.setAttribute('disabled', '')
+
     nextBtn.className = 'next-btn hidden'
+    skipBtn.className = 'skip-btn hidden'
     finishBtn.innerText = 'Submit'
     finishBtn.setAttribute('disabled', '')
   }
@@ -214,19 +227,19 @@ function createOptionElement(option, index) {
 
 }
 
-//* final result statistic calculation and DOM manipulation of 'result-page'
+//* final result stats calculation and DOM manipulation of 'result-page'
 function calculateAndDisplayResult() {
 
-  const correctPercentage = Math.ceil((correctAnswered / totalQuestions) * 100)
-  const incorrectPercentage = Math.floor((wrongAnswered / totalQuestions) * 100)
-  const unattemptedPercentage = Math.floor(((totalQuestions - correctAnswered - wrongAnswered)/totalQuestions) * 100)
+  const correctPercentage = ((correctAnswered / totalQuestions) * 100).toFixed(2)
+  const incorrectPercentage = ((wrongAnswered / totalQuestions) * 100).toFixed(2)
+  const unattemptedPercentage = (((totalQuestions - correctAnswered - wrongAnswered)/totalQuestions) * 100).toFixed(2)
 
-  incorrectBarElement.previousElementSibling.innerText = `unattempted: ${unattemptedPercentage.toString().padStart(2, 0)}%`
-  incorrectBarElement.firstElementChild.innerText = `incorrect: ${incorrectPercentage.toString().padStart(2, 0)}%`
-  correctBarElement.firstElementChild.innerText = `correct: ${correctPercentage.toString().padStart(2, 0)}%`
-  
-  incorrectBarElement.style.width = `${incorrectPercentage + correctPercentage}%`
-  correctBarElement.style.width = `${correctPercentage}%`
+  incorrectBarElement.previousElementSibling.innerText = `unattempted: ${unattemptedPercentage}%`
+  incorrectBarElement.firstElementChild.innerText = `incorrect: ${incorrectPercentage}%`
+  correctBarElement.firstElementChild.innerText = `correct: ${correctPercentage}%`
+
+  incorrectBarElement.style.maxWidth = `${parseFloat(incorrectPercentage) + parseFloat(correctPercentage)}%`
+  correctBarElement.style.maxWidth = `${parseFloat(correctPercentage)}%`
 
   const timeInMinutes = (Math.floor(quizCompletionTime / 60)).toString().padStart(2, 0) // convert quiz completeion time which is in secs to minutes.
 
@@ -236,7 +249,7 @@ function calculateAndDisplayResult() {
   resultStatisticElement.children[3].innerText = `Your Score: ${score.toString().padStart(2, 0)}/${totalScoreOfQuiz.toString().padStart(2, 0)}`
   resultStatisticElement.children[4].innerText = `Your Highest Score: ${userMaxScore.toString().padStart(2, 0)}/${totalScoreOfQuiz.toString().padStart(2, 0)}`
   resultStatisticElement.children[5].innerText = `Questions Not Attempted: ${(totalQuestions - correctAnswered - wrongAnswered).toString().padStart(2, 0)}`
-  resultStatisticElement.children[6].innerText = `Your quiz completion time: ${parseInt(quizCompletionTime/60) &&  timeInMinutes + ' mins'}  ${(quizCompletionTime % 60) && '& ' + (quizCompletionTime % 60) + ' secs'}.`
+  resultStatisticElement.children[6].innerText = `Your quiz completion time: ${parseInt(timeInMinutes) && timeInMinutes} mins & ${(quizCompletionTime % 60).toString().padStart(2, 0)} secs.`
 
   resultPage.classList.add('show-result')
 }
@@ -287,6 +300,7 @@ optionsContainer.addEventListener('click', function(e) {
     wrongAnswered++
   }
 
+  skipBtn.setAttribute('disabled', '')
   nextBtn.removeAttribute('disabled')
   hasUserSelectedAnyOption = true //* Now user can't select any other option for this question if user try to do so.
   clearInterval(questionTimeInterval)
@@ -301,6 +315,18 @@ nextBtn.addEventListener('click', (e) => {
   quizPage.className = "quiz-page"   //* so that style of page will get to be its original state
   optionsContainer.className = 'options-container'
   
+  questionTimeInterval = 0
+  nextQuestion(mcqDataArray, currentMcqNumber)
+})
+
+
+//* Event listener to go on next question
+skipBtn.addEventListener('click', (e) => {
+  e.stopPropagation()
+  // quizPage.className = "quiz-page"   //* so that style of page will get to be its original state
+  // optionsContainer.className = 'options-container'
+  
+  clearInterval(questionTimeInterval)
   questionTimeInterval = 0
   nextQuestion(mcqDataArray, currentMcqNumber)
 })
@@ -366,8 +392,33 @@ goToHomeBtn.addEventListener('click', (e) => {
 })
 
 
-//! Intervals :
+//* Event listener to retry the quiz again
+notificationCloseBtn.addEventListener('click', (e) => {
+  e.stopPropagation()
+
+  notificationElement.classList.remove('open')
+})
+
+
+
+//! Timeout and Intervals :
+//* setTimeout to show welcome notification
+setTimeout(() => {
+  notificationElement.classList.add('open')
+  
+  const welcomeNotificationElem = notificationElement.firstElementChild.firstElementChild
+  welcomeNotificationElem.innerText = `${welcomeMessages[parseInt(Math.random()*6)]}`
+
+  setTimeout( e => {
+    notificationElement.classList.remove('open')
+  }, 30000)
+  
+}, 1000)
+
 // setInterval()
+
+
+
 
 
 
