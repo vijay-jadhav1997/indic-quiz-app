@@ -403,17 +403,17 @@ notificationCloseBtn.addEventListener('click', (e) => {
 
 //! Timeout and Intervals :
 //* setTimeout to show welcome notification
-setTimeout(() => {
-  notificationElement.classList.add('open')
+// setTimeout(() => {
+//   notificationElement.classList.add('open')
   
-  const welcomeNotificationElem = notificationElement.firstElementChild.firstElementChild
-  welcomeNotificationElem.innerText = `${welcomeMessages[parseInt(Math.random()*6)]}`
+//   const welcomeNotificationElem = notificationElement.firstElementChild.firstElementChild
+//   welcomeNotificationElem.innerText = `${welcomeMessages[parseInt(Math.random()*6)]}`
 
-  setTimeout( e => {
-    notificationElement.classList.remove('open')
-  }, 30000)
+//   setTimeout( e => {
+//     notificationElement.classList.remove('open')
+//   }, 30000)
   
-}, 1000)
+// }, 1000)
 
 // setInterval()
 

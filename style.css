@@ -12,6 +12,7 @@ body {
   /* overflow-x: hidden; */
   /* background-color: #F6F4F0; */
   /* background-color: #1a1a1a; */
+  /* background-color: #333; */
   color: #000;
   font-family: "Poppins", sans-serif;
   position: relative;
@@ -114,6 +115,104 @@ body {
   }
 }
 
+
+/*? homepage styling */
+.homepage {
+  margin-bottom: 3rem;
+  padding: 0 3rem;
+  height: 100dvh;
+  font-weight: 600;
+  --header-bg-clr: lightseagreen;
+  --sub-menu1-bg-clr: #3fd3d3;
+  --sub-menu2-bg-clr: #c0fffa;
+  --hover-bg-clr: #c0fffa;
+  --hover-bg2-clr: #575757;
+}
+
+.homepage header {
+  background-color: var(--header-bg-clr);
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2rem;
+  padding: 1rem 0;
+}
+
+.homepage header ul {
+  list-style: none;
+}
+
+.homepage header .menu-bar li .right-arrow-icon {
+  font-size: 1.5rem;
+  font-weight: 700;
+  position: absolute;
+  left: 0;
+  width: 2rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: -5%;
+  transform: rotate(-90deg);
+  transition: transform 0.35s ease-in-out;
+}
+
+.homepage header .menu-bar {
+  display: flex;
+}
+
+.homepage header .menu-bar li {
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  position: relative;
+}
+
+
+.homepage header .menu-bar li  ul {
+  display: none;
+  position: absolute;
+  width: max-content;
+  min-width: 10rem;
+  font-size: 1rem;
+  background-color: var(--header-bg-clr);
+}
+
+.homepage header .menu-bar > li ul li:hover > span.right-arrow-icon {
+  transform: rotate(0deg);
+}
+
+.homepage header .menu-bar li ul li {
+  padding: 0.5rem 0.5rem 0.5rem 2rem;
+}
+
+.homepage header .menu-bar > li > ul {
+  padding: 1rem 0 0;
+  top: 100%;
+  right: 0%;
+}
+
+.homepage header .menu-bar li:hover > ul {
+  display: block;
+}
+
+.homepage header .menu-bar li .sub-menu1 li ul {
+  top: 10%;
+  right: 100.5%;
+}
+
+.menu-bar li:hover {
+  background-color: var(--hover-bg-clr);
+}
+
+.homepage header .menu-bar a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.homepage header .menu-bar a:hover,
+.homepage header .menu-bar a:focus {
+  background-color: var(--hover-bg-clr);
+}
 
 
 /*? start-quiz-page styling  */
@@ -617,12 +716,10 @@ body {
 
 @keyframes progress-anime {
   from {
-    /* transform: scaleX(0); */
     width: 0%;
   }
   to {
     width: 100%;
-    /* transform: scaleX(1); */
   }
 }
 
