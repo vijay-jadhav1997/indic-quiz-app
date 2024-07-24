@@ -1,4 +1,7 @@
-import questions, {multipleChoiceQuestions} from "./mcq_data.js"
+// import questions, {multipleChoiceQuestions, soprtQuestions} from "./mcq_data.js"
+
+
+
 
 
 
@@ -7,6 +10,15 @@ import questions, {multipleChoiceQuestions} from "./mcq_data.js"
 const overlayElement = document.querySelector('.overlay');
 const notificationElement = document.querySelector('.notification-container');
 const notificationCloseBtn = document.querySelector('.notification-close-btn');
+
+// * 'homepage' DOM elements:
+const homepageElemenet = document.querySelector('.homepage');
+const navBoxElemenet = document.querySelector('.nav-box');
+const slideElements = document.querySelectorAll('.slide');
+const flipcardElement = document.querySelector('.flipcard');
+
+// console.log(flipcardElement)
+
 
 // * 'quiz-start-page' DOM elements:
 const startQuizPage = document.querySelector('.start-quiz-page');
@@ -51,7 +63,8 @@ let totalQuestions = 0
 let correctAnswered = 0
 let wrongAnswered = 0
 let currentMcqNumber = 0
-let mcqDataArray = []
+let mcqDataArray = JSON.parse(window.localStorage.getItem('mcqQuestions')) || []
+// let mcqDataArray = questions.level1
 let questionTimeInterval = 0
 let quizCompletionTime = 0
 let hasPaused = false
@@ -68,6 +81,9 @@ const welcomeMessages = [
   "Namaste! 'Indo-Quiz' welcomes you. Prepare for a new Quiz challenge."
 ]
 
+navBoxElemenet
+
+
 
 // ! DOM Manipulation
 // maxScoreElement.innerText = `Your Highest Score: ${userMaxScore < 10 ? '0' + userMaxScore : userMaxScore}/25`
@@ -83,6 +99,7 @@ function handleQuizFinish (e) {
   hasPaused = false
   
   // calculate 'totalScoreOfQuiz'
+  totalScoreOfQuiz = 0
   mcqDataArray.forEach(question => {
     if (Object.keys(question.options).length > 2) {
       totalScoreOfQuiz = totalScoreOfQuiz + 2
@@ -119,9 +136,35 @@ function handleQuizFinish (e) {
 
 
 //! function
+//* function to get the mcq Data 
+async function getMCQData(category){
+  try {
+    const response = await fetch(`https://quiz-rest-api.vercel.app/questions/${category}`)
+
+    if (!response.ok) {
+      throw new Error('Please, check your network connection!')
+    }
+
+    const data = await response.json()
+
+    // console.log(data)
+
+    mcqDataArray = data.level1
+    console.log(mcqDataArray)
+
+    window.localStorage.setItem('mcqQuestions', JSON.stringify( data))
+    // startQuiz(data)
+  } catch (error) {
+    console.error('There has been a problem with your network connect:', error)
+  }
+}
+
+
+
 //* function to start the quiz 
 function startQuiz(quizData) {
   score = 0
+  correctAnswered = 0
   wrongAnswered = 0
   questionTimeInterval = 0
   currentMcqNumber = 0
@@ -184,11 +227,11 @@ function nextQuestion(data, mcqNum) {
   }
 
   if(currentMcqNumber === totalQuestions){
-        skipBtn.setAttribute('disabled', '')
+    skipBtn.setAttribute('disabled', '')
 
     nextBtn.className = 'next-btn hidden'
     skipBtn.className = 'skip-btn hidden'
-    finishBtn.innerText = 'Submit'
+    finishBtn.innerText = 'Submit QUIZ'
     finishBtn.setAttribute('disabled', '')
   }
 }
@@ -257,7 +300,40 @@ function calculateAndDisplayResult() {
 
 
 
-//! Events 
+//! Events :
+//* Event listener to 
+navBoxElemenet.addEventListener('click', (e) => {
+  e.stopPropagation()
+
+  console.dir(e.target)
+  // console.dir(e.target.parentElement)
+  // console.log(e.target.tagName)
+  // console.log(e.target.innerText.length)
+  if ((e.target.tagName=== "A") || (e.target.tagName === "LI")){
+
+    if(e.target.textContent !== "‹" && e.target.innerText.length < 20){
+      const quiz = e.target.innerText.toLowerCase()
+      
+      console.log(quiz)
+
+      // getMCQData('sport')
+      // getMCQData('coding')
+      if (mcqDataArray.length === 0) {
+        // homepageElemenet.classList.add('inactive')
+        // startQuizPage.classList.remove('inactive')
+        // getMCQData(quiz.toLowerCase())
+      }
+      // homepageElemenet.classList.add('inactive')
+      // startQuizPage.classList.remove('inactive')
+      
+      
+    }
+  }
+
+})
+
+
+
 //* Event listener to toggle sound ON/OFF
 soundControlElement.addEventListener('click', (e) => {
   e.stopPropagation()
@@ -268,7 +344,8 @@ soundControlElement.addEventListener('click', (e) => {
 //* Event listener to start Quiz
 startQuizBtn.addEventListener('click', (e) => {
   e.stopPropagation()
-  startQuiz(questions)
+  // startQuiz(questions)
+  startQuiz(mcqDataArray)
   startQuizPage.className = 'start-quiz-page inactive'
   quizPage.className = 'quiz-page'
   
@@ -337,7 +414,7 @@ finishBtn.addEventListener('click', e => {
   e.stopPropagation()
 
   if(currentMcqNumber === totalQuestions) {
-    confirmFinishBtn.innerText = 'Submit'
+    confirmFinishBtn.innerText = 'Submit QUIZ'
     confirmFinishPopup.firstElementChild.innerText = "Submit your answers to complete the quiz?"
   }
   else {
@@ -372,7 +449,7 @@ retryBtn.addEventListener('click', (e) => {
   totalQuestions = 0
   correctAnswered = 0
   wrongAnswered = 0
-  startQuiz(questions)
+  startQuiz(mcqDataArray)
 
   startQuizPage.className = 'start-quiz-page inactive'
   resultPage.className = 'result-page'
@@ -387,7 +464,8 @@ goToHomeBtn.addEventListener('click', (e) => {
 
   resultPage.className = 'result-page'
   quizPage.className = 'quiz-page inactive'
-  startQuizPage.className = 'start-quiz-page'
+  startQuizPage.className = 'start-quiz-page inactive'
+  homepageElemenet.className = 'homepage'
   
 })
 
@@ -414,11 +492,25 @@ notificationCloseBtn.addEventListener('click', (e) => {
 //   }, 30000)
   
 // }, 1000)
+// let counter = 0
+// setInterval(() => {
+//   if (counter < 4){
+//     counter++
+//   }else {
+//     counter--
+//   }
+//   slideElements.forEach((slide, index) => {
+//     slide.style.transform = `translateX(-${counter * 100}%)`
+//     // console.log(counter * index * 100)
+//   })
+// }, 4000)
 
-// setInterval()
 
 
 
 
-
-
+flipcardElement.addEventListener('click', (e) => {
+  e.stopPropagation()
+  flipcardElement.classList.toggle('flip')
+  // console.log(flipcardElement)
+})
