@@ -54,6 +54,13 @@ const goToHomeBtn = document.querySelector('.go-to-home-btn');
 // alert(overlayElement)
 
 
+//! To Share Score on Social media use Something like =>
+  const twitterFn = () => {
+    window.open(
+      `https://twitter.com/intent/tweet?text=${quote.q} - ${quote.a}`
+    );
+  };
+
 
 //! Variables, State and data:
 let userMaxScore = 0
@@ -81,7 +88,7 @@ const welcomeMessages = [
   "Namaste! 'Indo-Quiz' welcomes you. Prepare for a new Quiz challenge."
 ]
 
-navBoxElemenet
+
 
 
 
@@ -147,13 +154,15 @@ async function getMCQData(category){
 
     const data = await response.json()
 
-    // console.log(data)
+    console.log(data)
+
+    console.log(Object.keys(data).length)
 
     mcqDataArray = data.level1
     console.log(mcqDataArray)
 
     window.localStorage.setItem('mcqQuestions', JSON.stringify( data))
-    // startQuiz(data)
+    startQuiz(mcqDataArray)
   } catch (error) {
     console.error('There has been a problem with your network connect:', error)
   }
@@ -252,7 +261,7 @@ function createOptionElement(option, index) {
   youChose.innerText = 'You chose';
   optionBoxElement.appendChild(youChose);
   
-  if(index === "correct") {
+  if(index === "opt5") {
     const correctIcon = document.createElement('span');
     correctIcon.className = 'correct-icon'
     correctIcon.innerHTML = '&checkmark;';
@@ -309,14 +318,14 @@ navBoxElemenet.addEventListener('click', (e) => {
   // console.dir(e.target.parentElement)
   // console.log(e.target.tagName)
   // console.log(e.target.innerText.length)
-  if ((e.target.tagName=== "A") || (e.target.tagName === "LI")){
+  if ((e.target.tagName === "A") || (e.target.tagName === "LI")) {
 
     if(e.target.textContent !== "‹" && e.target.innerText.length < 20){
       const quiz = e.target.innerText.toLowerCase()
       
       console.log(quiz)
 
-      // getMCQData('sport')
+      getMCQData(quiz)
       // getMCQData('coding')
       if (mcqDataArray.length === 0) {
         // homepageElemenet.classList.add('inactive')
