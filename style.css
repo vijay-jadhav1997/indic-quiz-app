@@ -25,7 +25,7 @@ body {
   width: 100vw;
   inset: 0;
   background-color: #2ca5eb29;
-  z-index: 100;
+  z-index: 101;
   backdrop-filter: blur(5px);
   /* cursor: pointer; */
 }
@@ -265,10 +265,10 @@ body {
   border-radius: 1rem;
   z-index: -1;
   padding: 2px;
-  animation: spin-border 3s linear infinite;
+  /* animation: spin-border 3s linear infinite; */
 }
 .flipcard::before {
-  filter: blur(1.5rem);
+  filter: blur(0.5rem);
   opacity: 0.8;
 }
 
@@ -814,11 +814,11 @@ body {
 
 
 /*? result-page styling */
-.result-page.show-result {
-  display: flex;
+.result-page.inactive {
+  display: none;
 }
 .result-page {
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
