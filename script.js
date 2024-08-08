@@ -1,9 +1,9 @@
 // import questions, {multipleChoiceQuestions, soprtQuestions} from "./mcq_data.js"
 import {api_key} from "./assets.js"
-import {startQuizPage} from "./quiz.js"
+// import {startQuizPage} from "./quiz.js"
 
 
-
+console.log("script.js => Jay Shree Seeta Ram")
 
 //! Selecting key DOM elements for user interaction:
 // * 'body' DOM elements:
@@ -17,13 +17,14 @@ const navBoxElemenet = document.querySelector('.nav-box');
 const slideElements = document.querySelectorAll('.slide');
 const flipcardElement = document.querySelector('.flipcard');
 
+// * 'quiz-start-page' DOM elements:
+export const startQuizPage = document.querySelector('.start-quiz-page');
 
 
 
 // ! State and global Variables
 export let quizData = {}
 export let quizTopic = ''
-
 
 
 const welcomeMessages = [
@@ -56,13 +57,25 @@ function Quiz(topic, levels) {
 
 //! function
 //* function to get or set data to localStorage
+export function useLoacalStorage(key, data='') {
+  if(data === '') return JSON.parse(localStorage.getItem(key))
+  
+  localStorage.setItem(key, JSON.stringify(data))
+  
+  return `Your data is successfully stored in the localStorage as key '${key}'.`
+}
 
 
-
-//* function to get the mcq Data 
+//* function to prepare all the basic things to start the Quiz
 async function prepareQuiz(topic){
+  // check data in localStorage, if available assign it to 'quizData'
+  // if not, then fetch specific topic data from api and assign it to 'quizData' and also set it to local storage for ferther use.
+  // then open the 'startQuizPage' and hide the 'homePage'
+  //* Basically do all the things to be get ready to start the quiz
+
   overlayElement.classList.add('open')
   try {
+    quizData = useLoacalStorage(topic)
     if (!quizData) {
       const response = await fetch(`${api_key}/${topic}`)
   
@@ -70,6 +83,7 @@ async function prepareQuiz(topic){
   
       const data = await response.json()
       if (data) quizData = new Quiz(data?.topic, data?.levels)
+      useLoacalStorage(topic, quizData)
     }
     
     
