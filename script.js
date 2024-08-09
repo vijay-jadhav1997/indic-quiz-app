@@ -1,9 +1,9 @@
 // import questions, {multipleChoiceQuestions, soprtQuestions} from "./mcq_data.js"
 import {api_key} from "./assets.js"
-import {startQuizPage} from "./quiz.js"
+// import {startQuizPage} from "./quiz.js"
 
 
-
+// console.log("script.js => Jay Shree Seeta Ram")
 
 //! Selecting key DOM elements for user interaction:
 // * 'body' DOM elements:
@@ -17,6 +17,9 @@ const navBoxElemenet = document.querySelector('.nav-box');
 const slideElements = document.querySelectorAll('.slide');
 const flipcardElement = document.querySelector('.flipcard');
 
+// * 'quiz-start-page' DOM elements:
+export const startQuizPage = document.querySelector('.start-quiz-page');
+export const levelBtnsContainer = document.querySelector('.level-btns-container');
 
 
 
@@ -24,6 +27,21 @@ const flipcardElement = document.querySelector('.flipcard');
 export let quizData = {}
 export let quizTopic = ''
 
+document.addEventListener('DOMContentLoaded', e => {
+  e.stopPropagation()
+  // console.log("Jay Shree Ram")
+  const activePage = useLoacalStorage('activePage') || ''
+  if (!activePage) {
+    [...document.body.children].forEach(elm => {
+      useLoacalStorage('')
+      if(elm.className.includes(activePage)) {
+        console.log(elm.className)
+
+      }
+    })
+    
+  }
+})
 
 
 const welcomeMessages = [
@@ -56,31 +74,45 @@ function Quiz(topic, levels) {
 
 //! function
 //* function to get or set data to localStorage
+export function useLoacalStorage(key, data='') {
+  if(data === '') return JSON.parse(localStorage.getItem(key))
+  
+  localStorage.setItem(key, JSON.stringify(data))
+  
+  // return `Your data is successfully stored in the localStorage as key '${key}'.`
+}
 
 
-
-//* function to get the mcq Data 
+//* function to prepare all the basic things to start the Quiz
 async function prepareQuiz(topic){
-  overlayElement.classList.add('open')
+  // check data in localStorage, if available assign it to 'quizData'
+  // if not, then fetch specific topic data from api and assign it to 'quizData' and also set it to local storage for ferther use.
+  // then open the 'startQuizPage' and hide the 'homePage'
+  //* Basically do all the things to be get ready to start the quiz
+
+
+  
+  overlayElement.classList.add('open') // Shimmer effect start
   try {
+    quizData = useLoacalStorage(topic)
     if (!quizData) {
       const response = await fetch(`${api_key}/${topic}`)
   
       if (!response.ok) throw new Error('Please, check your network connection!')
   
       const data = await response.json()
+
       if (data) quizData = new Quiz(data?.topic, data?.levels)
+      useLoacalStorage(topic, quizData)
     }
     
-    
-
+    // check for quizData shouldn't be empty before moving to 'startQuiz' page
     if (Object.entries(quizData).length !== 0) {
-      console.log(quizData)
+
       homepageElemenet.classList.add('inactive')
       startQuizPage.classList.remove('inactive')
-      // overlayElement.classList.remove('open')
 
-      console.log("Jay Shree Ram")
+      createLevelBtns(quizData)
     }
     
   } 
@@ -88,9 +120,48 @@ async function prepareQuiz(topic){
     console.error('There has been a problem with your network connect:', error)
     alert("Oops! Something went wrong. Check your network connection. Please try again later!")
   }
+
+  // Shimmer effect end
   overlayElement.classList.remove('open')
 }
 
+
+//* function to create level buttons
+function createLevelBtns(quiz) {
+
+  const results = Object.values(quiz?.results)
+
+  if(results.length !== 0) {
+    results.forEach((result, index) => {
+      const button = document.createElement('button')
+      if(result.isCompleted) {
+        button.innerHTML = `${level}  <i class="completed">&check;</i>`
+      } else if(result.currentLevel) {
+        button.innerHTML = `${level}  <i class="current-level"></i>`
+      } else {
+        button.setAttribute('disabled', '')
+        button.innerHTML = `${level} <i class="lock-icon">&#x1F512;</i>`
+      }
+      levelBtnsContainer.appendChild(button)
+      console.log(result)
+    })
+
+  } else {
+    Object.keys(quiz.levels).forEach((level, index) => {
+
+      const button = document.createElement('button')
+      if (index === 0) {
+        button.innerHTML =  `${level}  <i class="current-level"></i>`
+      } else {
+        button.setAttribute('disabled', '')
+        button.innerHTML = `${level} <i class="lock-icon">&#x1F512;</i>`
+      }
+      levelBtnsContainer.appendChild(button)
+      // console.log(level)
+    })
+  }
+  
+}
 
 
 
@@ -111,7 +182,7 @@ navBoxElemenet.addEventListener('click', (e) => {
    
     // console.log(e.target.tagName, e.target.className, quizTopic)
 
-    console.log(quizTopic)
+    // console.log(quizTopic)
     prepareQuiz(quizTopic)
 
   }
@@ -120,7 +191,7 @@ navBoxElemenet.addEventListener('click', (e) => {
 
 
 
-//* Event listener to show the welcome notification
+//* Event listener to close the welcome notification
 notificationCloseBtn.addEventListener('click', (e) => {
   e.stopPropagation()
 
@@ -151,7 +222,7 @@ notificationCloseBtn.addEventListener('click', (e) => {
 //   }
 //   slideElements.forEach((slide, index) => {
 //     slide.style.transform = `translateX(-${counter * 100}%)`
-//     // console.log(counter * index * 100)
+    // console.log(counter * index * 100)
 //   })
 // }, 4000)
 
@@ -159,9 +230,9 @@ notificationCloseBtn.addEventListener('click', (e) => {
 
 
 
-flipcardElement.addEventListener('click', (e) => {
-  e.stopPropagation()
-  flipcardElement.classList.toggle('flip')
-  // console.log(flipcardElement)
-})
+// flipcardElement.addEventListener('click', (e) => {
+//   e.stopPropagation()
+//   flipcardElement.classList.toggle('flip')
+//   // console.log(flipcardElement)
+// })
 

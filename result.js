@@ -1,5 +1,8 @@
+import {overlayElement, startQuizPage, useLoacalStorage, quizData, quizTopic} from './script.js'
 import {homepageElemenet} from './script.js'
+// import {resultPage} from './quiz.js'
 
+// console.log("result.js => Jay Shree Radhe Krushna")
 
 //! Selecting key DOM elements for user interaction:
 
@@ -17,7 +20,7 @@ const goToHomeBtn = document.querySelector('.go-to-home-btn');
 
 //! functions
 //* final result stats calculation and DOM manipulation of 'result-page'
-export function calculateAndDisplayResult() {
+export function calcAndDisplayResult() {
 
   const correctPercentage = ((correctAnswered / totalQuestions) * 100).toFixed(2)
   const incorrectPercentage = ((wrongAnswered / totalQuestions) * 100).toFixed(2)
