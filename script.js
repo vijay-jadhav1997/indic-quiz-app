@@ -1,7 +1,4 @@
-// import questions, {multipleChoiceQuestions, soprtQuestions} from "./mcq_data.js"
 import {api_key} from "./assets.js"
-// import {startQuizPage} from "./quiz.js"
-
 
 // console.log("script.js => Jay Shree Seeta Ram")
 
@@ -27,21 +24,21 @@ export const levelBtnsContainer = document.querySelector('.level-btns-container'
 export let quizData = {}
 export let quizTopic = ''
 
-document.addEventListener('DOMContentLoaded', e => {
-  e.stopPropagation()
-  // console.log("Jay Shree Ram")
-  const activePage = useLoacalStorage('activePage') || ''
-  if (!activePage) {
-    [...document.body.children].forEach(elm => {
-      useLoacalStorage('')
-      if(elm.className.includes(activePage)) {
-        console.log(elm.className)
+// document.addEventListener('DOMContentLoaded', e => {
+//   e.stopPropagation()
+//   // console.log("Jay Shree Ram")
+//   const activePage = useLoacalStorage('activePage') || ''
+//   if (!activePage) {
+//     [...document.body.children].forEach(elm => {
+//       useLoacalStorage('')
+//       if(elm.className.includes(activePage)) {
+//         console.log(elm.className)
 
-      }
-    })
+//       }
+//     })
     
-  }
-})
+//   }
+// })
 
 
 const welcomeMessages = [
@@ -67,7 +64,28 @@ const welcomeMessages = [
 function Quiz(topic, levels) {
   this.topic = topic,
   this.levels = levels,
-  this.results = {}
+  this.results = createResults(Object.keys(levels))
+}
+
+// function to create dummy result data
+function createResults(levels) {
+  
+  return levels.reduce((acc, curr, index) => {
+   const level = {
+      userScore : 0,
+      userMaxScore : 0,
+      totalScore : 0,
+      totalQuestions : 0,
+      currentMcqNumber : 0,
+      correctAnswered : 0,
+      wrongAnswered : 0,
+      quizCompletionTime : 0,
+      isCompleted : false,
+      isCurrentLevel : index === 0 ? true : false
+    }
+
+    return {...acc, [curr]: level}
+  }, {})
 }
 
 
@@ -78,7 +96,6 @@ export function useLoacalStorage(key, data='') {
   if(data === '') return JSON.parse(localStorage.getItem(key))
   
   localStorage.setItem(key, JSON.stringify(data))
-  
   // return `Your data is successfully stored in the localStorage as key '${key}'.`
 }
 
@@ -90,11 +107,11 @@ async function prepareQuiz(topic){
   // then open the 'startQuizPage' and hide the 'homePage'
   //* Basically do all the things to be get ready to start the quiz
 
-
   
   overlayElement.classList.add('open') // Shimmer effect start
   try {
     quizData = useLoacalStorage(topic)
+    // console.log(quizData)
     if (!quizData) {
       const response = await fetch(`${api_key}/${topic}`)
   
@@ -102,41 +119,40 @@ async function prepareQuiz(topic){
   
       const data = await response.json()
 
-      if (data) quizData = new Quiz(data?.topic, data?.levels)
-      useLoacalStorage(topic, quizData)
+      if (data) {
+        quizData = new Quiz(data?.topic, data?.levels)
+  
+        useLoacalStorage(topic, quizData)
+      }
     }
     
     // check for quizData shouldn't be empty before moving to 'startQuiz' page
     if (Object.entries(quizData).length !== 0) {
-
+      createLevelBtns(quizData)
       homepageElemenet.classList.add('inactive')
       startQuizPage.classList.remove('inactive')
-
-      createLevelBtns(quizData)
     }
-    
   } 
   catch (error) {
     console.error('There has been a problem with your network connect:', error)
     alert("Oops! Something went wrong. Check your network connection. Please try again later!")
   }
 
-  // Shimmer effect end
-  overlayElement.classList.remove('open')
+  overlayElement.classList.remove('open') // Shimmer effect end
 }
 
 
 //* function to create level buttons
 function createLevelBtns(quiz) {
-
-  const results = Object.values(quiz?.results)
-
-  if(results.length !== 0) {
-    results.forEach((result, index) => {
+  const results = Object.entries(quiz?.results)
+  // if(results.length !== 0) {
+    
+    console.log(quiz.levels.length === results.length)
+    results.forEach(([level, result]) => {
       const button = document.createElement('button')
-      if(result.isCompleted) {
+      if(result?.isCompleted) {
         button.innerHTML = `${level}  <i class="completed">&check;</i>`
-      } else if(result.currentLevel) {
+      } else if(result?.isCurrentLevel) {
         button.innerHTML = `${level}  <i class="current-level"></i>`
       } else {
         button.setAttribute('disabled', '')
@@ -146,20 +162,20 @@ function createLevelBtns(quiz) {
       console.log(result)
     })
 
-  } else {
-    Object.keys(quiz.levels).forEach((level, index) => {
+  // } else {
+  //   Object.keys(quiz.levels).forEach((level, index) => {
 
-      const button = document.createElement('button')
-      if (index === 0) {
-        button.innerHTML =  `${level}  <i class="current-level"></i>`
-      } else {
-        button.setAttribute('disabled', '')
-        button.innerHTML = `${level} <i class="lock-icon">&#x1F512;</i>`
-      }
-      levelBtnsContainer.appendChild(button)
-      // console.log(level)
-    })
-  }
+  //     const button = document.createElement('button')
+  //     if (index === 0) {
+  //       button.innerHTML =  `${level}  <i class="current-level"></i>`
+  //     } else {
+  //       button.setAttribute('disabled', '')
+  //       button.innerHTML = `${level} <i class="lock-icon">&#x1F512;</i>`
+  //     }
+  //     levelBtnsContainer.appendChild(button)
+  //     // console.log(level)
+  //   })
+  // }
   
 }
 
