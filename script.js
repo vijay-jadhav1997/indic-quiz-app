@@ -17,12 +17,16 @@ const flipcardElement = document.querySelector('.flipcard');
 // * 'quiz-start-page' DOM elements:
 export const startQuizPage = document.querySelector('.start-quiz-page');
 export const levelBtnsContainer = document.querySelector('.level-btns-container');
+export const maxScoreElement = document.querySelector('.max-score-board');
 
 
 
 // ! State and global Variables
 export let quizData = {}
 export let quizTopic = ''
+
+
+
 
 // document.addEventListener('DOMContentLoaded', e => {
 //   e.stopPropagation()
@@ -129,6 +133,7 @@ async function prepareQuiz(topic){
     // check for quizData shouldn't be empty before moving to 'startQuiz' page
     if (Object.entries(quizData).length !== 0) {
       createLevelBtns(quizData)
+      setMaxScore(quizData.results)
       homepageElemenet.classList.add('inactive')
       startQuizPage.classList.remove('inactive')
     }
@@ -144,22 +149,25 @@ async function prepareQuiz(topic){
 
 //* function to create level buttons
 function createLevelBtns(quiz) {
+  const prevTotalLevelBtns = levelBtnsContainer.children.length
+  for(let i = 0; i < prevTotalLevelBtns; i++ ){
+    levelBtnsContainer?.firstElementChild?.remove()
+  }
+
   const results = Object.entries(quiz?.results)
   // if(results.length !== 0) {
-    
-    console.log(quiz.levels.length === results.length)
     results.forEach(([level, result]) => {
       const button = document.createElement('button')
       if(result?.isCompleted) {
-        button.innerHTML = `${level}  <i class="completed">&check;</i>`
+        button.innerHTML = `${level} <i class="completed">&check;</i>`
       } else if(result?.isCurrentLevel) {
-        button.innerHTML = `${level}  <i class="current-level"></i>`
+        button.innerHTML = `${level} <i class="current-level"></i>`
       } else {
         button.setAttribute('disabled', '')
         button.innerHTML = `${level} <i class="lock-icon">&#x1F512;</i>`
       }
       levelBtnsContainer.appendChild(button)
-      console.log(result)
+      // console.log(result)
     })
 
   // } else {
@@ -180,6 +188,22 @@ function createLevelBtns(quiz) {
 }
 
 
+//* function to set userMaxScore on maxScoreElement
+export function setMaxScore(data) {
+  let maxScore = ''
+  Object.entries(data).reduce((acc, [key, value]) => {
+    if (acc < value.userMaxScore) {
+      acc = value.userMaxScore
+      maxScore = `Your Highest Score (${key}): ${value.userMaxScore.toString().padStart(2, 0)}/${value.totalScore.toString().padStart(2, 0)}`
+    }
+    return acc
+  }, 0)
+
+  if(maxScore){
+    maxScoreElement.className = 'max-score-board hasMaxScore'
+    maxScoreElement.innerText = `${maxScore}`
+  }
+}
 
 
 //! Events :

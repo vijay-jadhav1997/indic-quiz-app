@@ -1,5 +1,5 @@
-import {overlayElement, startQuizPage, useLoacalStorage, quizData, quizTopic, levelBtnsContainer} from './script.js'
-import {resultPage, calcAndDisplayResult} from './result.js'
+import {overlayElement, startQuizPage, useLoacalStorage, quizData, quizTopic, levelBtnsContainer, maxScoreElement, setMaxScore, } from './script.js'
+import {correctBarElement, incorrectBarElement, quizPage, resultPage, resultStatisticElement} from "./result.js"
 
 // debugger
 // console.log("quiz.js => Jay Shree Vitthal Rakhumai")
@@ -7,12 +7,11 @@ import {resultPage, calcAndDisplayResult} from './result.js'
 
 //! Selecting key DOM elements for user interaction:
 // * 'quiz-start-page' DOM elements:
-const maxScoreElement = document.querySelector('.max-score-board');
+// const maxScoreElement = document.querySelector('.max-score-board');
 const startQuizBtn = document.querySelector('.start-now-btn');
 
 
 // * 'quiz-page' DOM elements:
-const quizPage = document.querySelector('.quiz-page');
 const confirmFinishPopup = document.querySelector('.confirm-finish-popup');
 const soundControlElement = document.querySelector('.volume-icons');
 const subjectHeadingWrapper = document.querySelector('.subject-heading-wrapper');
@@ -27,23 +26,9 @@ const confirmFinishBtn = document.querySelector('.confirm-finish-btn');
 const backBtn = document.querySelector('.back-to-quiz-btn');
 
 // * 'result-page' DOM elements:
-// export const resultPage = document.querySelector('.result-page');
 
 
-//! Variables, State and data:
-// let userMaxScore = 0
-// let score = 0
-// let quizTotalScore = 0
-// let totalQuestions = 0
-// let correctAnswered = 0
-// let wrongAnswered = 0
-// let currentMcqNumber = 0
-// let currentLevelMCQArray = JSON.parse(window.localStorage.getItem('mcqQuestions')) || []
-// let questionTimeInterval = 0
-// let quizCompletionTime = 0
-// let hasPaused = false
-// let hasUserSelectedAnyOption = false
-
+// //! Variables, State and data:
 let score = 0
 let userMaxScore = 0
 let quizTotalScore = 0
@@ -51,32 +36,20 @@ let totalQuestions = 0
 let correctAnswered = 0
 let wrongAnswered = 0
 let quizCompletionTime = 0
-
-let currentLevelMCQArray = []
-
 let currentMcqNumber = 0
+
+export let currentLevelMCQArray = []
+let activeLevel = 'false'
+
 let hasPaused = false
 let questionTimeInterval = 0
 let hasUserSelectedAnyOption = false
 
 
-function Results() {
-  this.userScore = 0
-  this.userMaxScore = 0
-  this.totalScore = 0
-  this.totalQuestions = 0
-  this.currentMcqNumber = 0
-  this.correctAnswered = 0
-  this.wrongAnswered = 0
-  this.quizCompletionTime = 0
-}
-
-
-
 
 
 //! functions
-//* function to start the quiz 
+//* function that starts the quiz 
 function startQuiz(mcqData, subject, level) {
   score = 0
   correctAnswered = 0
@@ -85,26 +58,24 @@ function startQuiz(mcqData, subject, level) {
   currentMcqNumber = 0
   quizCompletionTime = 0
   currentLevelMCQArray = mcqData
+  activeLevel = level
   totalQuestions = currentLevelMCQArray.length
   subjectHeadingWrapper.firstElementChild.innerText = subject
   subjectHeadingWrapper.lastElementChild.innerText = level
 
-  // const levelResult = Results()
+  // console.log("currentLevelMCQArray => ", currentLevelMCQArray)
 
-  // const localStorageTopicdata = useLoacalStorage(quizTopic)
-  // console.log(localStorageTopicdata)
-
-  nextQuestion(currentLevelMCQArray, currentMcqNumber)
-  console.log("Start now => clicked")
+  nextQuestion(currentLevelMCQArray, currentMcqNumber, level)
+  // console.log("Start now => clicked", "Now we are in the StartQuiz Function")
 }
 
 
 //* function to get next question 
-function nextQuestion(data, mcqNum) {
+function nextQuestion(data, mcqNum, level) {
   currentMcqNumber++
   questionNumber.innerText = `${currentMcqNumber.toString().padStart(2, 0)}/${totalQuestions.toString().padStart(2, 0)}` 
   questionElement.innerText = `${data[mcqNum]?.question}`
-  timeElement.innerText = `00:30`
+  timeElement.innerText = `00:${30}`
   hasUserSelectedAnyOption = false //* Now user can select any option.
   nextBtn.setAttribute('disabled', '')  
   skipBtn.removeAttribute('disabled')
@@ -128,9 +99,6 @@ function nextQuestion(data, mcqNum) {
         quizCompletionTime++
       }
 
-      // 
-
-      
       timeElement.innerText = `00:${count.toString().padStart(2, 0)}`
       if(count === 15) {
         quizPage.className = "quiz-page yellow-zone"
@@ -158,6 +126,37 @@ function nextQuestion(data, mcqNum) {
     finishBtn.innerText = 'Submit QUIZ'
     finishBtn.setAttribute('disabled', '')
   }
+
+  
+  const updatedLevelResult = getUpdatedLevelResult(quizTopic, level)
+
+  useLoacalStorage(quizTopic, updatedLevelResult)
+  
+}
+
+//* function to get updated level result
+function getUpdatedLevelResult(subject, level, isCompleted=false) {
+  const prevData = useLoacalStorage(subject)
+
+  const isCurrentLevel = Object.entries(prevData?.results).every(([key, value]) => {
+    if (key === level && (isCompleted || prevData?.results[level]?.isCompleted)) return false
+    return true
+  })
+  
+  prevData.results[level] = {
+    userScore : score,
+    userMaxScore : userMaxScore,
+    totalScore : quizTotalScore,
+    totalQuestions : totalQuestions,
+    currentMcqNumber : currentMcqNumber,
+    correctAnswered : correctAnswered,
+    wrongAnswered : wrongAnswered,
+    quizCompletionTime : quizCompletionTime,
+    isCompleted : prevData?.results[level]?.isCompleted || isCompleted,
+    isCurrentLevel : isCurrentLevel
+  }
+
+  return prevData
 }
 
 
@@ -195,6 +194,56 @@ function createOptionElement(option, index) {
 }
 
 
+//* function final result stats calculation and DOM manipulation of 'result-page'
+function calcAndDisplayResult() {
+
+  const correctPercentage = ((correctAnswered / totalQuestions) * 100).toFixed(2)
+  const incorrectPercentage = ((wrongAnswered / totalQuestions) * 100).toFixed(2)
+  const unattemptedPercentage = (((totalQuestions - correctAnswered - wrongAnswered)/totalQuestions) * 100).toFixed(2)
+
+  incorrectBarElement.previousElementSibling.innerText = `unattempted: ${unattemptedPercentage}%`
+  incorrectBarElement.firstElementChild.innerText = `incorrect: ${incorrectPercentage}%`
+  correctBarElement.firstElementChild.innerText = `correct: ${correctPercentage}%`
+
+  incorrectBarElement.style.maxWidth = `${parseFloat(incorrectPercentage) + parseFloat(correctPercentage)}%`
+  correctBarElement.style.maxWidth = `${parseFloat(correctPercentage)}%`
+
+  const timeInMinutes = (Math.floor(quizCompletionTime / 60)).toString().padStart(2, 0) // convert quiz completeion time which is in secs to minutes.
+
+  let maxScore = ''
+  Object.entries(data).reduce((acc, [key, value]) => {
+    if (acc < value.userMaxScore) {
+      acc = value.userMaxScore
+      maxScore = `Your Highest Score (${key}): ${value.userMaxScore.toString().padStart(2, 0)}/${value.totalScore.toString().padStart(2, 0)}`
+    }
+    return acc
+  }, 0)
+
+  resultStatisticElement.children[0].innerText = `Total Questions: ${totalQuestions.toString().padStart(2, 0)}`
+  resultStatisticElement.children[1].innerText = `Correct: ${correctAnswered.toString().padStart(2, 0)}`
+  resultStatisticElement.children[2].innerText = `Inorrect: ${wrongAnswered.toString().padStart(2, 0)}`
+  resultStatisticElement.children[3].innerText = `Your Score: ${score.toString().padStart(2, 0)}/${quizTotalScore.toString().padStart(2, 0)}`
+  resultStatisticElement.children[4].innerText = maxScore
+  // resultStatisticElement.children[4].innerText = `Your Highest Score: ${userMaxScore.toString().padStart(2, 0)}/${quizTotalScore.toString().padStart(2, 0)}`
+  resultStatisticElement.children[5].innerText = `Questions Not Attempted: ${(totalQuestions - correctAnswered - wrongAnswered).toString().padStart(2, 0)}`
+  resultStatisticElement.children[6].innerText = `Your quiz completion time: ${parseInt(timeInMinutes) && timeInMinutes} mins & ${(quizCompletionTime % 60).toString().padStart(2, 0)} secs.`
+
+  resultPage.classList.remove('inactive')
+
+  const isCompleted = correctPercentage > 33 ? true : false
+  let updatedLevelResult = getUpdatedLevelResult(quizTopic, activeLevel, isCompleted)
+  Object.entries(updatedLevelResult.results).every(([key, value]) => {
+    // console.log(key, value)
+    if (!value?.isCompleted) {
+      updatedLevelResult.results[key].isCurrentLevel = true
+      return false
+    }
+    return true
+  })
+  setMaxScore(updatedLevelResult.results) // update userMaxScore data on 'quiz-start-page'
+  useLoacalStorage(quizTopic, updatedLevelResult) // update localStorage data for key => 'quizTopic'
+}
+
 
 //! Handlers
 function handleQuizFinish (e) {
@@ -231,11 +280,6 @@ function handleQuizFinish (e) {
   
   //* result stats calculation and DOM manipulation of 'result-page'
   calcAndDisplayResult()
-
-
-  //* DOM manipulation of 'quiz-start-page'
-  maxScoreElement.className = 'max-score-board hasMaxScore'
-  maxScoreElement.innerText = `Your Highest Score: ${userMaxScore.toString().padStart(2, 0)}/${quizTotalScore.toString().padStart(2, 0)}`
 }
 
 
@@ -251,18 +295,13 @@ soundControlElement.addEventListener('click', (e) => {
 //* Event listener to start Quiz
 levelBtnsContainer.addEventListener('click', (e) => {
   e.stopPropagation()
+  const levelButtons = [...levelBtnsContainer.children]
+  levelButtons.forEach(button => {
+    if(button !== e.target) button.classList.remove('selected')
+  })
   if (e.target.tagName === "BUTTON") {
-    // console.log(e.target.innerText)
-    // console.log(quizData)
-    // Object.entries(quizData?.levels)?.forEach(([level, mcqArray]) => {
-    //   // console.log(level, mcqArray)
-    //   if(level === e.target.innerText) return currentLevelMCQArray = mcqArray
-    //   // console.log(currentLevelMCQArray)
-    // })
-
     e.target.classList.toggle('selected')
-    console.log(`${e.target.innerText} button clicked`)
-
+    // console.log(`${e.target.innerText} button clicked`)
   }
 } )
 
@@ -270,23 +309,22 @@ levelBtnsContainer.addEventListener('click', (e) => {
 //* Event listener to start Quiz
 startQuizBtn.addEventListener('click', (e) => {
   e.stopPropagation()
-  // startQuiz(questions)
-  
-  // console.log(currentLevelMCQArray)
 
-  if (currentLevelMCQArray.length === 0) {
-    [...levelBtnsContainer.children].forEach(button => {
-      if (button.className === 'selected' || button.firstElementChild.className === 'current-level'){
-        currentLevelMCQArray = quizData?.levels?.[button.innerText]
-        startQuiz(currentLevelMCQArray, quizData?.topic, button.innerText)
-        return
-      }  
-    })
-  }
+  // console.log("currentLevelMCQArray => ", currentLevelMCQArray)
+  // if (currentLevelMCQArray.length === 0) {
+  const levelBtns = [...levelBtnsContainer.children]
+  levelBtns.every(button => {
+    const selectedLevel = button.textContent.replaceAll('✓', '').replaceAll(' ', '')
+    if (button.className === 'selected' || button.firstElementChild.className === 'current-level'){
+      currentLevelMCQArray = quizData?.levels?.[selectedLevel]
+      startQuiz(currentLevelMCQArray, quizData?.topic, selectedLevel)
+      return 
+    }  
+    return true
+  })
 
   startQuizPage.className = 'start-quiz-page inactive'
   quizPage.className = 'quiz-page'
-  
 })
 
 
@@ -331,19 +369,19 @@ nextBtn.addEventListener('click', (e) => {
   optionsContainer.className = 'options-container'
   
   questionTimeInterval = 0
-  nextQuestion(currentLevelMCQArray, currentMcqNumber)
+  const currentLevel = subjectHeadingWrapper.lastElementChild.innerText
+  nextQuestion(currentLevelMCQArray, currentMcqNumber, currentLevel)
 })
 
 
 //* Event listener to go on next question
 skipBtn.addEventListener('click', (e) => {
   e.stopPropagation()
-  // quizPage.className = "quiz-page"   //* so that style of page will get to be its original state
-  // optionsContainer.className = 'options-container'
   
   clearInterval(questionTimeInterval)
   questionTimeInterval = 0
-  nextQuestion(currentLevelMCQArray, currentMcqNumber)
+  const currentLevel = subjectHeadingWrapper.lastElementChild.innerText
+  nextQuestion(currentLevelMCQArray, currentMcqNumber, currentLevel)
 })
 
 
