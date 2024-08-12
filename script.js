@@ -18,7 +18,7 @@ const flipcardElement = document.querySelector('.flipcard');
 export const startQuizPage = document.querySelector('.start-quiz-page');
 export const levelBtnsContainer = document.querySelector('.level-btns-container');
 export const maxScoreElement = document.querySelector('.max-score-board');
-
+export const backToHomeBtn = document.querySelector('.back-to-home-btn');
 
 
 // ! State and global Variables
@@ -238,6 +238,13 @@ notificationCloseBtn.addEventListener('click', (e) => {
   notificationElement.classList.remove('open')
 })
 
+
+//* Event listener to retry the quiz again
+backToHomeBtn.addEventListener('click', (e) => {
+  e.stopPropagation()
+  startQuizPage.className = 'start-quiz-page inactive'
+  homepageElemenet.className = 'homepage'
+})
 
 
 //! Timeout and Intervals :

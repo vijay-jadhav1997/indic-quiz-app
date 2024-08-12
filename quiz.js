@@ -417,3 +417,4 @@ backBtn.addEventListener('click', e => {
 })
 
 // console.log(quizTopic, quizData)
+
