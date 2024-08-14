@@ -184,7 +184,7 @@
 }
 
 .level-btns-container button:has(i.current-level, i.completed):active {
-  box-shadow: 0 0 35px 15px #daa520;
+  box-shadow: 0 0 15px 5px #daa520;
   transform: scale(0.9);
 }
 

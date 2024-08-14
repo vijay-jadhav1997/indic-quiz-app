@@ -11,6 +11,7 @@ const notificationCloseBtn = document.querySelector('.notification-close-btn');
 // * 'homepage' DOM elements:
 export const homepageElemenet = document.querySelector('.homepage');
 const navBoxElemenet = document.querySelector('.nav-box');
+const humbergerMenu = document.querySelector('.humberger-menu');
 const slideElements = document.querySelectorAll('.slide');
 const flipcardElement = document.querySelector('.flipcard');
 
@@ -203,10 +204,22 @@ export function setMaxScore(data) {
     maxScoreElement.className = 'max-score-board hasMaxScore'
     maxScoreElement.innerText = `${maxScore}`
   }
+  // console.log(maxScore, data)
 }
 
 
 //! Events :
+//* Event listener to 
+humbergerMenu.addEventListener('click', (e) => {
+  e.stopPropagation()
+  e.preventDefault()
+
+  // console.log(e.target.tagName, e.target.className)
+  humbergerMenu.classList.toggle('close')
+  navBoxElemenet.classList.toggle('open')
+})
+
+
 //* Event listener to 
 navBoxElemenet.addEventListener('click', (e) => {
   e.stopPropagation()

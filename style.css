@@ -116,7 +116,6 @@ body {
 
 
 /*? homepage styling */
-/* homepage header */
 .homepage.inactive {
   display: none;
 }
@@ -137,12 +136,60 @@ body {
 .homepage header {
   background-color: var(--header-bg-clr);
   display: flex;
+  align-items: center;
   justify-content: space-between;
   font-size: 1.2rem;
-  padding: 1rem 0;
-  position: sticky;
+  padding: 1rem 1.5rem;
+  position: fixed;
+  inset: 0 0 auto 0;
+  margin: auto;
+  height: 4.5rem;
+  width: 100%;
+  max-width: 1324px;
   z-index: 100;
 }
+
+.homepage header .humberger-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  row-gap: 8px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 0 1rem;
+  height: 4.5rem;
+  width: 5rem;
+  background-color: #f0f;
+  border-bottom-left-radius: 100%;
+  cursor: pointer;
+  /* margin-left: 80%; */
+  /* transform: translateX(-100%); */
+  z-index: 2;
+  transition: all 0.3s ease-in-out;
+}
+
+.homepage header .humberger-menu.close {
+  background-color: inherit;
+}
+
+.homepage header .humberger-menu span {
+  display: inline-block;
+  width: 2.25rem;
+  height: 3px;
+  border-radius: 4px;
+  /* margin-right: 2px; */
+  background-color: #fff;
+}
+
+.homepage header .humberger-menu span:first-child {
+  width: 2rem;
+}
+.homepage header .humberger-menu span:nth-child(2) {
+  width: 1.5rem;
+}
+
 
 .homepage header ul {
   list-style: none;
@@ -392,10 +439,62 @@ body {
 
 
 /*? Media Queries */
-@media screen and (max-width:700px) {
-  .get-newsletter-popup {
-    width: 18rem;
-    height: 10.25rem;
-    border-radius: 1rem;
+@media screen and (max-width:1024px) {
+  .homepage header {
+    font-size: 1rem;
   }
+}
+
+
+@media screen and (max-width:768px) {
+ .homepage header nav.nav-box {
+    background-color: #20b2ab67;
+    /* background-color: #b757cf; */
+    min-height: 0;
+    height: 0%;
+    width: 250px;
+    position: absolute;
+    right: 0;
+    top: 4.5rem;
+    overflow-y: hidden;
+    transition: height 0.7s ease-in-out, min-height 0.7s ease-in-out;
+  }
+
+ .homepage header nav.nav-box.open {
+    /* padding: 5px 0; */
+    min-height: 100dvh;
+    height: 100%;
+    overflow: unset;
+    /* overflow-x: auto; */
+ }
+
+ .homepage header ul.menu-bar {
+    flex-direction: column;
+    /* background-color: #20b2ab67; */
+    background-color: #bdcf57;
+    /* z-index: -1; */
+  }
+
+ .homepage header ul.menu-bar > li a {
+    padding: 1rem;
+ }
+ 
+ .homepage header .menu-bar > li > ul {
+    padding: 1rem 0 0;
+    top: 0;
+    right: 100%;
+  }
+
+}
+
+
+@media screen and (max-width:500px) {
+  .homepage header {
+    height: 3.5rem;
+    padding: 0.5rem 1.25rem;
+  }
+
+ .homepage header nav.nav-box {
+    width: 200px;
+ }
 }

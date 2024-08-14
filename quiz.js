@@ -1,5 +1,5 @@
-import {overlayElement, startQuizPage, useLoacalStorage, quizData, quizTopic, levelBtnsContainer, maxScoreElement, setMaxScore, } from './script.js'
-import {correctBarElement, incorrectBarElement, quizPage, resultPage, resultStatisticElement} from "./result.js"
+import {overlayElement, startQuizPage, useLoacalStorage, quizData, quizTopic, levelBtnsContainer, maxScoreElement, setMaxScore, homepageElemenet, } from './script.js'
+import {correctBarElement, incorrectBarElement, levelResult, quizPage, resultPage, resultStatisticElement, retryBtn} from "./result.js"
 
 // debugger
 // console.log("quiz.js => Jay Shree Vitthal Rakhumai")
@@ -23,7 +23,7 @@ const nextBtn = document.querySelector('.next-btn');
 const skipBtn = document.querySelector('.skip-btn');
 const finishBtn = document.querySelector('.finish-btn');
 const confirmFinishBtn = document.querySelector('.confirm-finish-btn');
-const backBtn = document.querySelector('.back-to-quiz-btn');
+const backToQuizBtn = document.querySelector('.back-to-quiz-btn');
 
 // * 'result-page' DOM elements:
 
@@ -38,8 +38,8 @@ let wrongAnswered = 0
 let quizCompletionTime = 0
 let currentMcqNumber = 0
 
-export let currentLevelMCQArray = []
-let activeLevel = 'false'
+let currentLevelMCQArray = []
+let activeLevel = ''
 
 let hasPaused = false
 let questionTimeInterval = 0
@@ -201,6 +201,8 @@ function calcAndDisplayResult() {
   const incorrectPercentage = ((wrongAnswered / totalQuestions) * 100).toFixed(2)
   const unattemptedPercentage = (((totalQuestions - correctAnswered - wrongAnswered)/totalQuestions) * 100).toFixed(2)
 
+  levelResult.innerText = `${activeLevel} - Result`
+
   incorrectBarElement.previousElementSibling.innerText = `unattempted: ${unattemptedPercentage}%`
   incorrectBarElement.firstElementChild.innerText = `incorrect: ${incorrectPercentage}%`
   correctBarElement.firstElementChild.innerText = `correct: ${correctPercentage}%`
@@ -210,21 +212,12 @@ function calcAndDisplayResult() {
 
   const timeInMinutes = (Math.floor(quizCompletionTime / 60)).toString().padStart(2, 0) // convert quiz completeion time which is in secs to minutes.
 
-  let maxScore = ''
-  Object.entries(data).reduce((acc, [key, value]) => {
-    if (acc < value.userMaxScore) {
-      acc = value.userMaxScore
-      maxScore = `Your Highest Score (${key}): ${value.userMaxScore.toString().padStart(2, 0)}/${value.totalScore.toString().padStart(2, 0)}`
-    }
-    return acc
-  }, 0)
 
   resultStatisticElement.children[0].innerText = `Total Questions: ${totalQuestions.toString().padStart(2, 0)}`
   resultStatisticElement.children[1].innerText = `Correct: ${correctAnswered.toString().padStart(2, 0)}`
   resultStatisticElement.children[2].innerText = `Inorrect: ${wrongAnswered.toString().padStart(2, 0)}`
   resultStatisticElement.children[3].innerText = `Your Score: ${score.toString().padStart(2, 0)}/${quizTotalScore.toString().padStart(2, 0)}`
-  resultStatisticElement.children[4].innerText = maxScore
-  // resultStatisticElement.children[4].innerText = `Your Highest Score: ${userMaxScore.toString().padStart(2, 0)}/${quizTotalScore.toString().padStart(2, 0)}`
+  resultStatisticElement.children[4].innerText = `Your Highest Score: ${userMaxScore.toString().padStart(2, 0)}/${quizTotalScore.toString().padStart(2, 0)}`
   resultStatisticElement.children[5].innerText = `Questions Not Attempted: ${(totalQuestions - correctAnswered - wrongAnswered).toString().padStart(2, 0)}`
   resultStatisticElement.children[6].innerText = `Your quiz completion time: ${parseInt(timeInMinutes) && timeInMinutes} mins & ${(quizCompletionTime % 60).toString().padStart(2, 0)} secs.`
 
@@ -290,6 +283,16 @@ soundControlElement.addEventListener('click', (e) => {
   e.stopPropagation()
   soundControlElement.classList.toggle('sound-off')
 })
+
+
+//* Event listener to return back to the current quiz
+backToQuizBtn.addEventListener('click', e => {
+  e.stopPropagation()
+  overlayElement.classList.remove('open')
+  confirmFinishPopup.classList.add('closed')
+  hasPaused = false
+})
+
 
 
 //* Event listener to start Quiz
@@ -408,12 +411,20 @@ finishBtn.addEventListener('click', e => {
 confirmFinishBtn.addEventListener('click', handleQuizFinish)
 
 
-//* Event listener to return back to the current quiz
-backBtn.addEventListener('click', e => {
+//* Event listener to retry the quiz again
+retryBtn.addEventListener('click', (e) => {
   e.stopPropagation()
-  overlayElement.classList.remove('open')
-  confirmFinishPopup.classList.add('closed')
-  hasPaused = false
+  score = 0
+  quizTotalScore = 0
+  totalQuestions = 0
+  correctAnswered = 0
+  wrongAnswered = 0
+  startQuiz(currentLevelMCQArray, quizData?.topic, activeLevel)
+
+  startQuizPage.className = 'start-quiz-page inactive'
+  resultPage.className = 'result-page inactive'
+  homepageElemenet.className = 'homepage inactive'
+  quizPage.className = 'quiz-page'
 })
 
 // console.log(quizTopic, quizData)
