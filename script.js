@@ -237,7 +237,8 @@ navBoxElemenet.addEventListener('click', (e) => {
 
     // console.log(quizTopic)
     prepareQuiz(quizTopic)
-
+    navBoxElemenet.classList.toggle('open')
+    humbergerMenu.classList.toggle('close')
   }
 })
 
