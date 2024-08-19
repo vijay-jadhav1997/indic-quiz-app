@@ -1,4 +1,4 @@
-import {overlayElement, startQuizPage, useLoacalStorage, quizData, quizTopic} from './script.js'
+import {overlayElement, startQuizPage, useLoacalStorage, quizData, quizTopic, prepareQuiz} from './script.js'
 import {homepageElemenet} from './script.js'
 // import {resultPage} from './quiz.js'
 
@@ -15,15 +15,30 @@ export const correctBarElement = document.querySelector('.result-bar .correct-ba
 export const incorrectBarElement = document.querySelector('.result-bar .incorrect-bar');
 export const resultStatisticElement = document.querySelector('.result-stats');
 export const FeedbackMessageElement = document.querySelector('.feedback-message');
+export const backBtn = document.querySelector('.back-btn');
 export const retryBtn = document.querySelector('.retry-btn');
 const goToHomeBtn = document.querySelector('.go-to-home-btn');
 
-
+console.log(backBtn)
 
 //! functions
 
 
 //! Events :
+//* Event listener for back to the start-quiz-page :
+backBtn.addEventListener('click', (e) => {
+  e.stopPropagation()
+
+  console.log("Back-btn clicked")
+
+  prepareQuiz(quizTopic)
+  
+  // startQuizPage.className = 'start-quiz-page inactive'
+  resultPage.className = 'result-page inactive'
+  // homepageElemenet.className = 'homepage inactive'
+  // quizPage.className = 'quiz-page'
+})
+
 //* Event listener to retry the quiz again
 goToHomeBtn.addEventListener('click', (e) => {
   e.stopPropagation()

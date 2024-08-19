@@ -79,7 +79,7 @@
   background-color: #fb5858;
   height: 100%;
   max-width: 100%;
-  width: 90%;
+  /* width: 100%; */
 }
 .result-page.show-result .result-bar .incorrect-bar {
   animation: progress-anime 2s linear forwards;
@@ -148,22 +148,33 @@ ul.result-stats li {
 .result-page .buttons {
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  gap: 1rem;
 }
-.result-page .buttons button{
+.result-page .buttons button {
   font-size: 1rem;
   padding: 0.5rem 1rem;
   color: #fff;
   border-radius: 5px;
-  width: 10rem;
+  /* width: 10rem; */
   cursor: pointer;
 }
+.result-page .buttons button:hover {
+  scale: 0.95;
+}
+
 .result-page .retry-btn {
   background-color: goldenrod;
 }
 .result-page .go-to-home-btn {
   background-color: blueviolet;
-  margin-left: 2rem;
+  /* margin-left: 2rem; */
+}
+
+.result-page .back-btn {
+  background-color: #0f0a27;
+  /* margin-left: 2rem; */
 }
 
 .result-page footer {
@@ -203,3 +214,79 @@ ul.result-stats li {
 
 
 
+
+@media screen and (max-width:768px) {
+  /* .result-page {
+    padding: 2rem 0.5rem;
+  } */
+
+  .result-header img {
+    top: -3.2rem;
+    left: -8rem;
+    max-width: 7rem;
+  }
+
+  .result-bar .incorrect {
+    left: 70%;
+  }
+}
+
+@media screen and (max-width:500px) {
+  .result-page {
+    padding: 2rem 1rem;
+  }
+
+  .result-header img {
+    display: none;
+  }
+
+  .result-header .level-result {
+    font-size: 1.25rem;
+    padding: 0.25rem 1rem;
+  }
+
+  .result-bar span {
+    padding: 3px 5px;
+  }
+
+  .result-bar .incorrect {
+    left: 60%;
+  }
+
+  ul.result-stats {
+    list-style: circle;
+    list-style-position: inside;
+    margin: 1.5rem 0;
+    padding: 3.5rem 0.5rem 1rem;
+  }
+  
+  ul.result-stats li {
+    padding: 0.25rem 0.5rem;
+    font-size: 1rem;
+  }
+
+  .feedback-wrapper {
+    margin: 0;
+  }
+  .feedback-wrapper .feedback-message {
+    font-size: 1rem;
+    margin: 1.2rem;
+  }
+
+  .result-page .buttons button {
+    font-size: 14px;
+    padding: 0.25rem 0.5rem;
+    /* width: 7rem; */
+  }
+
+  .result-page footer {
+    margin: 2rem 0 0;
+  }
+
+  .result-page footer h3 {
+    font-size: 1rem;
+  }
+  .social-medias img {
+    max-width: 1.25rem;
+  }
+}

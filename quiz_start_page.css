@@ -251,11 +251,11 @@
 
 @media screen and (max-width:550px) {
   .start-quiz-page {
-    padding: 3rem 1rem 2rem;
+    padding: 5rem 1rem 2rem;
   }
 
   .start-quiz-page .back-to-home-btn {
-    top: 1.5rem;
+    top: 2.5rem;
     left: 1rem;
     padding: 0.5rem 0.7rem;
     font-size: 14px;
@@ -285,6 +285,5 @@
   .start-quiz-page p.max-score-board {
     font-size: 14px;
   }
-
   
 }

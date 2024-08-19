@@ -106,7 +106,7 @@ export function useLoacalStorage(key, data='') {
 
 
 //* function to prepare all the basic things to start the Quiz
-async function prepareQuiz(topic){
+export async function prepareQuiz(topic){
   // check data in localStorage, if available assign it to 'quizData'
   // if not, then fetch specific topic data from api and assign it to 'quizData' and also set it to local storage for ferther use.
   // then open the 'startQuizPage' and hide the 'homePage'
@@ -263,29 +263,29 @@ backToHomeBtn.addEventListener('click', (e) => {
 
 //! Timeout and Intervals :
 //* setTimeout to show welcome notification
-// setTimeout(() => {
-//   notificationElement.classList.add('open')
+setTimeout(() => {
+  notificationElement.classList.add('open')
   
-//   const welcomeNotificationElem = notificationElement.firstElementChild.firstElementChild
-//   welcomeNotificationElem.innerText = `${welcomeMessages[parseInt(Math.random()*6)]}`
+  const welcomeNotificationElem = notificationElement.firstElementChild.firstElementChild
+  welcomeNotificationElem.innerText = `${welcomeMessages[parseInt(Math.random()*6)]}`
 
-//   setTimeout( e => {
-//     notificationElement.classList.remove('open')
-//   }, 30000)
+  setTimeout( e => {
+    notificationElement.classList.remove('open')
+  }, 30000)
   
-// }, 1000)
-// let counter = 0
-// setInterval(() => {
-//   if (counter < 4){
-//     counter++
-//   }else {
-//     counter--
-//   }
-//   slideElements.forEach((slide, index) => {
-//     slide.style.transform = `translateX(-${counter * 100}%)`
-    // console.log(counter * index * 100)
-//   })
-// }, 4000)
+}, 1000)
+let counter = 0
+setInterval(() => {
+  if (counter < 4){
+    counter++
+  }else {
+    counter--
+  }
+  slideElements.forEach((slide, index) => {
+    slide.style.transform = `translateX(-${counter * 100}%)`
+    console.log(counter * index * 100)
+  })
+}, 4000)
 
 
 

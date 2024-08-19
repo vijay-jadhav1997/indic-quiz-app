@@ -1,5 +1,5 @@
 import {overlayElement, startQuizPage, useLoacalStorage, quizData, quizTopic, levelBtnsContainer, maxScoreElement, setMaxScore, homepageElemenet, } from './script.js'
-import {correctBarElement, incorrectBarElement, levelResult, quizPage, resultPage, resultStatisticElement, retryBtn} from "./result.js"
+import {correctBarElement, incorrectBarElement, levelResult, quizPage, resultPage, resultStatisticElement, retryBtn, backBtn} from "./result.js"
 
 // debugger
 // console.log("quiz.js => Jay Shree Vitthal Rakhumai")
@@ -60,6 +60,7 @@ function startQuiz(mcqData, subject, level) {
   currentLevelMCQArray = mcqData
   activeLevel = level
   totalQuestions = currentLevelMCQArray.length
+  userMaxScore = quizData?.results?.[level]?.userMaxScore
   subjectHeadingWrapper.firstElementChild.innerText = subject
   subjectHeadingWrapper.lastElementChild.innerText = level
 
@@ -316,9 +317,9 @@ startQuizBtn.addEventListener('click', (e) => {
   // console.log("currentLevelMCQArray => ", currentLevelMCQArray)
   // if (currentLevelMCQArray.length === 0) {
   const levelBtns = [...levelBtnsContainer.children]
-  levelBtns.every(button => {
+  levelBtns.every((button, index) => {
     const selectedLevel = button.textContent.replaceAll('✓', '').replaceAll(' ', '')
-    if (button.className === 'selected' || button.firstElementChild.className === 'current-level'){
+    if (button.className === 'selected' || button.firstElementChild.className === 'current-level' || (levelBtns.length === index + 1)) {
       currentLevelMCQArray = quizData?.levels?.[selectedLevel]
       startQuiz(currentLevelMCQArray, quizData?.topic, selectedLevel)
       return 
@@ -380,6 +381,8 @@ nextBtn.addEventListener('click', (e) => {
 //* Event listener to go on next question
 skipBtn.addEventListener('click', (e) => {
   e.stopPropagation()
+  quizPage.className = "quiz-page"   //* so that style of page will get to be its original state
+
   
   clearInterval(questionTimeInterval)
   questionTimeInterval = 0
@@ -427,5 +430,5 @@ retryBtn.addEventListener('click', (e) => {
   quizPage.className = 'quiz-page'
 })
 
-// console.log(quizTopic, quizData)
+
 
