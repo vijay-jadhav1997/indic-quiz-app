@@ -13,6 +13,8 @@
   min-height: 100dvh;
   font-family: "Poppons", sans-serif;
   font-weight: 600;
+  position: relative;
+  overflow: hidden;
 }
 
 .result-header {
@@ -79,7 +81,6 @@
   background-color: #fb5858;
   height: 100%;
   max-width: 100%;
-  /* width: 100%; */
 }
 .result-page.show-result .result-bar .incorrect-bar {
   animation: progress-anime 2s linear forwards;
@@ -115,11 +116,9 @@ ul.result-stats::before {
   left: 2.5rem;
   color: #08088f;
   background-color: #92ef64;
-  /* box-shadow: 0 0 10px 2px #ff1493, inset 0 0 15px 2px #ee23b0; */
   font-size: 1.1rem;
   padding: 5px 10px;
   border-radius: 5px;
-  /* animation: start-anime 3s infinite; */
 }
 ul.result-stats {
   position: relative;
@@ -157,7 +156,6 @@ ul.result-stats li {
   padding: 0.5rem 1rem;
   color: #fff;
   border-radius: 5px;
-  /* width: 10rem; */
   cursor: pointer;
 }
 .result-page .buttons button:hover {
@@ -169,21 +167,73 @@ ul.result-stats li {
 }
 .result-page .go-to-home-btn {
   background-color: blueviolet;
-  /* margin-left: 2rem; */
 }
 
 .result-page .back-btn {
   background-color: #0f0a27;
-  /* margin-left: 2rem; */
 }
+
+
+/*? styling 'celebration' */
+.celebration {
+  width: 95%;
+  position: fixed;
+  top: -100px;
+  left: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 105;
+}
+
+.celebration .particle {
+  width: 30px;
+  height: 30px;
+  clip-path: polygon(23% 26%, 64% 12%, 58% 93%, 10% 100%);
+  background-color: #fa1c79;
+  animation: celebrate 2 ease-out forwards;
+  animation-duration: calc(120s/var(--particle));
+
+}
+
+.celebration .particle:nth-child(2n) {
+  background-color: #5ce79d;
+  clip-path: polygon(69% 77%, 86% 30%, 100% 100%, 21% 100%);
+}
+.celebration .particle:nth-child(3n) {
+  background-color: #fae01c;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 73% 58%, 87% 100%, 50% 74%, 12% 100%, 30% 57%, 2% 35%, 39% 35%);
+}
+.celebration .particle:nth-child(4n) {
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  background-color: #f31cfa;
+}
+.celebration .particle:nth-child(5n) {
+  clip-path: polygon(25% 0%, 75% 0%, 62% 60%, 75% 100%, 25% 100%, 13% 44%);
+  background-color: #4698fc;
+}
+
+@keyframes celebrate {
+  0% {
+    transform: translate(0, -10vh) rotate(0deg);
+  }
+  95% {
+    transform: translate(0, 130vh) rotate(360deg);
+  }
+  100%{
+    transform: translate(0, 130vh) rotate(360deg);
+    display: none;
+  }
+}
+
+
 
 .result-page footer {
   padding: 0.5rem 0;
   background-color: #79d6fe49;
   box-shadow: inset 0 0 5px #e8e8e8, 0 0 100px#c6e1f5;
-  /* transform-origin: 0 0; */
   border-radius: 5px;
-  backdrop-filter: blur(25px);
   width: min(60%, 500px);
   display: flex;
   flex-direction: column;
@@ -200,7 +250,6 @@ ul.result-stats li {
 .result-page footer .social-medias {
   font-size: 1.2rem;
   font-weight: 500;
-  color: #535353;
   margin-bottom: 0.5rem;
 }
 
@@ -216,10 +265,6 @@ ul.result-stats li {
 
 
 @media screen and (max-width:768px) {
-  /* .result-page {
-    padding: 2rem 0.5rem;
-  } */
-
   .result-header img {
     top: -3.2rem;
     left: -8rem;
@@ -276,7 +321,6 @@ ul.result-stats li {
   .result-page .buttons button {
     font-size: 14px;
     padding: 0.25rem 0.5rem;
-    /* width: 7rem; */
   }
 
   .result-page footer {
