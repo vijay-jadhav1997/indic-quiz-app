@@ -1,4 +1,4 @@
-import {api_key} from "./assets.js"
+import {api_key} from "../assets.js"
 
 // console.log("script.js => Jay Shree Seeta Ram")
 
@@ -14,6 +14,7 @@ const navBoxElemenet = document.querySelector('.nav-box');
 const humbergerMenu = document.querySelector('.humberger-menu');
 const slideElements = document.querySelectorAll('.slide');
 const flipcardElement = document.querySelector('.flipcard');
+const bubblesWrapperElement = document.querySelector('.bubbles-wrapper');
 
 // * 'quiz-start-page' DOM elements:
 export const startQuizPage = document.querySelector('.start-quiz-page');
@@ -114,6 +115,7 @@ export async function prepareQuiz(topic){
 
   
   overlayElement.classList.add('open') // Shimmer effect start
+  overlayElement.innerHTML = `<div class='loading'></div>`
   try {
     quizData = useLoacalStorage(topic)
     // console.log(quizData)
@@ -145,6 +147,7 @@ export async function prepareQuiz(topic){
   }
 
   overlayElement.classList.remove('open') // Shimmer effect end
+  overlayElement.innerHTML = ``
 }
 
 
@@ -257,6 +260,7 @@ notificationCloseBtn.addEventListener('click', (e) => {
 backToHomeBtn.addEventListener('click', (e) => {
   e.stopPropagation()
   startQuizPage.className = 'start-quiz-page inactive'
+  maxScoreElement.className = 'max-score-board'
   homepageElemenet.className = 'homepage'
 })
 
@@ -271,9 +275,13 @@ setTimeout(() => {
 
   setTimeout( e => {
     notificationElement.classList.remove('open')
+    bubblesWrapperElement.classList.add('inactive')
+    // console.log("Jay Shree Ram Krushna Hari")
   }, 30000)
   
 }, 1000)
+
+
 let counter = 0
 setInterval(() => {
   if (counter < 4){

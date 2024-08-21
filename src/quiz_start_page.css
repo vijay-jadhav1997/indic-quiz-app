@@ -78,7 +78,6 @@
   background-color: #35BD3A;
   color: #FFFFFF;
   font-size: 2rem;
-  /* font-family: "Poppons", sans-serif; */
   border-radius: 5px;
   box-shadow: 2px 2px 1px 4px #01AB08; 
   cursor: pointer;
@@ -204,7 +203,6 @@
 .level-btns-container button.selected:has(i.completed) {
   animation: unset;
   box-shadow: 0 0 20px #062794, inset 0 0 15px 5px #02f50e;
-  /* transform: scale(0.95); */
 }
 
 .level-btns-container button:has(i.lock-icon) {

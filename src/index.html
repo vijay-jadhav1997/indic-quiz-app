@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"> -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
   <link rel="stylesheet" href="./quiz_start_page.css">
   <link rel="stylesheet" href="./quiz_page.css">
@@ -16,7 +16,9 @@
   <script type="module" src="./result.js" defer></script>
 </head>
 <body>
-  <div class="overlay"></div>
+  <div class="overlay">
+    <div class="loading"></div>
+  </div>
   <div class="notification-container">
     <div class="notification-content">
       <p class="notification">"Namaste! 'Indic Quiz' welcomes you. Ready for a new Quiz challenge. Ready for a new Quiz challenge."</p>
@@ -202,6 +204,9 @@
 
     </header>
 
+    <h1 class="heading-test">Test Your Knowledge</h1>
+    <h2 class="sub-heading-test">With our challenging quizes of various subjects.</h2>
+
     <!-- <div class="flipcard">
       <div class="front">
         <h2>Don't click me</h2>
@@ -218,7 +223,52 @@
       <div class="slide">Jay Shree Hari</div>
       <div class="slide">Radhe Radhe </div>
     </div> -->
-    
+    <div class="bubbles-wrapper">
+      <span class="bubble" style='--bubble:10'></span>
+      <span class="bubble" style='--bubble:12'></span>
+      <span class="bubble" style='--bubble:16'></span>
+      <span class="bubble" style='--bubble:19'></span>
+      <span class="bubble" style='--bubble:11'></span>
+      <span class="bubble" style='--bubble:20'></span>
+      <span class="bubble" style='--bubble:13'></span>
+      <span class="bubble" style='--bubble:17'></span>
+      <span class="bubble" style='--bubble:11'></span>
+      <span class="bubble" style='--bubble:18'></span>
+      <span class="bubble" style='--bubble:15'></span>
+      <span class="bubble" style='--bubble:10'></span>
+      <span class="bubble" style='--bubble:22'></span>
+      <span class="bubble" style='--bubble:12'></span>
+      <span class="bubble" style='--bubble:22'></span>
+      <span class="bubble" style='--bubble:15'></span>
+      <span class="bubble" style='--bubble:12'></span>
+      <span class="bubble" style='--bubble:16'></span>
+      <span class="bubble" style='--bubble:19'></span>
+      <span class="bubble" style='--bubble:11'></span>
+      <span class="bubble" style='--bubble:20'></span>
+      <span class="bubble" style='--bubble:13'></span>
+      <span class="bubble" style='--bubble:17'></span>
+      <span class="bubble" style='--bubble:19'></span>
+      <span class="bubble" style='--bubble:11'></span>
+      <span class="bubble" style='--bubble:20'></span>
+      <span class="bubble" style='--bubble:13'></span>
+      <span class="bubble" style='--bubble:17'></span>
+      <span class="bubble" style='--bubble:11'></span>
+      <span class="bubble" style='--bubble:18'></span>
+      <span class="bubble" style='--bubble:15'></span>
+      <span class="bubble" style='--bubble:10'></span>
+      <span class="bubble" style='--bubble:22'></span>
+      <span class="bubble" style='--bubble:12'></span>
+      <span class="bubble" style='--bubble:22'></span>
+      <span class="bubble" style='--bubble:15'></span>
+      <span class="bubble" style='--bubble:11'></span>
+      <span class="bubble" style='--bubble:18'></span>
+      <span class="bubble" style='--bubble:15'></span>
+      <span class="bubble" style='--bubble:10'></span>
+      <span class="bubble" style='--bubble:22'></span>
+      <span class="bubble" style='--bubble:12'></span>
+      <span class="bubble" style='--bubble:22'></span>
+      <span class="bubble" style='--bubble:15'></span>
+    </div>
   </div>
   
   <div class="start-quiz-page inactive">

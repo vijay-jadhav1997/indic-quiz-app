@@ -1,5 +1,5 @@
 import {overlayElement, startQuizPage, useLoacalStorage, quizData, quizTopic, levelBtnsContainer, maxScoreElement, setMaxScore, homepageElemenet, } from './script.js'
-import {correctBarElement, incorrectBarElement, levelResult, quizPage, resultPage, resultStatisticElement, retryBtn, backBtn} from "./result.js"
+import {celebrationElem, correctBarElement, incorrectBarElement, levelResult, quizPage, resultPage, resultStatisticElement, retryBtn} from "./result.js"
 
 // debugger
 // console.log("quiz.js => Jay Shree Vitthal Rakhumai")
