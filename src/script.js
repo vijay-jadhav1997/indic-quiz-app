@@ -14,6 +14,7 @@ const navBoxElemenet = document.querySelector('.nav-box');
 const humbergerMenu = document.querySelector('.humberger-menu');
 const slideElements = document.querySelectorAll('.slide');
 const flipcardElement = document.querySelector('.flipcard');
+const flipBtn = document.querySelector('.flip-the-card');
 const bubblesWrapperElement = document.querySelector('.bubbles-wrapper');
 
 // * 'quiz-start-page' DOM elements:
@@ -299,9 +300,9 @@ setInterval(() => {
 
 
 
-// flipcardElement.addEventListener('click', (e) => {
-//   e.stopPropagation()
-//   flipcardElement.classList.toggle('flip')
-//   // console.log(flipcardElement)
-// })
+flipBtn.addEventListener('click', (e) => {
+  e.stopPropagation()
+  flipcardElement.classList.toggle('flip')
+  // console.log(flipcardElement)
+})
 

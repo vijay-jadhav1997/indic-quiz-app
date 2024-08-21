@@ -450,7 +450,7 @@
 
 @media screen and (max-width:500px) {
   .quiz-page {
-    padding: 4.25rem 0.5rem 1rem;
+    padding: 4.25rem 0.75rem 1rem;
   }
 
   .quiz-page .confirm-finish-popup {
