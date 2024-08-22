@@ -1,6 +1,5 @@
 import {api_key} from "../assets.js"
 
-// console.log("script.js => Jay Shree Seeta Ram")
 
 //! Selecting key DOM elements for user interaction:
 // * 'body' DOM elements:
@@ -25,27 +24,9 @@ export const backToHomeBtn = document.querySelector('.back-to-home-btn');
 
 
 // ! State and global Variables
-export let quizData = {}
-export let quizTopic = ''
+export let quizTopic = useLocalStorage('quizTopic') || ''
+export let quizData = useLocalStorage(quizTopic) || {}
 
-
-
-
-// document.addEventListener('DOMContentLoaded', e => {
-//   e.stopPropagation()
-//   // console.log("Jay Shree Ram")
-//   const activePage = useLoacalStorage('activePage') || ''
-//   if (!activePage) {
-//     [...document.body.children].forEach(elm => {
-//       useLoacalStorage('')
-//       if(elm.className.includes(activePage)) {
-//         console.log(elm.className)
-
-//       }
-//     })
-    
-//   }
-// })
 
 
 const welcomeMessages = [
@@ -59,12 +40,6 @@ const welcomeMessages = [
 ]
 
 
-
-// ! DOM Manipulation
-
-
-
-//! Handlers
 
 
 //! Constructor function
@@ -99,7 +74,7 @@ function createResults(levels) {
 
 //! function
 //* function to get or set data to localStorage
-export function useLoacalStorage(key, data='') {
+export function useLocalStorage(key, data='') {
   if(data === '') return JSON.parse(localStorage.getItem(key))
   
   localStorage.setItem(key, JSON.stringify(data))
@@ -118,7 +93,7 @@ export async function prepareQuiz(topic){
   overlayElement.classList.add('open') // Shimmer effect start
   overlayElement.innerHTML = `<div class='loading'></div>`
   try {
-    quizData = useLoacalStorage(topic)
+    quizData = useLocalStorage(topic)
     // console.log(quizData)
     if (!quizData) {
       const response = await fetch(`${api_key}/${topic}`)
@@ -130,7 +105,7 @@ export async function prepareQuiz(topic){
       if (data) {
         quizData = new Quiz(data?.topic, data?.levels)
   
-        useLoacalStorage(topic, quizData)
+        useLocalStorage(topic, quizData)
       }
     }
     
@@ -140,6 +115,7 @@ export async function prepareQuiz(topic){
       setMaxScore(quizData.results)
       homepageElemenet.classList.add('inactive')
       startQuizPage.classList.remove('inactive')
+      useLocalStorage('activePage', 'start-quiz-page')
     }
   } 
   catch (error) {
@@ -160,7 +136,7 @@ function createLevelBtns(quiz) {
   }
 
   const results = Object.entries(quiz?.results)
-  // if(results.length !== 0) {
+
     results.forEach(([level, result]) => {
       const button = document.createElement('button')
       if(result?.isCompleted) {
@@ -175,21 +151,6 @@ function createLevelBtns(quiz) {
       // console.log(result)
     })
 
-  // } else {
-  //   Object.keys(quiz.levels).forEach((level, index) => {
-
-  //     const button = document.createElement('button')
-  //     if (index === 0) {
-  //       button.innerHTML =  `${level}  <i class="current-level"></i>`
-  //     } else {
-  //       button.setAttribute('disabled', '')
-  //       button.innerHTML = `${level} <i class="lock-icon">&#x1F512;</i>`
-  //     }
-  //     levelBtnsContainer.appendChild(button)
-  //     // console.log(level)
-  //   })
-  // }
-  
 }
 
 
@@ -242,6 +203,7 @@ navBoxElemenet.addEventListener('click', (e) => {
 
     // console.log(quizTopic)
     prepareQuiz(quizTopic)
+    useLocalStorage('quizTopic', quizTopic)  // save quizTopic to the localStorage
     navBoxElemenet.classList.toggle('open')
     humbergerMenu.classList.toggle('close')
   }
@@ -264,7 +226,18 @@ backToHomeBtn.addEventListener('click', (e) => {
   startQuizPage.className = 'start-quiz-page inactive'
   maxScoreElement.className = 'max-score-board'
   homepageElemenet.className = 'homepage'
+  useLocalStorage('activePage', 'homepage')
 })
+
+
+//* Event listener to flip the flipcard
+flipBtn.addEventListener('click', (e) => {
+  e.stopPropagation()
+  flipcardElement.classList.toggle('flip')
+  // console.log(flipcardElement)
+})
+
+
 
 
 //! Timeout and Intervals :
@@ -299,11 +272,4 @@ setInterval(() => {
 
 
 
-
-
-flipBtn.addEventListener('click', (e) => {
-  e.stopPropagation()
-  flipcardElement.classList.toggle('flip')
-  // console.log(flipcardElement)
-})
 

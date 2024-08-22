@@ -1,4 +1,4 @@
-import {overlayElement, startQuizPage, useLoacalStorage, quizData, quizTopic, levelBtnsContainer, setMaxScore, homepageElemenet, } from './script.js'
+import {overlayElement, startQuizPage, useLocalStorage, quizData, quizTopic, levelBtnsContainer, setMaxScore, homepageElemenet, prepareQuiz, } from './script.js'
 import {correctBarElement, incorrectBarElement, levelResult, quizPage, resultPage, resultStatisticElement, retryBtn} from "./result.js"
 
 // debugger
@@ -28,23 +28,92 @@ const backToQuizBtn = document.querySelector('.back-to-quiz-btn');
 // * 'result-page' DOM elements:
 
 
-// //! Variables, State and data:
-let score = 0
-let userMaxScore = 0
-let quizTotalScore = 0
-let totalQuestions = 0
-let correctAnswered = 0
-let wrongAnswered = 0
-let quizCompletionTime = 0
-let currentMcqNumber = 0
+// //! Variables
+let activeLevel = useLocalStorage('activeLevel') || 'level1'
+let currentLevelMCQArray = quizData?.levels?.[activeLevel] || []
 
-let currentLevelMCQArray = []
-let activeLevel = ''
+const activeLevelResultData = quizData?.results?.[activeLevel]
+
+let score = activeLevelResultData?.userScore || 0
+let userMaxScore = activeLevelResultData?.userMaxScore || 0
+let quizTotalScore = activeLevelResultData?.totalScore || 0
+let totalQuestions = activeLevelResultData?.totalQuestions || 0
+let correctAnswered = activeLevelResultData?.correctAnswered || 0
+let wrongAnswered = activeLevelResultData?.wrongAnswered || 0
+let quizCompletionTime = activeLevelResultData?.quizCompletionTime || 0
+let currentMcqNumber = activeLevelResultData?.currentMcqNumber || 0
 
 let hasPaused = false
 let questionTimeInterval = 0
 let hasUserSelectedAnyOption = false
 
+console.log("quizTopic",quizTopic)
+console.log("quizData", quizData)
+console.log("activeLevel", activeLevel)
+console.log('currentLevelMCQArray', currentLevelMCQArray)
+console.log('activeLevelResultData', activeLevelResultData)
+console.log('correctAnswered', correctAnswered)
+console.log('totalQuestions', totalQuestions)
+console.log('score', score)
+console.log('userMaxScore', userMaxScore)
+console.log('quizTotalScore', quizTotalScore)
+console.log('wrongAnswered', wrongAnswered)
+console.log('currentMcqNumber', currentMcqNumber)
+console.log('quizCompletionTime', quizCompletionTime)
+
+
+//! State and data:
+
+document.addEventListener('DOMContentLoaded', e => {
+  e.stopPropagation()
+  // console.log("Jay Shree Ram")
+  const activePage = useLocalStorage('activePage') || 'homepage'
+  if (activePage) {
+    [...document.body.children].forEach(elm => {
+      if(elm.className.startsWith(activePage)) {
+        elm.className = activePage
+        // console.log(elm.className)
+      }
+      else if (elm.className.includes('page')){
+        elm.classList.remove('inactive')
+        elm.classList.add('inactive')
+        // console.log(elm.className)
+      }
+      else {
+        // console.log(elm.className)
+      }
+    })
+  }
+
+  switch (activePage) {
+    case 'start-quiz-page':
+      prepareQuiz(quizTopic)
+      break;
+
+    case 'quiz-page':
+      nextQuestion(currentLevelMCQArray, currentMcqNumber, activeLevel)
+      break;
+
+    case 'result-page':
+      calcAndDisplayResult()
+      break;
+  
+    default:
+      break;
+  }
+
+
+  // if(activePage === 'start-quiz-page') {
+  //   prepareQuiz(quizTopic)
+  // }
+
+  // if(activePage === 'quiz-page') {
+  //   nextQuestion(currentLevelMCQArray, currentMcqNumber, activeLevel)
+  // }
+  // else if (activePage === 'result-page') {
+    
+  // }
+})
 
 
 
@@ -64,16 +133,30 @@ function startQuiz(mcqData, subject, level) {
   subjectHeadingWrapper.firstElementChild.innerText = subject
   subjectHeadingWrapper.lastElementChild.innerText = level
 
-  // console.log("currentLevelMCQArray => ", currentLevelMCQArray)
+  useLocalStorage( 'activeLevel', activeLevel)
 
   nextQuestion(currentLevelMCQArray, currentMcqNumber, level)
-  // console.log("Start now => clicked", "Now we are in the StartQuiz Function")
+
+ 
+console.log("quizTopic",quizTopic)
+console.log("quizData", quizData)
+console.log("activeLevel", activeLevel)
+console.log('currentLevelMCQArray', currentLevelMCQArray)
+console.log('activeLevelResultData', activeLevelResultData)
+console.log('correctAnswered', correctAnswered)
+console.log('totalQuestions', totalQuestions)
+console.log('score', score)
+console.log('userMaxScore', userMaxScore)
+console.log('quizTotalScore', quizTotalScore)
+console.log('wrongAnswered', wrongAnswered)
+console.log('currentMcqNumber', currentMcqNumber)
+console.log('quizCompletionTime', quizCompletionTime)
 }
 
 
 //* function to get next question 
-function nextQuestion(data, mcqNum, level) {
   currentMcqNumber++
+function nextQuestion(data, mcqNum, level) {
   questionNumber.innerText = `${currentMcqNumber.toString().padStart(2, 0)}/${totalQuestions.toString().padStart(2, 0)}` 
   questionElement.innerText = `${data[mcqNum]?.question}`
   timeElement.innerText = `00:${30}`
@@ -131,13 +214,13 @@ function nextQuestion(data, mcqNum, level) {
   
   const updatedLevelResult = getUpdatedLevelResult(quizTopic, level)
 
-  useLoacalStorage(quizTopic, updatedLevelResult)
+  useLocalStorage(quizTopic, updatedLevelResult)
   
 }
 
 //* function to get updated level result
 function getUpdatedLevelResult(subject, level, isCompleted=false) {
-  const prevData = useLoacalStorage(subject)
+  const prevData = useLocalStorage(subject)
 
   const isCurrentLevel = Object.entries(prevData?.results).every(([key, value]) => {
     if (key === level && (isCompleted || prevData?.results[level]?.isCompleted)) return false
@@ -244,6 +327,8 @@ function calcAndDisplayResult() {
   resultStatisticElement.children[6].innerText = `Your quiz completion time: ${parseInt(timeInMinutes) && timeInMinutes} mins & ${(quizCompletionTime % 60).toString().padStart(2, 0)} secs.`
 
   resultPage.classList.remove('inactive')
+  useLocalStorage('activePage', 'result-page')
+
 
   const isCompleted = correctPercentage > 33 ? true : false
   let updatedLevelResult = getUpdatedLevelResult(quizTopic, activeLevel, isCompleted)
@@ -256,7 +341,7 @@ function calcAndDisplayResult() {
     return true
   })
   setMaxScore(updatedLevelResult.results) // update userMaxScore data on 'quiz-start-page'
-  useLoacalStorage(quizTopic, updatedLevelResult) // update localStorage data for key => 'quizTopic'
+  useLocalStorage(quizTopic, updatedLevelResult) // update localStorage data for key => 'quizTopic'
 }
 
 
@@ -281,6 +366,7 @@ function handleQuizFinish (e) {
   if(userMaxScore < score) {
     userMaxScore = score 
   }
+  
 
   //* DOM manipulation of 'quiz-page'
   quizPage.className = "quiz-page inactive"   //* so that style of page will get to be its original state
@@ -350,6 +436,7 @@ startQuizBtn.addEventListener('click', (e) => {
 
   startQuizPage.className = 'start-quiz-page inactive'
   quizPage.className = 'quiz-page'
+  useLocalStorage('activePage', 'quiz-page')
 })
 
 
@@ -395,6 +482,8 @@ nextBtn.addEventListener('click', (e) => {
   
   questionTimeInterval = 0
   const currentLevel = subjectHeadingWrapper.lastElementChild.innerText
+  
+  currentMcqNumber++
   nextQuestion(currentLevelMCQArray, currentMcqNumber, currentLevel)
 })
 
@@ -449,4 +538,9 @@ retryBtn.addEventListener('click', (e) => {
   resultPage.className = 'result-page inactive'
   homepageElemenet.className = 'homepage inactive'
   quizPage.className = 'quiz-page'
+  useLocalStorage('activePage', 'quiz-page')
+
 })
+
+
+
