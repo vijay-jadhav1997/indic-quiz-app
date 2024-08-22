@@ -309,7 +309,7 @@
     <button class="back-to-home-btn">&leftarrow; Back</button>
     <div class="start-quiz">
       <div class="quiz-logo-box">
-        <img src="./Images/quiz-logo1.png" alt="quiz-logo">
+        <img src="./Images/quiz-logo.png" alt="quiz-logo">
       </div>
       <button class="start-now-btn">Start Now >>></button>
     </div>
@@ -392,6 +392,31 @@
       </div>
       <div class="correct-bar">
         <span class="correct">correct: 70%</span>
+      </div>
+    </div>
+
+    <div class="progress-bar" style="--correct-after-content: 'Correct 60%'">
+      <div class="correct-progress-bar">
+        <svg class="correct-svg">
+           <linearGradient id="CorrectGrad">
+            <stop offset="0%" stop-color="#5FD85B" />
+            <stop offset="100%" stop-color="#0DAE08" />
+          </linearGradient>
+          <circle id="CorrectBar" cx="80" cy="80" r="70" stroke-linecap="round"
+            style="--correct-dash-off: 176;"
+          />
+        </svg>
+      </div>
+      <div class="incorrect-progress-bar" style="--incorrect-after-content: 'Incorrect 25%'">
+        <svg class="incorrect-svg">
+          <linearGradient id="IncorrectGrad">
+            <stop offset="0%" stop-color="#F16F6F"/>
+            <stop offset="100%" stop-color="#D30F0F" />
+          </linearGradient>
+          <circle id="IncorrectBar" cx="80" cy="80" r="70" stroke-linecap="round"
+            style="--incorrect-dash-off: 330;"
+          />
+        </svg>
       </div>
     </div>
 

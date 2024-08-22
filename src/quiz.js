@@ -1,5 +1,5 @@
-import {overlayElement, startQuizPage, useLoacalStorage, quizData, quizTopic, levelBtnsContainer, maxScoreElement, setMaxScore, homepageElemenet, } from './script.js'
-import {celebrationElem, correctBarElement, incorrectBarElement, levelResult, quizPage, resultPage, resultStatisticElement, retryBtn} from "./result.js"
+import {overlayElement, startQuizPage, useLoacalStorage, quizData, quizTopic, levelBtnsContainer, setMaxScore, homepageElemenet, } from './script.js'
+import {correctBarElement, incorrectBarElement, levelResult, quizPage, resultPage, resultStatisticElement, retryBtn} from "./result.js"
 
 // debugger
 // console.log("quiz.js => Jay Shree Vitthal Rakhumai")
@@ -212,6 +212,27 @@ function calcAndDisplayResult() {
   correctBarElement.style.maxWidth = `${parseFloat(correctPercentage)}%`
 
   const timeInMinutes = (Math.floor(quizCompletionTime / 60)).toString().padStart(2, 0) // convert quiz completeion time which is in secs to minutes.
+
+  let correct = 0
+  let incorrect = 0
+  const intervalId = setInterval(() => {
+    if(correct < parseInt(correctPercentage)) correct++
+    
+    if(incorrect < parseInt(incorrectPercentage)) incorrect++
+    
+    if(correct >= parseInt(correctPercentage) && incorrect >= parseInt(incorrectPercentage)) {
+      clearInterval(intervalId)
+      // console.log("Jay Shree Ram")
+    }
+    
+    document.querySelector('.correct-progress-bar').style.setProperty("--correct-after-content", `"Correct ${correct.toString().padStart(2, 0)}%"`)
+    document.querySelector('.incorrect-progress-bar').style.setProperty("--incorrect-after-content", `"Incorrect ${incorrect.toString().padStart(2, 0)}%"`)
+
+    // console.log(`correct => ${correct}`, `incorrect => ${incorrect}`)
+  }, 25)
+
+  document.querySelector('#CorrectBar').style.setProperty("--correct-dash-off", `${440 * (1 - (correctPercentage/100))}`)
+  document.querySelector('#IncorrectBar').style.setProperty("--incorrect-dash-off", `${440 * (1 - (incorrectPercentage/100))}`)
 
 
   resultStatisticElement.children[0].innerText = `Total Questions: ${totalQuestions.toString().padStart(2, 0)}`
@@ -429,6 +450,3 @@ retryBtn.addEventListener('click', (e) => {
   homepageElemenet.className = 'homepage inactive'
   quizPage.className = 'quiz-page'
 })
-
-
-

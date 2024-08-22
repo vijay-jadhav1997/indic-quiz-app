@@ -197,8 +197,9 @@ function createLevelBtns(quiz) {
 export function setMaxScore(data) {
   let maxScore = ''
   Object.entries(data).reduce((acc, [key, value]) => {
-    if (acc < value.userMaxScore) {
-      acc = value.userMaxScore
+    let maxPercentage = (value.userMaxScore/value.totalScore) * 100
+    if (acc <= maxPercentage) {
+      acc = maxPercentage
       maxScore = `Your Highest Score (${key}): ${value.userMaxScore.toString().padStart(2, 0)}/${value.totalScore.toString().padStart(2, 0)}`
     }
     return acc
