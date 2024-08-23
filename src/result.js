@@ -10,6 +10,7 @@ export const quizPage = document.querySelector('.quiz-page');
 
 // * 'result-page' DOM elements:
 export const resultPage = document.querySelector('.result-page');
+export const subjectResult = document.querySelector('.subject-result');
 export const levelResult = document.querySelector('.level-result');
 export const correctBarElement = document.querySelector('.result-bar .correct-bar');
 export const incorrectBarElement = document.querySelector('.result-bar .incorrect-bar');
@@ -43,12 +44,10 @@ backBtn.addEventListener('click', (e) => {
 goToHomeBtn.addEventListener('click', (e) => {
   e.stopPropagation()
 
-
   resultPage.className = 'result-page inactive'
   quizPage.className = 'quiz-page inactive'
   startQuizPage.className = 'start-quiz-page inactive'
   homepageElemenet.className = 'homepage'
   useLocalStorage('activePage', 'homepage')
-
 })
 

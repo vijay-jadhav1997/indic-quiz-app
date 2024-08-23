@@ -1,5 +1,5 @@
 import {overlayElement, startQuizPage, useLocalStorage, quizData, quizTopic, levelBtnsContainer, setMaxScore, homepageElemenet, prepareQuiz, } from './script.js'
-import {correctBarElement, incorrectBarElement, levelResult, quizPage, resultPage, resultStatisticElement, retryBtn} from "./result.js"
+import {correctBarElement, incorrectBarElement, levelResult, quizPage, resultPage, resultStatisticElement, retryBtn, subjectResult} from "./result.js"
 
 // debugger
 // console.log("quiz.js => Jay Shree Vitthal Rakhumai")
@@ -47,19 +47,19 @@ let hasPaused = false
 let questionTimeInterval = 0
 let hasUserSelectedAnyOption = false
 
-console.log("quizTopic",quizTopic)
-console.log("quizData", quizData)
-console.log("activeLevel", activeLevel)
-console.log('currentLevelMCQArray', currentLevelMCQArray)
-console.log('activeLevelResultData', activeLevelResultData)
-console.log('correctAnswered', correctAnswered)
-console.log('totalQuestions', totalQuestions)
-console.log('score', score)
-console.log('userMaxScore', userMaxScore)
-console.log('quizTotalScore', quizTotalScore)
-console.log('wrongAnswered', wrongAnswered)
-console.log('currentMcqNumber', currentMcqNumber)
-console.log('quizCompletionTime', quizCompletionTime)
+// console.log("quizTopic",quizTopic)
+// console.log("quizData", quizData)
+// console.log("activeLevel", activeLevel)
+// console.log('currentLevelMCQArray', currentLevelMCQArray)
+// console.log('activeLevelResultData', activeLevelResultData)
+// console.log('correctAnswered', correctAnswered)
+// console.log('totalQuestions', totalQuestions)
+// console.log('score', score)
+// console.log('userMaxScore', userMaxScore)
+// console.log('quizTotalScore', quizTotalScore)
+// console.log('wrongAnswered', wrongAnswered)
+// console.log('currentMcqNumber', currentMcqNumber)
+// console.log('quizCompletionTime', quizCompletionTime)
 
 
 //! State and data:
@@ -92,6 +92,8 @@ document.addEventListener('DOMContentLoaded', e => {
 
     case 'quiz-page':
       nextQuestion(currentLevelMCQArray, currentMcqNumber, activeLevel)
+      subjectHeadingWrapper.firstElementChild.innerText = quizData?.topic
+      subjectHeadingWrapper.lastElementChild.innerText = activeLevel
       break;
 
     case 'result-page':
@@ -124,7 +126,7 @@ function startQuiz(mcqData, subject, level) {
   correctAnswered = 0
   wrongAnswered = 0
   questionTimeInterval = 0
-  currentMcqNumber = 0
+  currentMcqNumber = 1
   quizCompletionTime = 0
   currentLevelMCQArray = mcqData
   activeLevel = level
@@ -136,26 +138,10 @@ function startQuiz(mcqData, subject, level) {
   useLocalStorage( 'activeLevel', activeLevel)
 
   nextQuestion(currentLevelMCQArray, currentMcqNumber, level)
-
- 
-console.log("quizTopic",quizTopic)
-console.log("quizData", quizData)
-console.log("activeLevel", activeLevel)
-console.log('currentLevelMCQArray', currentLevelMCQArray)
-console.log('activeLevelResultData', activeLevelResultData)
-console.log('correctAnswered', correctAnswered)
-console.log('totalQuestions', totalQuestions)
-console.log('score', score)
-console.log('userMaxScore', userMaxScore)
-console.log('quizTotalScore', quizTotalScore)
-console.log('wrongAnswered', wrongAnswered)
-console.log('currentMcqNumber', currentMcqNumber)
-console.log('quizCompletionTime', quizCompletionTime)
 }
 
 
 //* function to get next question 
-  currentMcqNumber++
 function nextQuestion(data, mcqNum, level) {
   questionNumber.innerText = `${currentMcqNumber.toString().padStart(2, 0)}/${totalQuestions.toString().padStart(2, 0)}` 
   questionElement.innerText = `${data[mcqNum]?.question}`
@@ -165,6 +151,7 @@ function nextQuestion(data, mcqNum, level) {
   skipBtn.removeAttribute('disabled')
 
 
+  // remove last options of last question
   const previousTotalOptions = optionsContainer.children.length
   for(let i = 0; i < previousTotalOptions; i++ ){
     optionsContainer?.firstElementChild?.remove()
@@ -173,6 +160,7 @@ function nextQuestion(data, mcqNum, level) {
     createOptionElement(data[mcqNum]?.options[key], key)
   }
   
+  // time interval (countdown) to select the option
   if(questionTimeInterval === 0){
     let count = `${30}`
     questionTimeInterval = setInterval((e) => {
@@ -202,6 +190,7 @@ function nextQuestion(data, mcqNum, level) {
     }, 1000)
   }
 
+  // DOM manipulation for last question 
   if(currentMcqNumber === totalQuestions){
     skipBtn.setAttribute('disabled', '')
 
@@ -215,13 +204,29 @@ function nextQuestion(data, mcqNum, level) {
   const updatedLevelResult = getUpdatedLevelResult(quizTopic, level)
 
   useLocalStorage(quizTopic, updatedLevelResult)
-  
+
+
+  // console.log("quizTopic",quizTopic)
+  // console.log("quizData", quizData)
+  // console.log("activeLevel", activeLevel)
+  // console.log('currentLevelMCQArray', currentLevelMCQArray)
+  // console.log('activeLevelResultData', activeLevelResultData)
+  // console.log('correctAnswered', correctAnswered)
+  // console.log('totalQuestions', totalQuestions)
+  // console.log('score', score)
+  // console.log('userMaxScore', userMaxScore)
+  // console.log('quizTotalScore', quizTotalScore)
+  // console.log('wrongAnswered', wrongAnswered)
+  // console.log('currentMcqNumber', currentMcqNumber)
+  // console.log('quizCompletionTime', quizCompletionTime)
+    
 }
 
 //* function to get updated level result
 function getUpdatedLevelResult(subject, level, isCompleted=false) {
   const prevData = useLocalStorage(subject)
 
+  // update isCurrentLevel if current level changes
   const isCurrentLevel = Object.entries(prevData?.results).every(([key, value]) => {
     if (key === level && (isCompleted || prevData?.results[level]?.isCompleted)) return false
     return true
@@ -285,6 +290,7 @@ function calcAndDisplayResult() {
   const incorrectPercentage = ((wrongAnswered / totalQuestions) * 100).toFixed(2)
   const unattemptedPercentage = (((totalQuestions - correctAnswered - wrongAnswered)/totalQuestions) * 100).toFixed(2)
 
+  subjectResult.innerText = quizData?.topic
   levelResult.innerText = `${activeLevel} - Result`
 
   incorrectBarElement.previousElementSibling.innerText = `unattempted: ${unattemptedPercentage}%`
@@ -497,6 +503,7 @@ skipBtn.addEventListener('click', (e) => {
   clearInterval(questionTimeInterval)
   questionTimeInterval = 0
   const currentLevel = subjectHeadingWrapper.lastElementChild.innerText
+  currentMcqNumber++
   nextQuestion(currentLevelMCQArray, currentMcqNumber, currentLevel)
 })
 
@@ -539,7 +546,6 @@ retryBtn.addEventListener('click', (e) => {
   homepageElemenet.className = 'homepage inactive'
   quizPage.className = 'quiz-page'
   useLocalStorage('activePage', 'quiz-page')
-
 })
 
 

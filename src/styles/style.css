@@ -99,7 +99,7 @@ body {
 .notification-container.open {
   display: block;
   top: 5rem;
-  animation: notification-anime 28s ease-in-out forwards;
+  animation: notification-anime 24s ease-in-out forwards;
 }
 
 
@@ -684,6 +684,7 @@ body {
     padding: 3rem 0.5rem;
   }
   .homepage .heading-test {
+    margin-top: 4.5rem;
     letter-spacing: 2px;
     font-size: 2rem;
   }
@@ -746,6 +747,11 @@ body {
 
    .homepage .heading-test {
     font-size: 1.5rem;
+  }
+
+  .flipcard .flip-the-card {
+    padding: 0.25rem 0.5rem;
+    font-size: 12px;
   }
 }
 
