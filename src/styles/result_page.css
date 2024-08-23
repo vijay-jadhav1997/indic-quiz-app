@@ -136,18 +136,58 @@
 }
 
 .correct-progress-bar,
-.incorrect-progress-bar {
+.incorrect-progress-bar,
+.pi-chart {
   position: relative;
   width: 160px;
   height: 160px;
   border-radius: 50%;
-  /* background-image: conic-gradient(from 45deg, #73e777 0deg, #17c51d, #73e777 120deg, #f95e5e 120deg, #f30e0e 240deg, #eccf87 240deg, #dd9f03); */
-  /* overflow: hidden; */
-  box-shadow: 5px 5px 10px -1px rgba(0, 0, 0, 0.2),
-  -4px -4px 6px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: 5px 5px 10px -1px #00000033,
+  -4px -4px 6px -1px #0000001a;
   display: grid;
   place-content: center;
+}
 
+.pi-chart {
+  background-image: conic-gradient(#13d32f 220deg, #e61010 220deg 310deg, #daa520 310deg);
+}
+.pi-chart .details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  list-style: none;
+  gap: 3px;
+  overflow: hidden;
+  inset: 30px;
+  border-radius: 50%;
+  background-color: #fff;
+  padding: 0.25rem;
+  font-size: 10px;
+  scale: 0;
+  transition: scale 0.35s cubic-bezier(0.12, 0.09, 0.92, 1.55);
+}
+.pi-chart:hover > .details {
+  scale: 1;
+}
+.pi-chart .details li {
+  width: max-content;
+  color: #fff;
+  /* margin: 3px auto; */
+  padding: 0 5px;
+}
+.pi-chart .details li:first-child {
+  background-color: #4698fc;
+}
+.pi-chart .details li:nth-child(2) {
+  background-color: #13d32f;
+}
+.pi-chart .details li:nth-child(3) {
+  background-color: #e61010;
+}
+.pi-chart .details li:last-child {
+  background-color: #daa520;
 }
 
 .correct-progress-bar::after ,
@@ -164,6 +204,7 @@
   box-shadow: inset 5px 5px 10px -1px rgba(0, 0, 0, 0.2),
   inset -4px -4px 6px -1px rgba(0, 0, 0, 0.1);
   z-index: 2;
+  user-select: none;
 }
  
 .correct-progress-bar::after {
@@ -219,6 +260,59 @@
 
 
 
+.result-stats-container.open {
+  /* background-color: #b9c2ee6e; */
+  height: 380px;
+}
+.result-stats-container {
+  max-width: 500px;
+  width: 100%;
+  margin: 2rem 0;
+  height: 76px;
+  overflow: hidden;
+  /* border: 1px double #333; */
+  padding: 1rem ;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 0 5px 2px #4775d8;
+  transition: height 0.5s ease;
+}
+
+.result-stats-container h4 {
+  cursor: pointer;
+  width: 100%;
+  max-width: 460px;
+  padding: 5px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.result-stats-container h4 span {
+  display: inline-block;
+  /* margin-right: 5%; */
+  font-size: 1.5rem;
+  font-weight: 800;
+  transform: rotate(90deg);
+  transition: transform 0.3s ease-in-out;
+}
+.result-stats-container.open h4 span {
+  transform: rotate(-90deg);
+}
+
+
+
+ul.result-stats {
+  position: relative;
+  list-style: none;
+  padding: 3.5rem 1rem 1.5rem;
+  width: 100%;
+  border-radius: 1rem;
+}
 
 ul.result-stats::before {
   content: "Result Statistic:";
@@ -231,16 +325,33 @@ ul.result-stats::before {
   padding: 5px 10px;
   border-radius: 5px;
 }
-ul.result-stats {
-  position: relative;
-  list-style: none;
-  margin: 2rem 0;
-  padding: 3.5rem 4rem 1.5rem;
-  max-width: 35rem;
-  border: 1px double #333;
-  border-radius: 1rem;
-  box-shadow: 0 0 10px 2px #ff1493, inset 0 0 15px 2px #ee23b0;
+
+ul.result-stats::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* background-color: var(--result-page-bg-clr); */
+  background-color: #c8d4d6;
+  border-radius: 0.7rem;
+  z-index: 5;
+  /* animation: opening 1s ease-out reverse; */
 }
+.result-stats-container.open ul.result-stats::after {
+  animation: opening 1s ease-out forwards;
+  animation-delay: 0.6s;
+}
+
+@keyframes opening {
+  0% {
+    inset: 0;
+  }
+  100% {
+    inset: 0 0 0 100%;
+  }
+}
+
+
+
 
 ul.result-stats li {
   padding: 0.25rem 1rem;
@@ -254,6 +365,7 @@ ul.result-stats li {
   font-size: 1.25rem;
   margin-bottom: 1rem;
   background-color: lightskyblue;
+  text-align: center;
 }
 .result-page .buttons {
   width: 100%;
@@ -420,17 +532,24 @@ ul.result-stats li {
   }
   
 
+  .result-stats-container h4 {
+    font-size: 1rem;
+    padding: 0;
+  }
+
   ul.result-stats {
-    list-style: circle;
-    list-style-position: inside;
-    margin: 1.5rem 0;
-    padding: 3.5rem 0.5rem 1rem;
+    padding: 3.5rem 0.2rem 0.5rem;
   }
   
   ul.result-stats li {
-    padding: 0.25rem 0.5rem;
+    padding: 0.25rem;
     font-size: 1rem;
   }
+  ul.result-stats::before {
+    left: 0.25rem;
+  }
+  
+  
 
   .feedback-wrapper {
     margin: 0;

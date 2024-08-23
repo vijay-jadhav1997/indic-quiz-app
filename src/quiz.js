@@ -317,13 +317,21 @@ function calcAndDisplayResult() {
     document.querySelector('.correct-progress-bar').style.setProperty("--correct-after-content", `"Correct ${correct.toString().padStart(2, 0)}%"`)
     document.querySelector('.incorrect-progress-bar').style.setProperty("--incorrect-after-content", `"Incorrect ${incorrect.toString().padStart(2, 0)}%"`)
 
-    // console.log(`correct => ${correct}`, `incorrect => ${incorrect}`)
+    const correctAngle = correct * 3.6
+    const incorrectAngle = (correct + incorrect) * 3.6
+    document.querySelector('.pi-chart').style.backgroundImage = `conic-gradient(#13d32f ${correctAngle}deg, #e61010 ${correctAngle}deg ${incorrectAngle}deg, #daa520 ${incorrectAngle}deg)`
   }, 25)
-
+  
   document.querySelector('#CorrectBar').style.setProperty("--correct-dash-off", `${440 * (1 - (correctPercentage/100))}`)
   document.querySelector('#IncorrectBar').style.setProperty("--incorrect-dash-off", `${440 * (1 - (incorrectPercentage/100))}`)
-
-
+  
+  const piChartDetailsChildren = document.querySelector('.pi-chart .details').children
+  piChartDetailsChildren[0].innerText = `total: ${totalQuestions.toString().padStart(2, 0)}`
+  piChartDetailsChildren[1].innerText = `correct: ${correctAnswered.toString().padStart(2, 0)}`
+  piChartDetailsChildren[2].innerText = `incorrect: ${wrongAnswered.toString().padStart(2, 0)}`
+  piChartDetailsChildren[3].innerText = `unattempted: ${(totalQuestions - correctAnswered - wrongAnswered).toString().padStart(2, 0)}`
+  
+  
   resultStatisticElement.children[0].innerText = `Total Questions: ${totalQuestions.toString().padStart(2, 0)}`
   resultStatisticElement.children[1].innerText = `Correct: ${correctAnswered.toString().padStart(2, 0)}`
   resultStatisticElement.children[2].innerText = `Inorrect: ${wrongAnswered.toString().padStart(2, 0)}`
