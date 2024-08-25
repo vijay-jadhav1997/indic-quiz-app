@@ -39,7 +39,7 @@ body {
   border: 10px solid #50d16e;
   border-top-color: #eb2c4c;
   border-left-color: #dbeb2c;
-  border-bottom-color: #eb2cd812;
+  border-bottom-color: #eb2cd808;
   animation: loading-anim 2s infinite ease-in-out;
 }
 

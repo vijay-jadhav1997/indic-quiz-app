@@ -1,8 +1,11 @@
+import * as htmlToImage from 'html-to-image';
+import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image';
+
 import {overlayElement, startQuizPage, useLocalStorage, quizData, quizTopic, prepareQuiz} from './script.js'
 import {homepageElemenet} from './script.js'
 // import {resultPage} from './quiz.js'
 
-// console.log("result.js => Jay Shree Radhe Krushna")
+console.log("result.js => Jay Shree Radhe Krushna")
 
 //! Selecting key DOM elements for user interaction:
 // * 'quiz-page' DOM elements:
@@ -22,8 +25,10 @@ export const retryBtn = document.querySelector('.retry-btn');
 const goToHomeBtn = document.querySelector('.go-to-home-btn');
 
 export const resultStatisticElement = document.querySelector('.result-stats');
+const result = document.querySelector('#result');
+const downloadBtn = document.querySelector('.download');
 
-
+// console.log(result)
 //! functions
 
 
@@ -60,3 +65,24 @@ resultStatContainer.firstElementChild.addEventListener('click', (e) => {
 
   resultStatContainer.classList.toggle('open')
 })
+
+
+//* 
+downloadBtn.addEventListener('click', (e) => {
+  e.stopPropagation()
+
+  console.log("Har Har Mahadev..")
+
+  htmlToImage.toPng(result)
+  .then(function(imageUrl) {
+    const link = document.createElement('a')
+    link.setAttribute('href', imageUrl)
+    link.setAttribute('download', 'score.png')
+    link.click()
+  })
+  .catch(function (error) {
+    console.error('oops, something went wrong!', error);
+  });
+
+})
+

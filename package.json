@@ -1,0 +1,18 @@
+{
+  "name": "quiz_app",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "npx parcel src/index.html --port 1997 --open",
+    "build": "npx parcel build src/index.html"
+  },
+  "keywords": [],
+  "author": "Vijay Jadhav",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "parcel": "^2.12.0"
+  },
+  "dependencies": {
+    "html-to-image": "^1.11.11"
+  }
+}

@@ -2,5 +2,5 @@ mcq_data.js
 assets.js
 node_modules/
 dist/
-.cache/
+.parcel-cache
 .env

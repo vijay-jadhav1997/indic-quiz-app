@@ -1,4 +1,4 @@
-import {api_key} from "../assets.js"
+import {API_KEY} from "../../assets.js"
 
 
 //! Selecting key DOM elements for user interaction:
@@ -26,7 +26,6 @@ export const backToHomeBtn = document.querySelector('.back-to-home-btn');
 // ! State and global Variables
 export let quizTopic = useLocalStorage('quizTopic') || ''
 export let quizData = useLocalStorage(quizTopic) || {}
-
 
 
 const welcomeMessages = [
@@ -96,7 +95,8 @@ export async function prepareQuiz(topic){
     quizData = useLocalStorage(topic)
     // console.log(quizData)
     if (!quizData) {
-      const response = await fetch(`${api_key}/${topic}`)
+      // console.log(API_KEY)
+      const response = await fetch(`${API_KEY}/${topic}`)
   
       if (!response.ok) throw new Error('Please, check your network connection!')
   
@@ -257,18 +257,18 @@ setTimeout(() => {
 }, 1000)
 
 
-let counter = 0
-setInterval(() => {
-  if (counter < 4){
-    counter++
-  }else {
-    counter--
-  }
-  slideElements.forEach((slide, index) => {
-    slide.style.transform = `translateX(-${counter * 100}%)`
-    console.log(counter * index * 100)
-  })
-}, 4000)
+// let counter = 0
+// setInterval(() => {
+//   if (counter < 4){
+//     counter++
+//   }else {
+//     counter--
+//   }
+//   slideElements.forEach((slide, index) => {
+//     slide.style.transform = `translateX(-${counter * 100}%)`
+//     console.log(counter * index * 100)
+//   })
+// }, 4000)
 
 
 
