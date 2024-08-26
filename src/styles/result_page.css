@@ -535,8 +535,8 @@ ul.result-stats li {
 }
 
 .result-page footer .download.downloading::after {
-  animation: downloading-start 2s ease-in-out forwards;
-  animation-delay: 0.5s;
+  animation: downloading-start 1s ease-in-out forwards;
+  animation-delay: 0.25s;
 }
 @keyframes downloading-start {
   0% {top: -10px;}
@@ -550,17 +550,24 @@ ul.result-stats li {
   position: absolute;
   width: 0.6rem;
   height: 0.6rem;
-  border: 3px solid #fff;
-  border-bottom-color:  #ffffff1e;
   border-radius: 50%;
+  border: 3px solid #fff;
+  opacity: 0;
+  border-bottom-color:  #ffffff1e;
   top: 50%;
   translate: 0 -50%;
   right: 3px;
   animation: downloading 1.5s infinite ease-in;
-  animation-delay: 2s;
+  animation-delay: 1.25s;
 }
 @keyframes downloading {
-  to{rotate: 360deg;}
+  from {
+    opacity: 0.95;
+  }
+  to{
+    rotate: 360deg;
+    opacity: 1;
+  }
 }
   
   
