@@ -5,7 +5,7 @@ import {overlayElement, startQuizPage, useLocalStorage, quizData, quizTopic, pre
 import {homepageElemenet} from './script.js'
 // import {resultPage} from './quiz.js'
 
-console.log("result.js => Jay Shree Radhe Krushna")
+// console.log("result.js => Jay Shree Radhe Krushna")
 
 //! Selecting key DOM elements for user interaction:
 // * 'quiz-page' DOM elements:
@@ -30,6 +30,13 @@ const downloadBtn = document.querySelector('.download');
 
 // console.log(result)
 //! functions
+  function downloading(time){
+    downloadBtn.classList.add('downloading')
+    
+    setTimeout(() => {
+      downloadBtn.classList.remove('downloading')
+    }, time)
+  }
 
 
 //! Events :
@@ -77,8 +84,9 @@ downloadBtn.addEventListener('click', (e) => {
   .then(function(imageUrl) {
     const link = document.createElement('a')
     link.setAttribute('href', imageUrl)
-    link.setAttribute('download', 'score.png')
+    link.setAttribute('download', `${quizData?.topic} -score.png`)
     link.click()
+    downloading(5000)
   })
   .catch(function (error) {
     console.error('oops, something went wrong!', error);

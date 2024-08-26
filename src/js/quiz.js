@@ -69,18 +69,18 @@ document.addEventListener('DOMContentLoaded', e => {
   // console.log("Jay Shree Ram")
   const activePage = useLocalStorage('activePage') || 'homepage'
   if (activePage) {
-    [...document.body.children].forEach(elm => {
-      if(elm.className.startsWith(activePage)) {
-        elm.className = activePage
-        // console.log(elm.className)
+    [...document.body.children].forEach(elment => {
+      if(elment.className.startsWith(activePage)) {
+        elment.className = activePage
+        // console.log(elment.className)
       }
-      else if (elm.className.includes('page')){
-        elm.classList.remove('inactive')
-        elm.classList.add('inactive')
-        // console.log(elm.className)
+      else if (elment.className.includes('page')){
+        elment.classList.remove('inactive')
+        elment.classList.add('inactive')
+        // console.log(elment.className)
       }
       else {
-        // console.log(elm.className)
+        // console.log(elment.className)
       }
     })
   }
@@ -126,7 +126,7 @@ function startQuiz(mcqData, subject, level) {
   correctAnswered = 0
   wrongAnswered = 0
   questionTimeInterval = 0
-  currentMcqNumber = 1
+  currentMcqNumber = 0
   quizCompletionTime = 0
   currentLevelMCQArray = mcqData
   activeLevel = level
@@ -143,7 +143,7 @@ function startQuiz(mcqData, subject, level) {
 
 //* function to get next question 
 function nextQuestion(data, mcqNum, level) {
-  questionNumber.innerText = `${currentMcqNumber.toString().padStart(2, 0)}/${totalQuestions.toString().padStart(2, 0)}` 
+  questionNumber.innerText = `${(currentMcqNumber + 1).toString().padStart(2, 0)}/${totalQuestions.toString().padStart(2, 0)}` 
   questionElement.innerText = `${data[mcqNum]?.question}`
   timeElement.innerText = `00:${30}`
   hasUserSelectedAnyOption = false //* Now user can select any option.
@@ -177,7 +177,7 @@ function nextQuestion(data, mcqNum, level) {
       }
       else if(count === 5) {
         quizPage.className = "quiz-page red-zone"
-        currentMcqNumber === totalQuestions && finishBtn.removeAttribute('disabled')
+        currentMcqNumber + 1 === totalQuestions && finishBtn.removeAttribute('disabled')
       }
       else if(count === 0) {
         nextBtn.removeAttribute('disabled')
@@ -191,7 +191,7 @@ function nextQuestion(data, mcqNum, level) {
   }
 
   // DOM manipulation for last question 
-  if(currentMcqNumber === totalQuestions){
+  if(currentMcqNumber + 1 === totalQuestions){
     skipBtn.setAttribute('disabled', '')
 
     nextBtn.className = 'next-btn hidden'
@@ -484,7 +484,7 @@ optionsContainer.addEventListener('click', function(e) {
   hasUserSelectedAnyOption = true //* Now user can't select any other option for this question if user try to do so.
   clearInterval(questionTimeInterval)
   questionTimeInterval = 0
-  currentMcqNumber === totalQuestions && finishBtn.removeAttribute('disabled')
+  currentMcqNumber + 1 === totalQuestions && finishBtn.removeAttribute('disabled')
 })
 
 

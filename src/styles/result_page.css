@@ -504,17 +504,63 @@ ul.result-stats li {
 }
 
 .result-page footer .download {
-  padding: 5px 10px;
+  padding: 5px 20px 5px 10px;
   font-weight: 600;
   background-color: #202e89;
   color: #fff;
   border-radius: 5px;
   transition: scale 0.3s ease-in-out;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
 }
 
 .result-page footer .download:hover {
-  scale: 0.95;
+  scale: 0.9;
+}
+
+.result-page footer .download:active {
+  box-shadow: 0 0 15px #ff1493;
+}
+
+.result-page footer .download::after {
+  content: "⇥";
+  position: absolute;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #fff;
+  rotate: 90deg;
+  top: 0;
+  right: 0;
+}
+
+.result-page footer .download.downloading::after {
+  animation: downloading-start 2s ease-in-out forwards;
+  animation-delay: 0.5s;
+}
+@keyframes downloading-start {
+  0% {top: -10px;}
+  30% {top: 2px;}
+  60% {top: -2px;}
+  100% {top: 24px;}
+}
+
+.result-page footer .download.downloading::before {
+  content: "";
+  position: absolute;
+  width: 0.6rem;
+  height: 0.6rem;
+  border: 3px solid #fff;
+  border-bottom-color:  #ffffff1e;
+  border-radius: 50%;
+  top: 50%;
+  translate: 0 -50%;
+  right: 3px;
+  animation: downloading 1.5s infinite ease-in;
+  animation-delay: 2s;
+}
+@keyframes downloading {
+  to{rotate: 360deg;}
 }
   
   
