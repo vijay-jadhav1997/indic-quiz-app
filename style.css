@@ -11,6 +11,10 @@ body {
   font-family: "Poppins", sans-serif;
   position: relative;
   /* background: linear-gradient(45deg, #468daf,  #AC25AF); */
+  /* background-color: #0b072a; */
+  background-size: cover;
+  background-repeat: no-repeat;
+  --bg-clr: #f1f1f1
 }
 
 
@@ -252,7 +256,7 @@ body {
 
 .flipcard::after,
 .flipcard::before {
-  content: '';
+  content: "";
   position: absolute;
   width: 100%;
   height: 100%;
@@ -392,6 +396,8 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100dvh;
+  max-width: 1024px;
+  margin: auto;
   padding: 2rem;
   font-weight: 600;
 }
@@ -403,7 +409,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 2rem 0 6rem;
+  margin: 2rem 0 3rem;
   background-color: transparent;
   box-shadow: 0 0 20px 10px #699bffd0, inset 0 0 55px 10px #800080;
   padding: 3rem;
@@ -446,30 +452,155 @@ body {
 }
 
 
-.start-quiz-page .max-score-board {
-  display: none;
-  font-size: 1.5rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  border: 3px solid cornflowerblue;
-}
+
 .start-quiz-page .max-score-board.hasMaxScore {
   display: block;
 }
 
+.start-quiz-page  p.max-score-board {
+  display: none;
+  /* position: relative; */
+  font-size: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: 3px solid #19b9c4;
+  color: transparent;
+  background-image: linear-gradient(120deg, #19b9c4, #d129d1, #cb6a03);
+  background-clip: text;
+  -webkit-background-clip: text;
+  /* z-index: 1; */
+}
+
+/* .start-quiz-page .max-score-board::before {
+  position: absolute;
+  content: "";
+  background-color: var(--bg-clr);
+  border-radius: 0.5rem;
+  inset: 0;
+  z-index: -1;
+}
+.start-quiz-page .max-score-board::after {
+  position: absolute;
+  content: "";
+  inset: -2px;
+  background-image: linear-gradient(120deg, #19b9c4, #d129d1, #baa320);
+  background-clip: text;
+  border-radius: 0.5rem;
+  z-index: -2;
+} */
+
+
+.level-btns-container {
+  min-width: 50%;
+  max-width: 768px;
+  margin: 3rem auto 2rem;
+  padding: 1rem 2rem;
+  background-color: #03a7423b;
+  border-radius: 10px;
+  /* text-align: center; */
+  overflow: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: none;
+}
+.level-btns-container button {
+  width: 110px;
+  padding: 0 1rem;
+  border-radius: 1rem;
+  font-size: 1rem;
+  line-height: 2.25rem;
+  font-weight: 700;
+  margin-right: 1rem;
+  cursor: pointer;
+  position: relative;
+  background-color: #fff;
+  /* z-index: 1; */
+  text-align: left;
+  text-indent: 0.5rem;
+  transition: transform 0.2s ease-in-out;
+}
+
+.level-btns-container button i {
+  pointer-events: none;
+}
+.level-btns-container button i.current-level, 
+.level-btns-container button i.completed {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}
+
+.level-btns-container button i.current-level {
+  border: 0.5px solid;
+  height: 1.35rem;
+  width: 1.35rem;
+}
+
+.level-btns-container button i.completed {
+  background-color: #2adc24;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1.5rem;
+  width: 1.5rem;
+  padding: 2px 10px 0 0;
+  color: #fff;
+}
+
+/* .level-btns-container button:has(i.completed) {
+
+} */
+
+.level-btns-container button:has(i.current-level) {
+  animation: blink-btn 800ms infinite ease-in-out;
+}
+.level-btns-container button:has(i.current-level):hover {
+  animation-play-state: paused;
+  box-shadow: unset;
+}
+
+.level-btns-container button:has(i.current-level, i.completed):active {
+  box-shadow: 0 0 35px 15px #daa520;
+  transform: scale(0.9);
+}
+
+@keyframes blink-btn {
+  0% {
+    box-shadow: 0 0 5px 2px #5ecbc6, 0 0 10px 4px #f0f;
+  }
+  70% {
+    box-shadow: 0 0 5px 4px #5ecbc6, 0 0 5px 2px #f0f;
+  }
+  100% {
+    box-shadow: 0 0 5px 2px #5ecbc6, 0 0 10px 4px #f0f;
+  }
+}
+
+.level-btns-container button.selected:has(i.current-level),
+.level-btns-container button.selected:has(i.completed) {
+  animation: unset;
+  box-shadow: 0 0 20px #062794, inset 0 0 15px 5px #02f50e;
+  /* transform: scale(0.95); */
+}
+
+.level-btns-container button:has(i.lock-icon) {
+  background-color: #bfd9f9;
+  cursor: not-allowed;
+}
 
 
 
 
 /* ? quiz-page Styling  */
-
 .quiz-page {
   /* margin-block: 5rem; */
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #CCE2C2;
-  padding: 2rem 3rem;
+  padding: 5rem 3rem 2rem;
   min-height: 100dvh;
   height: auto;
   font-family: "Poppons", sans-serif;
@@ -502,10 +633,10 @@ body {
   align-items: center;
   width: 35rem;
   height: 15rem;
-  border-radius: 1.75rem;
+  border-radius: 2rem;
   background-color: #fff;
-  box-shadow: 0 0.25rem 0.25rem #00000065;
-  border: 3px solid red;
+  box-shadow: 0 5px 5px 1px #00000065;
+  border: 2px solid #f31b7c;
   z-index: 101;
   animation: poppedup 0.5s ease-in-out;
 }
@@ -533,7 +664,7 @@ body {
   cursor: pointer;
   font-size: 1rem;
   padding: 0.5rem;
-  width: 12rem;
+  width: 9rem;
   border-radius: 5px;
   letter-spacing: 1px;
   font-family: "Poppins", sans-serif;
@@ -583,7 +714,7 @@ body {
 .subject-heading-wrapper {
   text-align: center;
   position: absolute;
-  top: -1.25rem;
+  top: -3.25rem;
   left: 50%;
   transform: translateX(-50%);
   /* background-color: #dbdbdb; */
@@ -601,7 +732,7 @@ body {
 .subject-heading-wrapper h2 {
   padding: 6px 2rem;
   width: max-content;
-  margin: 1rem auto 0;
+  margin: 2rem auto 0;
   font-size: 1.2rem;
   border-radius: 2rem;
   background-color: #ececec;

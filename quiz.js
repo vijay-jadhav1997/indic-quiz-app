@@ -1,21 +1,21 @@
-import {overlayElement} from './script.js'
-import {calculateAndDisplayResult} from './result.js'
+import {overlayElement, startQuizPage, useLoacalStorage, quizData, quizTopic, levelBtnsContainer} from './script.js'
+import {resultPage, calcAndDisplayResult} from './result.js'
+
+// debugger
+// console.log("quiz.js => Jay Shree Vitthal Rakhumai")
 
 
 //! Selecting key DOM elements for user interaction:
-
-
 // * 'quiz-start-page' DOM elements:
-export const startQuizPage = document.querySelector('.start-quiz-page');
 const maxScoreElement = document.querySelector('.max-score-board');
 const startQuizBtn = document.querySelector('.start-now-btn');
-
 
 
 // * 'quiz-page' DOM elements:
 const quizPage = document.querySelector('.quiz-page');
 const confirmFinishPopup = document.querySelector('.confirm-finish-popup');
 const soundControlElement = document.querySelector('.volume-icons');
+const subjectHeadingWrapper = document.querySelector('.subject-heading-wrapper');
 const optionsContainer = document.querySelector('.options-container');
 const questionElement = document.querySelector('.question');
 const timeElement = document.querySelector('.question-time');
@@ -26,32 +26,33 @@ const finishBtn = document.querySelector('.finish-btn');
 const confirmFinishBtn = document.querySelector('.confirm-finish-btn');
 const backBtn = document.querySelector('.back-to-quiz-btn');
 
-
+// * 'result-page' DOM elements:
+// export const resultPage = document.querySelector('.result-page');
 
 
 //! Variables, State and data:
 // let userMaxScore = 0
 // let score = 0
-// let totalScoreOfQuiz = 0
+// let quizTotalScore = 0
 // let totalQuestions = 0
 // let correctAnswered = 0
 // let wrongAnswered = 0
 // let currentMcqNumber = 0
-// let mcqDataArray = JSON.parse(window.localStorage.getItem('mcqQuestions')) || []
+// let currentLevelMCQArray = JSON.parse(window.localStorage.getItem('mcqQuestions')) || []
 // let questionTimeInterval = 0
 // let quizCompletionTime = 0
 // let hasPaused = false
 // let hasUserSelectedAnyOption = false
 
-let userScore = 0
+let score = 0
 let userMaxScore = 0
-let QuizTotalScore = 0
+let quizTotalScore = 0
 let totalQuestions = 0
 let correctAnswered = 0
 let wrongAnswered = 0
 let quizCompletionTime = 0
 
-let mcqDataArray = []
+let currentLevelMCQArray = []
 
 let currentMcqNumber = 0
 let hasPaused = false
@@ -59,22 +60,42 @@ let questionTimeInterval = 0
 let hasUserSelectedAnyOption = false
 
 
+function Results() {
+  this.userScore = 0
+  this.userMaxScore = 0
+  this.totalScore = 0
+  this.totalQuestions = 0
+  this.currentMcqNumber = 0
+  this.correctAnswered = 0
+  this.wrongAnswered = 0
+  this.quizCompletionTime = 0
+}
+
 
 
 
 
 //! functions
 //* function to start the quiz 
-function startQuiz(quizData) {
+function startQuiz(mcqData, subject, level) {
   score = 0
   correctAnswered = 0
   wrongAnswered = 0
   questionTimeInterval = 0
   currentMcqNumber = 0
   quizCompletionTime = 0
-  mcqDataArray = quizData
-  totalQuestions = mcqDataArray.length
-  nextQuestion(mcqDataArray, currentMcqNumber)
+  currentLevelMCQArray = mcqData
+  totalQuestions = currentLevelMCQArray.length
+  subjectHeadingWrapper.firstElementChild.innerText = subject
+  subjectHeadingWrapper.lastElementChild.innerText = level
+
+  // const levelResult = Results()
+
+  // const localStorageTopicdata = useLoacalStorage(quizTopic)
+  // console.log(localStorageTopicdata)
+
+  nextQuestion(currentLevelMCQArray, currentMcqNumber)
+  console.log("Start now => clicked")
 }
 
 
@@ -182,13 +203,13 @@ function handleQuizFinish (e) {
   clearInterval(questionTimeInterval)
   hasPaused = false
   
-  // calculate 'totalScoreOfQuiz'
-  totalScoreOfQuiz = 0
-  mcqDataArray.forEach(question => {
+  // calculate 'quizTotalScore'
+  quizTotalScore = 0
+  currentLevelMCQArray.forEach(question => {
     if (Object.keys(question.options).length > 2) {
-      totalScoreOfQuiz = totalScoreOfQuiz + 2
+      quizTotalScore = quizTotalScore + 2
     } else {
-      totalScoreOfQuiz++ 
+      quizTotalScore++ 
     }
   })
 
@@ -209,12 +230,12 @@ function handleQuizFinish (e) {
   
   
   //* result stats calculation and DOM manipulation of 'result-page'
-  calculateAndDisplayResult()
+  calcAndDisplayResult()
 
 
   //* DOM manipulation of 'quiz-start-page'
   maxScoreElement.className = 'max-score-board hasMaxScore'
-  maxScoreElement.innerText = `Your Highest Score: ${userMaxScore.toString().padStart(2, 0)}/${totalScoreOfQuiz.toString().padStart(2, 0)}`
+  maxScoreElement.innerText = `Your Highest Score: ${userMaxScore.toString().padStart(2, 0)}/${quizTotalScore.toString().padStart(2, 0)}`
 }
 
 
@@ -228,10 +249,41 @@ soundControlElement.addEventListener('click', (e) => {
 
 
 //* Event listener to start Quiz
+levelBtnsContainer.addEventListener('click', (e) => {
+  e.stopPropagation()
+  if (e.target.tagName === "BUTTON") {
+    // console.log(e.target.innerText)
+    // console.log(quizData)
+    // Object.entries(quizData?.levels)?.forEach(([level, mcqArray]) => {
+    //   // console.log(level, mcqArray)
+    //   if(level === e.target.innerText) return currentLevelMCQArray = mcqArray
+    //   // console.log(currentLevelMCQArray)
+    // })
+
+    e.target.classList.toggle('selected')
+    console.log(`${e.target.innerText} button clicked`)
+
+  }
+} )
+
+
+//* Event listener to start Quiz
 startQuizBtn.addEventListener('click', (e) => {
   e.stopPropagation()
   // startQuiz(questions)
-  startQuiz(mcqDataArray)
+  
+  // console.log(currentLevelMCQArray)
+
+  if (currentLevelMCQArray.length === 0) {
+    [...levelBtnsContainer.children].forEach(button => {
+      if (button.className === 'selected' || button.firstElementChild.className === 'current-level'){
+        currentLevelMCQArray = quizData?.levels?.[button.innerText]
+        startQuiz(currentLevelMCQArray, quizData?.topic, button.innerText)
+        return
+      }  
+    })
+  }
+
   startQuizPage.className = 'start-quiz-page inactive'
   quizPage.className = 'quiz-page'
   
@@ -279,7 +331,7 @@ nextBtn.addEventListener('click', (e) => {
   optionsContainer.className = 'options-container'
   
   questionTimeInterval = 0
-  nextQuestion(mcqDataArray, currentMcqNumber)
+  nextQuestion(currentLevelMCQArray, currentMcqNumber)
 })
 
 
@@ -291,7 +343,7 @@ skipBtn.addEventListener('click', (e) => {
   
   clearInterval(questionTimeInterval)
   questionTimeInterval = 0
-  nextQuestion(mcqDataArray, currentMcqNumber)
+  nextQuestion(currentLevelMCQArray, currentMcqNumber)
 })
 
 
@@ -326,3 +378,4 @@ backBtn.addEventListener('click', e => {
   hasPaused = false
 })
 
+// console.log(quizTopic, quizData)
