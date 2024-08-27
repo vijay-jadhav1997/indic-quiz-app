@@ -1,7 +1,5 @@
 import {api_key} from "../assets.js"
 
-// console.log("script.js => Jay Shree Seeta Ram")
-
 //! Selecting key DOM elements for user interaction:
 // * 'body' DOM elements:
 export const overlayElement = document.querySelector('.overlay');
@@ -22,6 +20,7 @@ export const startQuizPage = document.querySelector('.start-quiz-page');
 export const levelBtnsContainer = document.querySelector('.level-btns-container');
 export const maxScoreElement = document.querySelector('.max-score-board');
 export const backToHomeBtn = document.querySelector('.back-to-home-btn');
+
 
 
 // ! State and global Variables
@@ -46,7 +45,6 @@ export let quizTopic = ''
     
 //   }
 // })
-
 
 const welcomeMessages = [
   "Welcome to the 'Indic Quiz'! Ready to play a new Quiz?",
@@ -103,7 +101,7 @@ export function useLoacalStorage(key, data='') {
   if(data === '') return JSON.parse(localStorage.getItem(key))
   
   localStorage.setItem(key, JSON.stringify(data))
-  // return `Your data is successfully stored in the localStorage as key '${key}'.`
+
 }
 
 
@@ -114,9 +112,14 @@ export async function prepareQuiz(topic){
   // then open the 'startQuizPage' and hide the 'homePage'
   //* Basically do all the things to be get ready to start the quiz
 
+
   
   overlayElement.classList.add('open') // Shimmer effect start
+<<<<<<< HEAD:src/script.js
   overlayElement.innerHTML = `<div class='loading'></div>`
+=======
+
+>>>>>>> main:script.js
   try {
     quizData = useLoacalStorage(topic)
     // console.log(quizData)
