@@ -3,20 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="shortcut icon" href="./Images/quiz-logo.png" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"> -->
-  <link rel="stylesheet" href="./style.css">
-  <link rel="stylesheet" href="./quiz_start_page.css">
-  <link rel="stylesheet" href="./quiz_page.css">
-  <link rel="stylesheet" href="./result_page.css">
-  <title>QUIZ APP : JS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles/style.css">
+  <link rel="stylesheet" href="./styles/quiz_start_page.css">
+  <link rel="stylesheet" href="./styles/quiz_page.css">
+  <link rel="stylesheet" href="./styles/result_page.css">
+  <title>Indic QUIZ : JS</title>
   <script type="module" src="./quiz.js" defer></script>
   <script type="module" src="./script.js" defer></script>
   <script type="module" src="./result.js" defer></script>
 </head>
 <body>
-  <div class="overlay"></div>
+  <div class="overlay">
+    <div class="loading"></div>
+  </div>
   <div class="notification-container">
     <div class="notification-content">
       <p class="notification">"Namaste! 'Indic Quiz' welcomes you. Ready for a new Quiz challenge. Ready for a new Quiz challenge."</p>
@@ -202,30 +205,111 @@
 
     </header>
 
-    <!-- <div class="flipcard">
+    <h1 class="heading-test">Test Your Knowledge</h1>
+    <h2 class="sub-heading-test">With our challenging quizes of various subjects.</h2>
+
+    <div class="flipcard">
+      <span class="flip-the-card">Click to flip the Card</span>
       <div class="front">
-        <h2>Don't click me</h2>
+        <h2>"Study yourself, because no one else is going to do it for you."</h2>
+        <img src="./Images/Indic Quiz.png" alt="Indic Quiz">
       </div>
       <div class="back">
-        <img src="./Images/maulit-vithu.jpg" alt="">
+        <h3>🎯 Tips for smart Study 🎯</h3>
+        <ol>
+          <li>Set Clear Goals:
+            <ul>
+              <li>Break down concepts into manageable goals.</li>
+              <li>Focus on the important & difficult topics first.</li>
+              <li>Allocate specific time for studying & stick to it.</li>
+            </ul>
+          </li>
+          <li> Active Learning:
+            <ul>
+              <li>Summarize, question, & explain topics in your own words</li>
+              <li>Diagrams, charts, & mind maps can simplify complex topics.</li>
+              <!-- <li>Break information into smaller, digestible parts.</li> -->
+              <li>Regularly test yourself.</li>
+            </ul>
+          </li>
+          <li>Stay Healthy:
+            <ul>
+              <li>Sleep for 7-8 hrs to keep your mind sharp.</li>
+              <li>Regular physical activity, Yoga & meditation boosts focus & memory.</li>
+            </ul>
+          </li>
+          <li>Stay Positive & Persistent:
+            <ul>
+              <li> Review frequently to reinforce memory.</li>
+              <li>Study in a distraction-free zone.</li>
+              <!-- <li>Be flexible & adjust your study methods if something isn’t working.</li> -->
+            </ul>
+          </li>
+        </ol>
       </div>
     </div>
 
-    <div class="slider">
+    <!-- <div class="slider">
       <div class="slide">Har Har Mahadev</div>
       <div class="slide">Jay Shree Ram</div>
       <div class="slide">Jay Shree Krushna</div>
       <div class="slide">Jay Shree Hari</div>
       <div class="slide">Radhe Radhe </div>
+      <div class="slide">Shree Dnyanoba Mauli Tukaram</div>
     </div> -->
-    
+    <div class="bubbles-wrapper">
+      <span class="bubble" style='--bubble:10'></span>
+      <span class="bubble" style='--bubble:12'></span>
+      <span class="bubble" style='--bubble:16'></span>
+      <span class="bubble" style='--bubble:19'></span>
+      <span class="bubble" style='--bubble:11'></span>
+      <span class="bubble" style='--bubble:20'></span>
+      <span class="bubble" style='--bubble:13'></span>
+      <span class="bubble" style='--bubble:17'></span>
+      <span class="bubble" style='--bubble:11'></span>
+      <span class="bubble" style='--bubble:18'></span>
+      <span class="bubble" style='--bubble:15'></span>
+      <span class="bubble" style='--bubble:10'></span>
+      <span class="bubble" style='--bubble:22'></span>
+      <span class="bubble" style='--bubble:12'></span>
+      <span class="bubble" style='--bubble:22'></span>
+      <span class="bubble" style='--bubble:15'></span>
+      <span class="bubble" style='--bubble:12'></span>
+      <span class="bubble" style='--bubble:16'></span>
+      <span class="bubble" style='--bubble:19'></span>
+      <span class="bubble" style='--bubble:11'></span>
+      <span class="bubble" style='--bubble:20'></span>
+      <span class="bubble" style='--bubble:13'></span>
+      <span class="bubble" style='--bubble:17'></span>
+      <span class="bubble" style='--bubble:19'></span>
+      <span class="bubble" style='--bubble:11'></span>
+      <span class="bubble" style='--bubble:20'></span>
+      <span class="bubble" style='--bubble:13'></span>
+      <span class="bubble" style='--bubble:17'></span>
+      <span class="bubble" style='--bubble:11'></span>
+      <span class="bubble" style='--bubble:18'></span>
+      <span class="bubble" style='--bubble:15'></span>
+      <span class="bubble" style='--bubble:10'></span>
+      <span class="bubble" style='--bubble:22'></span>
+      <span class="bubble" style='--bubble:12'></span>
+      <span class="bubble" style='--bubble:22'></span>
+      <span class="bubble" style='--bubble:15'></span>
+      <span class="bubble" style='--bubble:11'></span>
+      <span class="bubble" style='--bubble:18'></span>
+      <span class="bubble" style='--bubble:15'></span>
+      <span class="bubble" style='--bubble:10'></span>
+      <span class="bubble" style='--bubble:22'></span>
+      <span class="bubble" style='--bubble:12'></span>
+      <span class="bubble" style='--bubble:22'></span>
+      <span class="bubble" style='--bubble:15'></span>
+    </div>
   </div>
   
   <div class="start-quiz-page inactive">
     <button class="back-to-home-btn">&leftarrow; Back</button>
     <div class="start-quiz">
       <div class="quiz-logo-box">
-        <img src="./Images/quiz-logo.png" alt="quiz-logo">
+        <img src="./Images/quiz-logo1.png" alt="quiz-logo">
       </div>
       <button class="start-now-btn">Start Now >>></button>
     </div>
@@ -245,7 +329,7 @@
     </div>
     <div class="quiz-container">
       <div class="quiz-header">
-        <img class="logo" src="./Images/quiz-logo.png" alt="quiz-logo">
+        <img class="logo" src="./Images/quiz-logo1.png" alt="quiz-logo1">
         <div class="subject-heading-wrapper">
           <h1 class="subject-heading">JavaScript</h1>
           <h2 class="subject-heading">Level 1</h2>
@@ -274,13 +358,13 @@
           <span class="correct-icon">&check;</span>
         </div>
         <div class="option-box">
-          <p>Hyperlinks and Text Markup Language</p>
+          <p>Hyperlinks & Text Markup Language</p>
           <span class="user-chose">You chose</span>
           <span class="wrong-icon">&times;</span>
           <span class="correct-icon">&check;</span>
         </div>
         <div class="option-box">
-          <p>Hyperlinks and Text Markup Leveler</p>
+          <p>Hyperlinks & Text Markup Leveler</p>
           <span class="user-chose">You chose</span>
           <span class="wrong-icon">&times;</span>
           <span class="correct-icon">&check;</span>
@@ -297,7 +381,7 @@
 
   <div class="result-page inactive">
     <div class="result-header">
-      <img src="./Images/quiz-logo.png" alt="quiz-logo">
+      <img src="./Images/quiz-logo1.png" alt="quiz-logo">
       <span class="level-result">Result</span>
     </div>
 

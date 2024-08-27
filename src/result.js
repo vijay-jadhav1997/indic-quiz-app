@@ -15,11 +15,11 @@ export const correctBarElement = document.querySelector('.result-bar .correct-ba
 export const incorrectBarElement = document.querySelector('.result-bar .incorrect-bar');
 export const resultStatisticElement = document.querySelector('.result-stats');
 export const FeedbackMessageElement = document.querySelector('.feedback-message');
-export const backBtn = document.querySelector('.back-btn');
+const backBtn = document.querySelector('.back-btn');
+export const celebrationElem = document.querySelector('.celebration');
 export const retryBtn = document.querySelector('.retry-btn');
 const goToHomeBtn = document.querySelector('.go-to-home-btn');
 
-console.log(backBtn)
 
 //! functions
 
@@ -29,7 +29,7 @@ console.log(backBtn)
 backBtn.addEventListener('click', (e) => {
   e.stopPropagation()
 
-  console.log("Back-btn clicked")
+  // console.log("Back-btn clicked")
 
   prepareQuiz(quizTopic)
   

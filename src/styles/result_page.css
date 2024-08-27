@@ -6,11 +6,12 @@
 .result-page {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   background-color: #F6F4F0;
   padding: 5rem 3rem 2rem;
   min-height: 100dvh;
+  max-width: 1324px;
+  margin: 0 auto;
   font-family: "Poppons", sans-serif;
   font-weight: 600;
   position: relative;
@@ -176,6 +177,8 @@ ul.result-stats li {
 
 /*? styling 'celebration' */
 .celebration {
+  max-width: 1324px;
+  margin: 0 auto;
   width: 95%;
   position: fixed;
   top: -100px;
