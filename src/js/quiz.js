@@ -1,8 +1,7 @@
 import {overlayElement, startQuizPage, useLocalStorage, quizData, quizTopic, levelBtnsContainer, setMaxScore, homepageElemenet, prepareQuiz, } from './script.js'
-import {correctBarElement, incorrectBarElement, levelResult, quizPage, resultPage, resultStatisticElement, retryBtn, subjectResult} from "./result.js"
+import {correctBarElement, incorrectBarElement, levelResult, quizPage, resultPage, resultStatContainer, resultStatisticElement, retryBtn, subjectResult} from "./result.js"
 
 // debugger
-// console.log("quiz.js => Jay Shree Vitthal Rakhumai")
 
 
 //! Selecting key DOM elements for user interaction:
@@ -47,40 +46,23 @@ let hasPaused = false
 let questionTimeInterval = 0
 let hasUserSelectedAnyOption = false
 
-// console.log("quizTopic",quizTopic)
-// console.log("quizData", quizData)
-// console.log("activeLevel", activeLevel)
-// console.log('currentLevelMCQArray', currentLevelMCQArray)
-// console.log('activeLevelResultData', activeLevelResultData)
-// console.log('correctAnswered', correctAnswered)
-// console.log('totalQuestions', totalQuestions)
-// console.log('score', score)
-// console.log('userMaxScore', userMaxScore)
-// console.log('quizTotalScore', quizTotalScore)
-// console.log('wrongAnswered', wrongAnswered)
-// console.log('currentMcqNumber', currentMcqNumber)
-// console.log('quizCompletionTime', quizCompletionTime)
 
 
 //! State and data:
 
 document.addEventListener('DOMContentLoaded', e => {
   e.stopPropagation()
-  // console.log("Jay Shree Ram")
   const activePage = useLocalStorage('activePage') || 'homepage'
   if (activePage) {
     [...document.body.children].forEach(elment => {
       if(elment.className.startsWith(activePage)) {
         elment.className = activePage
-        // console.log(elment.className)
       }
       else if (elment.className.includes('page')){
         elment.classList.remove('inactive')
         elment.classList.add('inactive')
-        // console.log(elment.className)
       }
       else {
-        // console.log(elment.className)
       }
     })
   }
@@ -205,22 +187,8 @@ function nextQuestion(data, mcqNum, level) {
 
   useLocalStorage(quizTopic, updatedLevelResult)
 
-
-  // console.log("quizTopic",quizTopic)
-  // console.log("quizData", quizData)
-  // console.log("activeLevel", activeLevel)
-  // console.log('currentLevelMCQArray', currentLevelMCQArray)
-  // console.log('activeLevelResultData', activeLevelResultData)
-  // console.log('correctAnswered', correctAnswered)
-  // console.log('totalQuestions', totalQuestions)
-  // console.log('score', score)
-  // console.log('userMaxScore', userMaxScore)
-  // console.log('quizTotalScore', quizTotalScore)
-  // console.log('wrongAnswered', wrongAnswered)
-  // console.log('currentMcqNumber', currentMcqNumber)
-  // console.log('quizCompletionTime', quizCompletionTime)
-    
 }
+
 
 //* function to get updated level result
 function getUpdatedLevelResult(subject, level, isCompleted=false) {
@@ -286,6 +254,8 @@ function createOptionElement(option, index) {
 //* function final result stats calculation and DOM manipulation of 'result-page'
 function calcAndDisplayResult() {
 
+  resultStatContainer.classList.remove('open')
+
   const correctPercentage = ((correctAnswered / totalQuestions) * 100).toFixed(2)
   const incorrectPercentage = ((wrongAnswered / totalQuestions) * 100).toFixed(2)
   const unattemptedPercentage = (((totalQuestions - correctAnswered - wrongAnswered)/totalQuestions) * 100).toFixed(2)
@@ -311,7 +281,6 @@ function calcAndDisplayResult() {
     
     if(correct >= parseInt(correctPercentage) && incorrect >= parseInt(incorrectPercentage)) {
       clearInterval(intervalId)
-      // console.log("Jay Shree Ram")
     }
     
     document.querySelector('.correct-progress-bar').style.setProperty("--correct-after-content", `"Correct ${correct.toString().padStart(2, 0)}%"`)
@@ -347,7 +316,6 @@ function calcAndDisplayResult() {
   const isCompleted = correctPercentage > 33 ? true : false
   let updatedLevelResult = getUpdatedLevelResult(quizTopic, activeLevel, isCompleted)
   Object.entries(updatedLevelResult.results).every(([key, value]) => {
-    // console.log(key, value)
     if (!value?.isCompleted) {
       updatedLevelResult.results[key].isCurrentLevel = true
       return false
@@ -426,7 +394,6 @@ levelBtnsContainer.addEventListener('click', (e) => {
   })
   if (e.target.tagName === "BUTTON") {
     e.target.classList.toggle('selected')
-    // console.log(`${e.target.innerText} button clicked`)
   }
 } )
 
@@ -435,8 +402,6 @@ levelBtnsContainer.addEventListener('click', (e) => {
 startQuizBtn.addEventListener('click', (e) => {
   e.stopPropagation()
 
-  // console.log("currentLevelMCQArray => ", currentLevelMCQArray)
-  // if (currentLevelMCQArray.length === 0) {
   const levelBtns = [...levelBtnsContainer.children]
   levelBtns.every((button, index) => {
     const selectedLevel = button.textContent.replaceAll('✓', '').replaceAll(' ', '')

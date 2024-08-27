@@ -364,13 +364,12 @@ body {
   top: -1rem;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 0.25rem 1rem;
+  padding: 0.25rem 0.5rem;
   background-color: #fff;
   cursor: pointer;
   font-size: 14px;
   font-weight: normal;
   border-radius: 5px;
-  /* box-shadow: 0 0 2px #787; */
   border: 1px solid #fff;
   z-index: 11;
   transition: transform 1s;
@@ -407,9 +406,7 @@ body {
 }
 
 @keyframes spin-border {
-  to{
-    --angle : 360deg
-  }
+  to{  --angle : 360deg}
 }
 
 .flipcard:hover::after,
@@ -450,7 +447,6 @@ body {
   object-fit: contain;
 }
 .flipcard .front {
-  /* overflow: hidden; */
   justify-content: space-around;
   padding: 1rem;
 }
@@ -489,7 +485,6 @@ body {
   margin: 10px 0;
 }
 .flipcard .back ol ul{
-  /* text-indent: 1rem; */
   padding-left: 0.5rem;
   font-size: 14px;
   font-weight: 500;
@@ -518,8 +513,6 @@ body {
   background-color: #fdfdfd;
   line-height:10rem;
   text-align: center;
-  /* animation: sliding 36s infinite ease-out; */
-  /* animation: sliding 12s infinite steps(1); */
   transition: transform 1s;
 }
 
@@ -705,7 +698,6 @@ body {
   
   .homepage header img {
     height: 3rem;
-    /* border-radius: 0.7flipcardrem; */
   }
   
   .homepage header a {
@@ -725,9 +717,6 @@ body {
   .homepage .heading-test {
     font-size: 1.75rem;
   }
-  /* .homepage .sub-heading-test {
-    font-size: 1.2rem;
-  } */
 
   .flipcard {
     width: 350px;

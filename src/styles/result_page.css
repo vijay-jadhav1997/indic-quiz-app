@@ -24,7 +24,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 2rem;
+  padding: 0.5rem 2rem;
 }
 
 .result-header {
@@ -34,8 +34,8 @@
   position: relative;
   row-gap: 0.25rem;
   margin-bottom: 1rem;
-  /* width: 100%; */
 }
+
 .result-header img {
   position: absolute;
   top: -0.2rem;
@@ -67,7 +67,6 @@
   width: 100%;
   height: 4rem;
   background-image: linear-gradient(to right bottom, #eddc7c, #d2b40c);
-  /* background-color: #ddca5c; */
   margin: 2rem 0 1.5rem;
 }
 
@@ -84,26 +83,22 @@
   top: -1.5rem;
   left: 0;
   background-image: linear-gradient(to right bottom, #54fa5a, #35BD3A);
-  /* background-color: #35BD3A; */
 }
 .result-bar .incorrect {
   bottom: -1.5rem;
   background-image: linear-gradient(to right top, #f16f6f, #d30f0f);
-  /* background-color: #fb5858; */
   left: 78%;
 }
 .result-bar .unattempted {
   top: -1.5rem;
   right:0;
   background-image: linear-gradient(to left bottom, #eddc7c, #d2b40c);
-  /* background-color: #ddca5c; */
   color: #fff;
 }
 
 .result-bar .incorrect-bar {
   position: relative;
   background-image: linear-gradient(to right top, #f16f6f, #d71919);
-  /* background-color: #fb5858; */
   height: 100%;
   max-width: 100%;
   animation: progress-anime 1.5s linear forwards;
@@ -116,7 +111,6 @@
   background-image: linear-gradient(to right bottom, #54fa5a, #35BD3A);
   height: 100%;
   max-width: 100%;
-  /* width: 100%; */
   z-index: 5;
   animation: progress-anime 2s linear forwards;
 
@@ -183,7 +177,6 @@
 .pi-chart .details li {
   width: max-content;
   color: #fff;
-  /* margin: 3px auto; */
   padding: 0 5px;
 }
 .pi-chart .details li:first-child {
@@ -357,11 +350,9 @@ ul.result-stats::after {
   content: "";
   position: absolute;
   inset: 0;
-  /* background-color: var(--result-page-bg-clr); */
   background-color: #c8d4d6;
   border-radius: 0.7rem;
   z-index: 5;
-  /* animation: opening 1s ease-out reverse; */
 }
 .result-stats-container.open ul.result-stats::after {
   animation: opening 1s ease-out forwards;
@@ -515,6 +506,12 @@ ul.result-stats li {
   overflow: hidden;
 }
 
+.result-page footer .download.downloading-start,
+.result-page footer .download.downloading-complete,
+.result-page footer .download.downloading {
+  pointer-events: none;
+}
+  
 .result-page footer .download:hover {
   scale: 0.9;
 }
@@ -523,8 +520,7 @@ ul.result-stats li {
   box-shadow: 0 0 15px #ff1493;
 }
 
-.result-page footer .download::after {
-  content: "⇥";
+.result-page footer .download .download-icon {
   position: absolute;
   font-size: 1.2rem;
   font-weight: 800;
@@ -534,8 +530,8 @@ ul.result-stats li {
   right: 0;
 }
 
-.result-page footer .download.downloading::after {
-  animation: downloading-start 1s ease-in-out forwards;
+.result-page footer .download.downloading-start .download-icon {
+  animation: downloading-start 1.5s ease-in-out forwards;
   animation-delay: 0.25s;
 }
 @keyframes downloading-start {
@@ -545,31 +541,33 @@ ul.result-stats li {
   100% {top: 24px;}
 }
 
-.result-page footer .download.downloading::before {
-  content: "";
+.result-page footer .download.downloading .download-icon,
+.result-page footer .download.downloading-complete .download-icon {
   position: absolute;
-  width: 0.6rem;
-  height: 0.6rem;
   border-radius: 50%;
-  border: 3px solid #fff;
-  opacity: 0;
-  border-bottom-color:  #ffffff1e;
   top: 50%;
   translate: 0 -50%;
-  right: 3px;
-  animation: downloading 1.5s infinite ease-in;
-  animation-delay: 1.25s;
+  right: 4px;
+}
+.result-page footer .download.downloading .download-icon {
+  width: 14px;
+  height: 14px;
+  border: 3px solid #fff;
+  border-bottom-color:  #ffffff1e;
+  animation: downloading 1.5s infinite ease-in-out;
 }
 @keyframes downloading {
-  from {
-    opacity: 0.95;
-  }
-  to{
-    rotate: 360deg;
-    opacity: 1;
-  }
+  to{ rotate: 360deg;}
 }
   
+.result-page footer .download.downloading-complete .download-icon {
+  font-size: 12px;
+  line-height: 14px;
+  width: 14px;
+  rotate: 0deg;
+  background-color: #11ee11;
+}
+
   
 .result-page footer .social-medias {
   font-size: 1.2rem;

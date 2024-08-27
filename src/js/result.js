@@ -1,11 +1,8 @@
 import * as htmlToImage from 'html-to-image';
-import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image';
 
-import {overlayElement, startQuizPage, useLocalStorage, quizData, quizTopic, prepareQuiz} from './script.js'
+import {startQuizPage, useLocalStorage, quizData, quizTopic, prepareQuiz} from './script.js'
 import {homepageElemenet} from './script.js'
-// import {resultPage} from './quiz.js'
 
-// console.log("result.js => Jay Shree Radhe Krushna")
 
 //! Selecting key DOM elements for user interaction:
 // * 'quiz-page' DOM elements:
@@ -28,14 +25,32 @@ export const resultStatisticElement = document.querySelector('.result-stats');
 const result = document.querySelector('#result');
 const downloadBtn = document.querySelector('.download');
 
-// console.log(result)
-//! functions
+
+
+//! functions:
   function downloading(time){
-    downloadBtn.classList.add('downloading')
+    downloadBtn.classList.add('downloading-start')
+
+    let intervalCount = 0
     
-    setTimeout(() => {
-      downloadBtn.classList.remove('downloading')
-    }, time)
+    const intervalId = setInterval(() => {
+      if(intervalCount === 3){
+        downloadBtn.firstElementChild.innerHTML = ''
+        downloadBtn.classList.remove('downloading-start')
+        downloadBtn.classList.add('downloading')
+      }
+      else if (intervalCount === 13){
+        downloadBtn.classList.remove('downloading')
+        downloadBtn.firstElementChild.innerHTML = '&check;'
+        downloadBtn.classList.add('downloading-complete')
+        
+      } else if (intervalCount === 16) {
+        downloadBtn.classList.remove('downloading-complete')
+        downloadBtn.firstElementChild.innerHTML = '⇥'
+        clearInterval(intervalId)
+      }
+      intervalCount++
+    }, 500)
   }
 
 
@@ -44,7 +59,6 @@ const downloadBtn = document.querySelector('.download');
 backBtn.addEventListener('click', (e) => {
   e.stopPropagation()
 
-  // console.log("Back-btn clicked")
 
   prepareQuiz(quizTopic)
   
@@ -78,18 +92,15 @@ resultStatContainer.firstElementChild.addEventListener('click', (e) => {
 downloadBtn.addEventListener('click', (e) => {
   e.stopPropagation()
 
-  console.log("Har Har Mahadev..")
-
   htmlToImage.toPng(result)
   .then(function(imageUrl) {
     const link = document.createElement('a')
     link.setAttribute('href', imageUrl)
     link.setAttribute('download', `${quizData?.topic} -score.png`)
     link.click()
-    downloading(5000)
+    downloading()
   })
   .catch(function (error) {
-    console.error('oops, something went wrong!', error);
   });
 
 })
