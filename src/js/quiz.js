@@ -1,8 +1,7 @@
 import {overlayElement, startQuizPage, useLocalStorage, quizData, quizTopic, levelBtnsContainer, setMaxScore, homepageElemenet, prepareQuiz, } from './script.js'
-import {correctBarElement, incorrectBarElement, levelResult, quizPage, resultPage, resultStatisticElement, retryBtn, subjectResult} from "./result.js"
+import {correctBarElement, incorrectBarElement, levelResult, quizPage, resultPage, resultStatContainer, resultStatisticElement, retryBtn, subjectResult} from "./result.js"
 
 // debugger
-// console.log("quiz.js => Jay Shree Vitthal Rakhumai")
 
 
 //! Selecting key DOM elements for user interaction:
@@ -47,40 +46,23 @@ let hasPaused = false
 let questionTimeInterval = 0
 let hasUserSelectedAnyOption = false
 
-// console.log("quizTopic",quizTopic)
-// console.log("quizData", quizData)
-// console.log("activeLevel", activeLevel)
-// console.log('currentLevelMCQArray', currentLevelMCQArray)
-// console.log('activeLevelResultData', activeLevelResultData)
-// console.log('correctAnswered', correctAnswered)
-// console.log('totalQuestions', totalQuestions)
-// console.log('score', score)
-// console.log('userMaxScore', userMaxScore)
-// console.log('quizTotalScore', quizTotalScore)
-// console.log('wrongAnswered', wrongAnswered)
-// console.log('currentMcqNumber', currentMcqNumber)
-// console.log('quizCompletionTime', quizCompletionTime)
 
 
 //! State and data:
 
 document.addEventListener('DOMContentLoaded', e => {
   e.stopPropagation()
-  // console.log("Jay Shree Ram")
   const activePage = useLocalStorage('activePage') || 'homepage'
   if (activePage) {
-    [...document.body.children].forEach(elm => {
-      if(elm.className.startsWith(activePage)) {
-        elm.className = activePage
-        // console.log(elm.className)
+    [...document.body.children].forEach(elment => {
+      if(elment.className.startsWith(activePage)) {
+        elment.className = activePage
       }
-      else if (elm.className.includes('page')){
-        elm.classList.remove('inactive')
-        elm.classList.add('inactive')
-        // console.log(elm.className)
+      else if (elment.className.includes('page')){
+        elment.classList.remove('inactive')
+        elment.classList.add('inactive')
       }
       else {
-        // console.log(elm.className)
       }
     })
   }
@@ -126,7 +108,7 @@ function startQuiz(mcqData, subject, level) {
   correctAnswered = 0
   wrongAnswered = 0
   questionTimeInterval = 0
-  currentMcqNumber = 1
+  currentMcqNumber = 0
   quizCompletionTime = 0
   currentLevelMCQArray = mcqData
   activeLevel = level
@@ -143,7 +125,7 @@ function startQuiz(mcqData, subject, level) {
 
 //* function to get next question 
 function nextQuestion(data, mcqNum, level) {
-  questionNumber.innerText = `${currentMcqNumber.toString().padStart(2, 0)}/${totalQuestions.toString().padStart(2, 0)}` 
+  questionNumber.innerText = `${(currentMcqNumber + 1).toString().padStart(2, 0)}/${totalQuestions.toString().padStart(2, 0)}` 
   questionElement.innerText = `${data[mcqNum]?.question}`
   timeElement.innerText = `00:${30}`
   hasUserSelectedAnyOption = false //* Now user can select any option.
@@ -177,7 +159,7 @@ function nextQuestion(data, mcqNum, level) {
       }
       else if(count === 5) {
         quizPage.className = "quiz-page red-zone"
-        currentMcqNumber === totalQuestions && finishBtn.removeAttribute('disabled')
+        currentMcqNumber + 1 === totalQuestions && finishBtn.removeAttribute('disabled')
       }
       else if(count === 0) {
         nextBtn.removeAttribute('disabled')
@@ -191,7 +173,7 @@ function nextQuestion(data, mcqNum, level) {
   }
 
   // DOM manipulation for last question 
-  if(currentMcqNumber === totalQuestions){
+  if(currentMcqNumber + 1 === totalQuestions){
     skipBtn.setAttribute('disabled', '')
 
     nextBtn.className = 'next-btn hidden'
@@ -205,22 +187,8 @@ function nextQuestion(data, mcqNum, level) {
 
   useLocalStorage(quizTopic, updatedLevelResult)
 
-
-  // console.log("quizTopic",quizTopic)
-  // console.log("quizData", quizData)
-  // console.log("activeLevel", activeLevel)
-  // console.log('currentLevelMCQArray', currentLevelMCQArray)
-  // console.log('activeLevelResultData', activeLevelResultData)
-  // console.log('correctAnswered', correctAnswered)
-  // console.log('totalQuestions', totalQuestions)
-  // console.log('score', score)
-  // console.log('userMaxScore', userMaxScore)
-  // console.log('quizTotalScore', quizTotalScore)
-  // console.log('wrongAnswered', wrongAnswered)
-  // console.log('currentMcqNumber', currentMcqNumber)
-  // console.log('quizCompletionTime', quizCompletionTime)
-    
 }
+
 
 //* function to get updated level result
 function getUpdatedLevelResult(subject, level, isCompleted=false) {
@@ -286,6 +254,8 @@ function createOptionElement(option, index) {
 //* function final result stats calculation and DOM manipulation of 'result-page'
 function calcAndDisplayResult() {
 
+  resultStatContainer.classList.remove('open')
+
   const correctPercentage = ((correctAnswered / totalQuestions) * 100).toFixed(2)
   const incorrectPercentage = ((wrongAnswered / totalQuestions) * 100).toFixed(2)
   const unattemptedPercentage = (((totalQuestions - correctAnswered - wrongAnswered)/totalQuestions) * 100).toFixed(2)
@@ -311,7 +281,6 @@ function calcAndDisplayResult() {
     
     if(correct >= parseInt(correctPercentage) && incorrect >= parseInt(incorrectPercentage)) {
       clearInterval(intervalId)
-      // console.log("Jay Shree Ram")
     }
     
     document.querySelector('.correct-progress-bar').style.setProperty("--correct-after-content", `"Correct ${correct.toString().padStart(2, 0)}%"`)
@@ -347,7 +316,6 @@ function calcAndDisplayResult() {
   const isCompleted = correctPercentage > 33 ? true : false
   let updatedLevelResult = getUpdatedLevelResult(quizTopic, activeLevel, isCompleted)
   Object.entries(updatedLevelResult.results).every(([key, value]) => {
-    // console.log(key, value)
     if (!value?.isCompleted) {
       updatedLevelResult.results[key].isCurrentLevel = true
       return false
@@ -426,7 +394,6 @@ levelBtnsContainer.addEventListener('click', (e) => {
   })
   if (e.target.tagName === "BUTTON") {
     e.target.classList.toggle('selected')
-    // console.log(`${e.target.innerText} button clicked`)
   }
 } )
 
@@ -435,8 +402,6 @@ levelBtnsContainer.addEventListener('click', (e) => {
 startQuizBtn.addEventListener('click', (e) => {
   e.stopPropagation()
 
-  // console.log("currentLevelMCQArray => ", currentLevelMCQArray)
-  // if (currentLevelMCQArray.length === 0) {
   const levelBtns = [...levelBtnsContainer.children]
   levelBtns.every((button, index) => {
     const selectedLevel = button.textContent.replaceAll('✓', '').replaceAll(' ', '')
@@ -484,7 +449,7 @@ optionsContainer.addEventListener('click', function(e) {
   hasUserSelectedAnyOption = true //* Now user can't select any other option for this question if user try to do so.
   clearInterval(questionTimeInterval)
   questionTimeInterval = 0
-  currentMcqNumber === totalQuestions && finishBtn.removeAttribute('disabled')
+  currentMcqNumber + 1 === totalQuestions && finishBtn.removeAttribute('disabled')
 })
 
 

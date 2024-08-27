@@ -1,4 +1,4 @@
-import {api_key} from "../assets.js"
+import {API_KEY} from "../../assets.js"
 
 
 //! Selecting key DOM elements for user interaction:
@@ -95,9 +95,8 @@ export async function prepareQuiz(topic){
 
   try {
     quizData = useLocalStorage(topic)
-    // console.log(quizData)
     if (!quizData) {
-      const response = await fetch(`${api_key}/${topic}`)
+      const response = await fetch(`${API_KEY}/${topic}`)
   
       if (!response.ok) throw new Error('Please, check your network connection!')
   
@@ -120,7 +119,6 @@ export async function prepareQuiz(topic){
     }
   } 
   catch (error) {
-    console.error('There has been a problem with your network connect:', error)
     alert("Oops! Something went wrong. Check your network connection. Please try again later!")
   }
 
@@ -149,7 +147,6 @@ function createLevelBtns(quiz) {
         button.innerHTML = `${level} <i class="lock-icon">&#x1F512;</i>`
       }
       levelBtnsContainer.appendChild(button)
-      // console.log(result)
     })
 
 }
@@ -167,11 +164,11 @@ export function setMaxScore(data) {
     return acc
   }, 0)
 
+  maxScoreElement.className = 'max-score-board'
   if(maxScore){
     maxScoreElement.className = 'max-score-board hasMaxScore'
     maxScoreElement.innerText = `${maxScore}`
   }
-  // console.log(maxScore, data)
 }
 
 
@@ -181,7 +178,6 @@ humbergerMenu.addEventListener('click', (e) => {
   e.stopPropagation()
   e.preventDefault()
 
-  // console.log(e.target.tagName, e.target.className)
   humbergerMenu.classList.toggle('close')
   navBoxElemenet.classList.toggle('open')
 })
@@ -192,7 +188,6 @@ navBoxElemenet.addEventListener('click', (e) => {
   e.stopPropagation()
   e.preventDefault()
 
-  // console.log(e.target.tagName, e.target.className)
   if ((e.target.tagName === "A") && e.target.className === "sub-topic") {
 
     quizTopic = e.target.innerText.toLowerCase()
@@ -200,9 +195,7 @@ navBoxElemenet.addEventListener('click', (e) => {
 
     if (quizTopic.includes('_&_')) quizTopic = quizTopic.replaceAll('_&_', '_')
    
-    // console.log(e.target.tagName, e.target.className, quizTopic)
 
-    // console.log(quizTopic)
     prepareQuiz(quizTopic)
     useLocalStorage('quizTopic', quizTopic)  // save quizTopic to the localStorage
     navBoxElemenet.classList.toggle('open')
@@ -235,7 +228,6 @@ backToHomeBtn.addEventListener('click', (e) => {
 flipBtn.addEventListener('click', (e) => {
   e.stopPropagation()
   flipcardElement.classList.toggle('flip')
-  // console.log(flipcardElement)
 })
 
 
@@ -252,24 +244,22 @@ setTimeout(() => {
   setTimeout( e => {
     notificationElement.classList.remove('open')
     bubblesWrapperElement.classList.add('inactive')
-    // console.log("Jay Shree Ram Krushna Hari")
   }, 30000)
   
 }, 1000)
 
 
-let counter = 0
-setInterval(() => {
-  if (counter < 4){
-    counter++
-  }else {
-    counter--
-  }
-  slideElements.forEach((slide, index) => {
-    slide.style.transform = `translateX(-${counter * 100}%)`
-    console.log(counter * index * 100)
-  })
-}, 4000)
+// let counter = 0
+// setInterval(() => {
+//   if (counter < 4){
+//     counter++
+//   }else {
+//     counter--
+//   }
+//   slideElements.forEach((slide, index) => {
+//     slide.style.transform = `translateX(-${counter * 100}%)`
+//   })
+// }, 4000)
 
 
 

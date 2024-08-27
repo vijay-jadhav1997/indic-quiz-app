@@ -1,8 +1,8 @@
-import {overlayElement, startQuizPage, useLocalStorage, quizData, quizTopic, prepareQuiz} from './script.js'
-import {homepageElemenet} from './script.js'
-// import {resultPage} from './quiz.js'
+import * as htmlToImage from 'html-to-image';
 
-// console.log("result.js => Jay Shree Radhe Krushna")
+import {startQuizPage, useLocalStorage, quizData, quizTopic, prepareQuiz} from './script.js'
+import {homepageElemenet} from './script.js'
+
 
 //! Selecting key DOM elements for user interaction:
 // * 'quiz-page' DOM elements:
@@ -22,9 +22,36 @@ export const retryBtn = document.querySelector('.retry-btn');
 const goToHomeBtn = document.querySelector('.go-to-home-btn');
 
 export const resultStatisticElement = document.querySelector('.result-stats');
+const result = document.querySelector('#result');
+const downloadBtn = document.querySelector('.download');
 
 
-//! functions
+
+//! functions:
+  function downloading(time){
+    downloadBtn.classList.add('downloading-start')
+
+    let intervalCount = 0
+    
+    const intervalId = setInterval(() => {
+      if(intervalCount === 3){
+        downloadBtn.firstElementChild.innerHTML = ''
+        downloadBtn.classList.remove('downloading-start')
+        downloadBtn.classList.add('downloading')
+      }
+      else if (intervalCount === 13){
+        downloadBtn.classList.remove('downloading')
+        downloadBtn.firstElementChild.innerHTML = '&check;'
+        downloadBtn.classList.add('downloading-complete')
+        
+      } else if (intervalCount === 16) {
+        downloadBtn.classList.remove('downloading-complete')
+        downloadBtn.firstElementChild.innerHTML = '⇥'
+        clearInterval(intervalId)
+      }
+      intervalCount++
+    }, 500)
+  }
 
 
 //! Events :
@@ -32,7 +59,6 @@ export const resultStatisticElement = document.querySelector('.result-stats');
 backBtn.addEventListener('click', (e) => {
   e.stopPropagation()
 
-  // console.log("Back-btn clicked")
 
   prepareQuiz(quizTopic)
   
@@ -60,3 +86,22 @@ resultStatContainer.firstElementChild.addEventListener('click', (e) => {
 
   resultStatContainer.classList.toggle('open')
 })
+
+
+//* 
+downloadBtn.addEventListener('click', (e) => {
+  e.stopPropagation()
+
+  htmlToImage.toPng(result)
+  .then(function(imageUrl) {
+    const link = document.createElement('a')
+    link.setAttribute('href', imageUrl)
+    link.setAttribute('download', `${quizData?.topic} -score.png`)
+    link.click()
+    downloading()
+  })
+  .catch(function (error) {
+  });
+
+})
+
