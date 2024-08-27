@@ -1,4 +1,4 @@
-import {API_KEY} from "../../assets.js"
+import {API_KEY} from "../../assets/assets.js"
 
 
 //! Selecting key DOM elements for user interaction:
