@@ -1,9 +1,6 @@
 // import questions, {multipleChoiceQuestions, soprtQuestions} from "./mcq_data.js"
 import {api_key} from "./assets.js"
-// import {startQuizPage} from "./quiz.js"
-
-
-// console.log("script.js => Jay Shree Seeta Ram")
+// import {startQuizPage} from "./quiz.js
 
 //! Selecting key DOM elements for user interaction:
 // * 'body' DOM elements:
@@ -19,7 +16,7 @@ const flipcardElement = document.querySelector('.flipcard');
 
 // * 'quiz-start-page' DOM elements:
 export const startQuizPage = document.querySelector('.start-quiz-page');
-export const levelBtnsContainer = document.querySelector('.level-btns-container');
+
 
 
 
@@ -42,7 +39,6 @@ document.addEventListener('DOMContentLoaded', e => {
     
   }
 })
-
 
 const welcomeMessages = [
   "Welcome to the 'Indic Quiz'! Ready to play a new Quiz?",
@@ -79,7 +75,6 @@ export function useLoacalStorage(key, data='') {
   
   localStorage.setItem(key, JSON.stringify(data))
   
-  // return `Your data is successfully stored in the localStorage as key '${key}'.`
 }
 
 
@@ -91,8 +86,6 @@ async function prepareQuiz(topic){
   //* Basically do all the things to be get ready to start the quiz
 
 
-  
-  overlayElement.classList.add('open') // Shimmer effect start
   try {
     quizData = useLoacalStorage(topic)
     if (!quizData) {
