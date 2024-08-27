@@ -23,6 +23,7 @@ export const maxScoreElement = document.querySelector('.max-score-board');
 export const backToHomeBtn = document.querySelector('.back-to-home-btn');
 
 
+
 // ! State and global Variables
 export let quizTopic = useLocalStorage('quizTopic') || ''
 export let quizData = useLocalStorage(quizTopic) || {}
@@ -77,7 +78,7 @@ export function useLocalStorage(key, data='') {
   if(data === '') return JSON.parse(localStorage.getItem(key))
   
   localStorage.setItem(key, JSON.stringify(data))
-  // return `Your data is successfully stored in the localStorage as key '${key}'.`
+
 }
 
 
@@ -88,9 +89,10 @@ export async function prepareQuiz(topic){
   // then open the 'startQuizPage' and hide the 'homePage'
   //* Basically do all the things to be get ready to start the quiz
 
-  
-  overlayElement.classList.add('open') // Shimmer effect start
+
+
   overlayElement.innerHTML = `<div class='loading'></div>`
+
   try {
     quizData = useLocalStorage(topic)
     if (!quizData) {
