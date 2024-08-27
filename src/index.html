@@ -18,16 +18,17 @@
 </head>
 <body>
   <div class="overlay">
-    <div class="loading"></div>
+    <!-- <div class="loading"></div> -->
   </div>
-  <div class="notification-container">
-    <div class="notification-content">
-      <p class="notification">"Namaste! 'Indic Quiz' welcomes you. Ready for a new Quiz challenge. Ready for a new Quiz challenge."</p>
-      <span class="notification-close-btn">&#x2716;</span>
-    </div>
-  </div>
-
+  
   <div class="homepage">
+    <div class="notification-container">
+      <div class="notification-content">
+        <p class="notification">"Namaste! 'Indic Quiz' welcomes you. Ready for a new Quiz challenge. Ready for a new Quiz challenge."</p>
+        <span class="notification-close-btn">&#x2716;</span>
+      </div>
+    </div>
+
     <header>
       <img src="./Images/quiz-logo.png" alt="logo">
       <div class="humberger-menu">
@@ -380,55 +381,73 @@
 
 
   <div class="result-page inactive">
-    <div class="result-header">
-      <img src="./Images/quiz-logo1.png" alt="quiz-logo">
-      <span class="level-result">Result</span>
-    </div>
+    <div id="result">
 
-    <div class="result-bar">
-      <span class="unattempted">unattempted: 10%</span>
-      <div class="incorrect-bar">
-        <span class="incorrect">incorrect: 20%</span>
+      <div class="result-header">
+        <img src="./Images/quiz-logo1.png" alt="quiz-logo">
+        <span class="subject-result">JavaScript</span>
+        <span class="level-result">Level1-Result</span>
       </div>
-      <div class="correct-bar">
-        <span class="correct">correct: 70%</span>
+
+      <div class="result-bar">
+        <span class="unattempted">unattempted: 10%</span>
+        <div class="incorrect-bar">
+          <span class="incorrect">incorrect: 20%</span>
+        </div>
+        <div class="correct-bar">
+          <span class="correct">correct: 70%</span>
+        </div>
+      </div>
+
+      <div class="progress-bar" style="--correct-after-content: 'Correct 60%'">
+        <div class="correct-progress-bar">
+          <svg class="correct-svg">
+            <linearGradient id="CorrectGrad">
+              <stop offset="0%" stop-color="#5FD85B" />
+              <stop offset="100%" stop-color="#0DAE08" />
+            </linearGradient>
+            <circle id="CorrectBar" cx="80" cy="80" r="70" stroke-linecap="round"
+              style="--correct-dash-off: 176;"
+            />
+          </svg>
+        </div>
+        
+        <div class="incorrect-progress-bar" style="--incorrect-after-content: 'Incorrect 25%'">
+          <svg class="incorrect-svg">
+            <linearGradient id="IncorrectGrad">
+              <stop offset="0%" stop-color="#F16F6F"/>
+              <stop offset="100%" stop-color="#D30F0F" />
+            </linearGradient>
+            <circle id="IncorrectBar" cx="80" cy="80" r="70" stroke-linecap="round"
+              style="--incorrect-dash-off: 330;"
+            />
+          </svg>
+        </div>
+
+        <div class="pi-chart">
+          <ul class="details">
+            <li>total: 25</li>
+            <li>correct: 12</li>
+            <li>incorrect: 08</li>
+            <li>unattempted: 05</li>
+          </ul>
+        </div>
+      </div>
+
+      
+      <div class="result-stats-container">
+        <h4>Click to see the result in detail: <span>&#8250;</span></h4>
+        <ul class="result-stats">
+          <li class="total-questions">Total Questions: 25</li>
+          <li class="notAttempted-questions">Questions Not Attempted: 03</li>
+          <li class="correct-questions">Correct: 15</li>
+          <li class="notAttempted-questions">Incorrect: 07</li>
+          <li class="final-score">Your Score: 25</li>
+          <li class="highest-score">Your Highest Score: 30</li>
+          <li class="highest-score">Your quiz completion time: 10 mins & 20 secs.</li>
+        </ul>
       </div>
     </div>
-
-    <div class="progress-bar" style="--correct-after-content: 'Correct 60%'">
-      <div class="correct-progress-bar">
-        <svg class="correct-svg">
-           <linearGradient id="CorrectGrad">
-            <stop offset="0%" stop-color="#5FD85B" />
-            <stop offset="100%" stop-color="#0DAE08" />
-          </linearGradient>
-          <circle id="CorrectBar" cx="80" cy="80" r="70" stroke-linecap="round"
-            style="--correct-dash-off: 176;"
-          />
-        </svg>
-      </div>
-      <div class="incorrect-progress-bar" style="--incorrect-after-content: 'Incorrect 25%'">
-        <svg class="incorrect-svg">
-          <linearGradient id="IncorrectGrad">
-            <stop offset="0%" stop-color="#F16F6F"/>
-            <stop offset="100%" stop-color="#D30F0F" />
-          </linearGradient>
-          <circle id="IncorrectBar" cx="80" cy="80" r="70" stroke-linecap="round"
-            style="--incorrect-dash-off: 330;"
-          />
-        </svg>
-      </div>
-    </div>
-
-    <ul class="result-stats">
-      <li class="total-questions">Total Questions: 25</li>
-      <li class="notAttempted-questions">Questions Not Attempted: 03</li>
-      <li class="correct-questions">Correct: 15</li>
-      <li class="notAttempted-questions">Incorrect: 07</li>
-      <li class="final-score">Your Score: 25</li>
-      <li class="highest-score">Your Highest Score: 30</li>
-      <li class="highest-score">Your quiz completion time: 10 mins & 20 secs.</li>
-    </ul>
 
     <div class="feedback-wrapper">
       <p class="feedback-message">

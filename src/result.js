@@ -1,4 +1,4 @@
-import {overlayElement, startQuizPage, useLoacalStorage, quizData, quizTopic, prepareQuiz} from './script.js'
+import {overlayElement, startQuizPage, useLocalStorage, quizData, quizTopic, prepareQuiz} from './script.js'
 import {homepageElemenet} from './script.js'
 // import {resultPage} from './quiz.js'
 
@@ -10,21 +10,18 @@ export const quizPage = document.querySelector('.quiz-page');
 
 // * 'result-page' DOM elements:
 export const resultPage = document.querySelector('.result-page');
+export const subjectResult = document.querySelector('.subject-result');
 export const levelResult = document.querySelector('.level-result');
 export const correctBarElement = document.querySelector('.result-bar .correct-bar');
 export const incorrectBarElement = document.querySelector('.result-bar .incorrect-bar');
-
-// export const correctProgressBarElement = document.querySelector('.correct-progress-bar');
-// export const incorrectProgressBarElement = document.querySelector('.incorrect-progress-bar');
-// export const correctElement = document.querySelector('#CorrectBar');
-// export const incorrectElement = document.querySelector('#IncorrectBar');
-
-export const resultStatisticElement = document.querySelector('.result-stats');
+export const resultStatContainer = document.querySelector('.result-stats-container');
 export const FeedbackMessageElement = document.querySelector('.feedback-message');
 const backBtn = document.querySelector('.back-btn');
 export const celebrationElem = document.querySelector('.celebration');
 export const retryBtn = document.querySelector('.retry-btn');
 const goToHomeBtn = document.querySelector('.go-to-home-btn');
+
+export const resultStatisticElement = document.querySelector('.result-stats');
 
 
 //! functions
@@ -49,11 +46,17 @@ backBtn.addEventListener('click', (e) => {
 goToHomeBtn.addEventListener('click', (e) => {
   e.stopPropagation()
 
-
   resultPage.className = 'result-page inactive'
   quizPage.className = 'quiz-page inactive'
   startQuizPage.className = 'start-quiz-page inactive'
   homepageElemenet.className = 'homepage'
-  
+  useLocalStorage('activePage', 'homepage')
 })
 
+
+//* 
+resultStatContainer.firstElementChild.addEventListener('click', (e) => {
+  e.stopPropagation()
+
+  resultStatContainer.classList.toggle('open')
+})
