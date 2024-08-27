@@ -9,18 +9,24 @@ const notificationCloseBtn = document.querySelector('.notification-close-btn');
 // * 'homepage' DOM elements:
 export const homepageElemenet = document.querySelector('.homepage');
 const navBoxElemenet = document.querySelector('.nav-box');
+const humbergerMenu = document.querySelector('.humberger-menu');
 const slideElements = document.querySelectorAll('.slide');
 const flipcardElement = document.querySelector('.flipcard');
 
 // * 'quiz-start-page' DOM elements:
 export const startQuizPage = document.querySelector('.start-quiz-page');
-
+export const levelBtnsContainer = document.querySelector('.level-btns-container');
+export const maxScoreElement = document.querySelector('.max-score-board');
+export const backToHomeBtn = document.querySelector('.back-to-home-btn');
 
 
 
 // ! State and global Variables
 export let quizData = {}
 export let quizTopic = ''
+
+
+
 
 // document.addEventListener('DOMContentLoaded', e => {
 //   e.stopPropagation()
@@ -98,7 +104,7 @@ export function useLoacalStorage(key, data='') {
 
 
 //* function to prepare all the basic things to start the Quiz
-async function prepareQuiz(topic){
+export async function prepareQuiz(topic){
   // check data in localStorage, if available assign it to 'quizData'
   // if not, then fetch specific topic data from api and assign it to 'quizData' and also set it to local storage for ferther use.
   // then open the 'startQuizPage' and hide the 'homePage'
@@ -128,6 +134,7 @@ async function prepareQuiz(topic){
     // check for quizData shouldn't be empty before moving to 'startQuiz' page
     if (Object.entries(quizData).length !== 0) {
       createLevelBtns(quizData)
+      setMaxScore(quizData.results)
       homepageElemenet.classList.add('inactive')
       startQuizPage.classList.remove('inactive')
     }
@@ -143,22 +150,25 @@ async function prepareQuiz(topic){
 
 //* function to create level buttons
 function createLevelBtns(quiz) {
+  const prevTotalLevelBtns = levelBtnsContainer.children.length
+  for(let i = 0; i < prevTotalLevelBtns; i++ ){
+    levelBtnsContainer?.firstElementChild?.remove()
+  }
+
   const results = Object.entries(quiz?.results)
   // if(results.length !== 0) {
-    
-    console.log(quiz.levels.length === results.length)
     results.forEach(([level, result]) => {
       const button = document.createElement('button')
       if(result?.isCompleted) {
-        button.innerHTML = `${level}  <i class="completed">&check;</i>`
+        button.innerHTML = `${level} <i class="completed">&check;</i>`
       } else if(result?.isCurrentLevel) {
-        button.innerHTML = `${level}  <i class="current-level"></i>`
+        button.innerHTML = `${level} <i class="current-level"></i>`
       } else {
         button.setAttribute('disabled', '')
         button.innerHTML = `${level} <i class="lock-icon">&#x1F512;</i>`
       }
       levelBtnsContainer.appendChild(button)
-      console.log(result)
+      // console.log(result)
     })
 
   // } else {
@@ -179,9 +189,37 @@ function createLevelBtns(quiz) {
 }
 
 
+//* function to set userMaxScore on maxScoreElement
+export function setMaxScore(data) {
+  let maxScore = ''
+  Object.entries(data).reduce((acc, [key, value]) => {
+    if (acc < value.userMaxScore) {
+      acc = value.userMaxScore
+      maxScore = `Your Highest Score (${key}): ${value.userMaxScore.toString().padStart(2, 0)}/${value.totalScore.toString().padStart(2, 0)}`
+    }
+    return acc
+  }, 0)
+
+  if(maxScore){
+    maxScoreElement.className = 'max-score-board hasMaxScore'
+    maxScoreElement.innerText = `${maxScore}`
+  }
+  // console.log(maxScore, data)
+}
 
 
 //! Events :
+//* Event listener to 
+humbergerMenu.addEventListener('click', (e) => {
+  e.stopPropagation()
+  e.preventDefault()
+
+  // console.log(e.target.tagName, e.target.className)
+  humbergerMenu.classList.toggle('close')
+  navBoxElemenet.classList.toggle('open')
+})
+
+
 //* Event listener to 
 navBoxElemenet.addEventListener('click', (e) => {
   e.stopPropagation()
@@ -199,7 +237,8 @@ navBoxElemenet.addEventListener('click', (e) => {
 
     // console.log(quizTopic)
     prepareQuiz(quizTopic)
-
+    navBoxElemenet.classList.toggle('open')
+    humbergerMenu.classList.toggle('close')
   }
 })
 
@@ -214,32 +253,39 @@ notificationCloseBtn.addEventListener('click', (e) => {
 })
 
 
+//* Event listener to retry the quiz again
+backToHomeBtn.addEventListener('click', (e) => {
+  e.stopPropagation()
+  startQuizPage.className = 'start-quiz-page inactive'
+  homepageElemenet.className = 'homepage'
+})
+
 
 //! Timeout and Intervals :
 //* setTimeout to show welcome notification
-// setTimeout(() => {
-//   notificationElement.classList.add('open')
+setTimeout(() => {
+  notificationElement.classList.add('open')
   
-//   const welcomeNotificationElem = notificationElement.firstElementChild.firstElementChild
-//   welcomeNotificationElem.innerText = `${welcomeMessages[parseInt(Math.random()*6)]}`
+  const welcomeNotificationElem = notificationElement.firstElementChild.firstElementChild
+  welcomeNotificationElem.innerText = `${welcomeMessages[parseInt(Math.random()*6)]}`
 
-//   setTimeout( e => {
-//     notificationElement.classList.remove('open')
-//   }, 30000)
+  setTimeout( e => {
+    notificationElement.classList.remove('open')
+  }, 30000)
   
-// }, 1000)
-// let counter = 0
-// setInterval(() => {
-//   if (counter < 4){
-//     counter++
-//   }else {
-//     counter--
-//   }
-//   slideElements.forEach((slide, index) => {
-//     slide.style.transform = `translateX(-${counter * 100}%)`
-    // console.log(counter * index * 100)
-//   })
-// }, 4000)
+}, 1000)
+let counter = 0
+setInterval(() => {
+  if (counter < 4){
+    counter++
+  }else {
+    counter--
+  }
+  slideElements.forEach((slide, index) => {
+    slide.style.transform = `translateX(-${counter * 100}%)`
+    console.log(counter * index * 100)
+  })
+}, 4000)
 
 
 

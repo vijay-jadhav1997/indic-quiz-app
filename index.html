@@ -7,6 +7,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"> -->
   <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./quiz_start_page.css">
+  <link rel="stylesheet" href="./quiz_page.css">
+  <link rel="stylesheet" href="./result_page.css">
   <title>QUIZ APP : JS</title>
   <script type="module" src="./quiz.js" defer></script>
   <script type="module" src="./script.js" defer></script>
@@ -23,7 +26,12 @@
 
   <div class="homepage">
     <header>
-      <img src="./Images/linkedIn.png" alt="logo">
+      <img src="./Images/quiz-logo.png" alt="logo">
+      <div class="humberger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
       <nav class="nav-box">
         <ul class="menu-bar" role="menubar">
           <!-- Languages -->
@@ -214,6 +222,7 @@
   </div>
   
   <div class="start-quiz-page inactive">
+    <button class="back-to-home-btn">&leftarrow; Back</button>
     <div class="start-quiz">
       <div class="quiz-logo-box">
         <img src="./Images/quiz-logo.png" alt="quiz-logo">
@@ -289,7 +298,7 @@
   <div class="result-page inactive">
     <div class="result-header">
       <img src="./Images/quiz-logo.png" alt="quiz-logo">
-      <span>Result</span>
+      <span class="level-result">Result</span>
     </div>
 
     <div class="result-bar">
@@ -317,9 +326,73 @@
         “Keep learning, you have a good score!”
       </p>
       <div class="buttons">
-        <button class="retry-btn"> ‹‹‹ Retry</button>
+        <button class="back-btn"> &LeftArrow; Back</button>
+        <button class="retry-btn"> &curvearrowleft; Retry</button>
         <button class="go-to-home-btn">Go to Home </button>
       </div>
+    </div>
+
+    <div class="celebration">
+      <span class="particle" style="--particle:10"></span>
+      <span class="particle" style="--particle:15"></span>
+      <span class="particle" style="--particle:11"></span>
+      <span class="particle" style="--particle:18"></span>
+      <span class="particle" style="--particle:14"></span>
+      <span class="particle" style="--particle:22"></span>
+      <span class="particle" style="--particle:12"></span>
+      <span class="particle" style="--particle:19"></span>
+      <span class="particle" style="--particle:25"></span>
+      <span class="particle" style="--particle:13"></span>
+      <span class="particle" style="--particle:20"></span>
+      <span class="particle" style="--particle:17"></span>
+      <span class="particle" style="--particle:14"></span>
+      <span class="particle" style="--particle:10"></span>
+      <span class="particle" style="--particle:15"></span>
+      <span class="particle" style="--particle:11"></span>
+      <span class="particle" style="--particle:18"></span>
+      <span class="particle" style="--particle:14"></span>
+      <span class="particle" style="--particle:22"></span>
+      <span class="particle" style="--particle:12"></span>
+      <span class="particle" style="--particle:25"></span>
+      <span class="particle" style="--particle:13"></span>
+      <span class="particle" style="--particle:20"></span>
+      <span class="particle" style="--particle:17"></span>
+      <span class="particle" style="--particle:14"></span>
+      <span class="particle" style="--particle:10"></span>
+      <span class="particle" style="--particle:15"></span>
+      <span class="particle" style="--particle:11"></span>
+      <span class="particle" style="--particle:11"></span>
+      <span class="particle" style="--particle:18"></span>
+      <span class="particle" style="--particle:14"></span>
+      <span class="particle" style="--particle:22"></span>
+      <span class="particle" style="--particle:19"></span>
+      <span class="particle" style="--particle:25"></span>
+      <span class="particle" style="--particle:13"></span>
+      <span class="particle" style="--particle:20"></span>
+      <span class="particle" style="--particle:17"></span>
+      <span class="particle" style="--particle:14"></span>
+      <span class="particle" style="--particle:10"></span>
+      <span class="particle" style="--particle:15"></span>
+      <span class="particle" style="--particle:12"></span>
+      <span class="particle" style="--particle:19"></span>
+      <span class="particle" style="--particle:25"></span>
+      <span class="particle" style="--particle:13"></span>
+      <span class="particle" style="--particle:20"></span>
+      <span class="particle" style="--particle:17"></span>
+      <span class="particle" style="--particle:14"></span>
+      <span class="particle" style="--particle:10"></span>
+      <span class="particle" style="--particle:15"></span>
+      <span class="particle" style="--particle:11"></span>
+      <span class="particle" style="--particle:18"></span>
+      <span class="particle" style="--particle:14"></span>
+      <span class="particle" style="--particle:22"></span>
+      <span class="particle" style="--particle:12"></span>
+      <span class="particle" style="--particle:19"></span>
+      <span class="particle" style="--particle:25"></span>
+      <span class="particle" style="--particle:13"></span>
+      <span class="particle" style="--particle:20"></span>
+      <span class="particle" style="--particle:17"></span>
+      <span class="particle" style="--particle:14"></span>
     </div>
 
     <footer>

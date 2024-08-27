@@ -1,0 +1,336 @@
+
+/*? result-page styling */
+.result-page.inactive {
+  display: none;
+}
+.result-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #F6F4F0;
+  padding: 5rem 3rem 2rem;
+  min-height: 100dvh;
+  font-family: "Poppons", sans-serif;
+  font-weight: 600;
+  position: relative;
+  overflow: hidden;
+}
+
+.result-header {
+  position: relative;
+  margin-bottom: 1rem;
+}
+.result-header img {
+  position: absolute;
+  top: -3.2rem;
+  left: -13rem;
+  max-width: 10rem;
+  width: 100%;
+}
+.result-header .level-result {
+  margin-top: 0.5rem;
+  font-size: 1.5rem;
+  padding: 0.5rem 2rem;
+  border: 2px solid #1694ab;
+  border-radius: 2rem;
+  color: transparent;
+  background-image: linear-gradient(120deg, #2a19c4, #fd259c, #38b40e);
+  background-clip: text;
+  -webkit-background-clip: text;
+  text-align: center;
+}
+
+.result-page .result-bar {
+  position: relative;
+  max-width: 35rem;
+  width: 100%;
+  height: 4rem;
+  background-color: #ddca5c;
+  margin: 2rem 0 1.5rem;
+}
+
+.result-bar span {
+  position: absolute;
+  font-size: 0.75rem;
+  color: #fff;
+  width: max-content;
+  font-family: monospace;
+  padding: 3px 10px;
+  border-radius: 3px;
+}
+.result-bar .correct {
+  top: -1.5rem;
+  left: 0;
+  background-color: #35BD3A;
+}
+.result-bar .incorrect {
+  bottom: -1.5rem;
+  background-color: #fb5858;
+  left: 78%;
+}
+.result-bar .unattempted {
+  top: -1.5rem;
+  right:0;
+  background-color: #ddca5c;
+  color: #fff;
+}
+
+.result-bar .incorrect-bar {
+  position: relative;
+  background-color: #fb5858;
+  height: 100%;
+  max-width: 100%;
+}
+.result-page.show-result .result-bar .incorrect-bar {
+  animation: progress-anime 2s linear forwards;
+}
+.result-bar .correct-bar{
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #35BD3A;
+  height: 100%;
+  max-width: 100%;
+  width: 70%;
+  z-index: 5;
+}
+.result-page.show-result .result-bar .correct-bar {
+  animation: progress-anime 2s linear forwards;
+}
+
+@keyframes progress-anime {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+
+ul.result-stats::before {
+  content: "Result Statistic:";
+  position: absolute;
+  top: 1rem;
+  left: 2.5rem;
+  color: #08088f;
+  background-color: #92ef64;
+  font-size: 1.1rem;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+ul.result-stats {
+  position: relative;
+  list-style: none;
+  margin: 2rem 0;
+  padding: 3.5rem 4rem 1.5rem;
+  max-width: 35rem;
+  border: 1px double #333;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px 2px #ff1493, inset 0 0 15px 2px #ee23b0;
+}
+
+ul.result-stats li {
+  padding: 0.25rem 1rem;
+  font-size: 1.1rem;
+}
+
+.feedback-wrapper {
+  margin: 2rem 0;
+}
+.feedback-wrapper .feedback-message {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  background-color: lightskyblue;
+}
+.result-page .buttons {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+.result-page .buttons button {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.result-page .buttons button:hover {
+  scale: 0.95;
+}
+
+.result-page .retry-btn {
+  background-color: goldenrod;
+}
+.result-page .go-to-home-btn {
+  background-color: blueviolet;
+}
+
+.result-page .back-btn {
+  background-color: #0f0a27;
+}
+
+
+/*? styling 'celebration' */
+.celebration {
+  width: 95%;
+  position: fixed;
+  top: -100px;
+  left: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 105;
+}
+
+.celebration .particle {
+  width: 30px;
+  height: 30px;
+  clip-path: polygon(23% 26%, 64% 12%, 58% 93%, 10% 100%);
+  background-color: #fa1c79;
+  animation: celebrate 2 ease-out forwards;
+  animation-duration: calc(120s/var(--particle));
+
+}
+
+.celebration .particle:nth-child(2n) {
+  background-color: #5ce79d;
+  clip-path: polygon(69% 77%, 86% 30%, 100% 100%, 21% 100%);
+}
+.celebration .particle:nth-child(3n) {
+  background-color: #fae01c;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 73% 58%, 87% 100%, 50% 74%, 12% 100%, 30% 57%, 2% 35%, 39% 35%);
+}
+.celebration .particle:nth-child(4n) {
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  background-color: #f31cfa;
+}
+.celebration .particle:nth-child(5n) {
+  clip-path: polygon(25% 0%, 75% 0%, 62% 60%, 75% 100%, 25% 100%, 13% 44%);
+  background-color: #4698fc;
+}
+
+@keyframes celebrate {
+  0% {
+    transform: translate(0, -10vh) rotate(0deg);
+  }
+  95% {
+    transform: translate(0, 130vh) rotate(360deg);
+  }
+  100%{
+    transform: translate(0, 130vh) rotate(360deg);
+    display: none;
+  }
+}
+
+
+
+.result-page footer {
+  padding: 0.5rem 0;
+  background-color: #79d6fe49;
+  box-shadow: inset 0 0 5px #e8e8e8, 0 0 100px#c6e1f5;
+  border-radius: 5px;
+  width: min(60%, 500px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.result-page footer h3 {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #535353;
+  margin-bottom: 0.5rem;
+}
+
+.result-page footer .social-medias {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.social-medias a {
+  text-decoration: none;
+  margin: 0 0.25rem;
+}
+.social-medias img{
+  max-width: 1.5rem;
+}
+
+
+
+
+@media screen and (max-width:768px) {
+  .result-header img {
+    top: -3.2rem;
+    left: -8rem;
+    max-width: 7rem;
+  }
+
+  .result-bar .incorrect {
+    left: 70%;
+  }
+}
+
+@media screen and (max-width:500px) {
+  .result-page {
+    padding: 2rem 1rem;
+  }
+
+  .result-header img {
+    display: none;
+  }
+
+  .result-header .level-result {
+    font-size: 1.25rem;
+    padding: 0.25rem 1rem;
+  }
+
+  .result-bar span {
+    padding: 3px 5px;
+  }
+
+  .result-bar .incorrect {
+    left: 60%;
+  }
+
+  ul.result-stats {
+    list-style: circle;
+    list-style-position: inside;
+    margin: 1.5rem 0;
+    padding: 3.5rem 0.5rem 1rem;
+  }
+  
+  ul.result-stats li {
+    padding: 0.25rem 0.5rem;
+    font-size: 1rem;
+  }
+
+  .feedback-wrapper {
+    margin: 0;
+  }
+  .feedback-wrapper .feedback-message {
+    font-size: 1rem;
+    margin: 1.2rem;
+  }
+
+  .result-page .buttons button {
+    font-size: 14px;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .result-page footer {
+    margin: 2rem 0 0;
+  }
+
+  .result-page footer h3 {
+    font-size: 1rem;
+  }
+  .social-medias img {
+    max-width: 1.25rem;
+  }
+}
