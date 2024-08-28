@@ -1,5 +1,5 @@
 # 🧘🏻‍♂️⚡ Indic Quiz App 💡💯
-### 🌐visit Indic Quiz App => 
+### 🌐visit Indic Quiz App => [Indic Quiz App](https://indic-quiz-app.vercel.app/)
 
 Welcome to **Indic Quiz**, a Vanilla JavaScript-based quiz application built using Parcel. This app offers a variety of quizzes across different subjects, each with multiple levels. The application features a progressive unlocking system where users must achieve a minimum score to unlock higher levels. After completing a quiz, users are presented with a detailed scoreboard, including progress bars, a pie chart, and a scorecard.
 
