@@ -233,11 +233,13 @@
   stroke-width: 20px;
   stroke-dasharray: 440;
   stroke-dashoffset: 440;
+  stroke-linecap: round;
   z-index: 5;
 }
 
 .correct-progress-bar .correct-svg circle {
-  stroke: url(#CorrectGrad);
+  /* stroke: url(#CorrectGrad); */
+  stroke: #13d32f;
   animation: correct-anim 1s linear forwards;
 }
 
@@ -249,7 +251,8 @@
 
 
 .incorrect-progress-bar .incorrect-svg circle {
-  stroke: url(#IncorrectGrad);
+  /* stroke: url(#IncorrectGrad); */
+  stroke: #e61010;
   animation: incorrect-anim 1s linear forwards;
 }
 
