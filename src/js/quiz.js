@@ -292,7 +292,7 @@ function calcAndDisplayResult() {
   }, 25)
   
   document.querySelector('.correct-svg circle').style.setProperty("--correct-dash-off", `${440 * (1 - (correctPercentage/100))}`)
-  document.querySelector('.correct-svg circle').style.setProperty("--incorrect-dash-off", `${440 * (1 - (incorrectPercentage/100))}`)
+  document.querySelector('.incorrect-svg circle').style.setProperty("--incorrect-dash-off", `${440 * (1 - (incorrectPercentage/100))}`)
   
   const piChartDetailsChildren = document.querySelector('.pi-chart .details').children
   piChartDetailsChildren[0].innerText = `total: ${totalQuestions.toString().padStart(2, 0)}`
