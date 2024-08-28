@@ -291,8 +291,8 @@ function calcAndDisplayResult() {
     document.querySelector('.pi-chart').style.backgroundImage = `conic-gradient(#13d32f ${correctAngle}deg, #e61010 ${correctAngle}deg ${incorrectAngle}deg, #daa520 ${incorrectAngle}deg)`
   }, 25)
   
-  document.querySelector('#CorrectBar').style.setProperty("--correct-dash-off", `${440 * (1 - (correctPercentage/100))}`)
-  document.querySelector('#IncorrectBar').style.setProperty("--incorrect-dash-off", `${440 * (1 - (incorrectPercentage/100))}`)
+  document.querySelector('.correct-svg circle').style.setProperty("--correct-dash-off", `${440 * (1 - (correctPercentage/100))}`)
+  document.querySelector('.correct-svg circle').style.setProperty("--incorrect-dash-off", `${440 * (1 - (incorrectPercentage/100))}`)
   
   const piChartDetailsChildren = document.querySelector('.pi-chart .details').children
   piChartDetailsChildren[0].innerText = `total: ${totalQuestions.toString().padStart(2, 0)}`
