@@ -1,4 +1,4 @@
-// import {apiUrl} from "../../assets/assets.js"
+import {apiUrl} from "../assets/assets.js"
 
 
 //! Selecting key DOM elements for user interaction:
@@ -25,7 +25,6 @@ export const backToHomeBtn = document.querySelector('.back-to-home-btn');
 
 
 // ! State and global Variables
-const apiUrl = process.env.PARCEL_API_URL;
 export let quizTopic = useLocalStorage('quizTopic') || ''
 export let quizData = useLocalStorage(quizTopic) || {}
 
@@ -92,6 +91,7 @@ export async function prepareQuiz(topic){
 
 
 
+  overlayElement.classList.add('open')
   overlayElement.innerHTML = `<div class='loading'></div>`
 
   try {

@@ -1,5 +1,4 @@
-import * as htmlToImage from 'html-to-image';
-
+import { toPng } from 'html-to-image';
 import {startQuizPage, useLocalStorage, quizData, quizTopic, prepareQuiz} from './script.js'
 import {homepageElemenet} from './script.js'
 
@@ -92,7 +91,7 @@ resultStatContainer.firstElementChild.addEventListener('click', (e) => {
 downloadBtn.addEventListener('click', (e) => {
   e.stopPropagation()
 
-  htmlToImage.toPng(result)
+  toPng(result)
   .then(function(imageUrl) {
     const link = document.createElement('a')
     link.setAttribute('href', imageUrl)
