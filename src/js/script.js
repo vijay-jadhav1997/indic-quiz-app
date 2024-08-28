@@ -1,4 +1,6 @@
-import {API_KEY} from "../../assets/assets.js"
+import 'dotenv/config';
+
+// import {apiUrl} from "../../assets/assets.js"
 
 
 //! Selecting key DOM elements for user interaction:
@@ -25,6 +27,7 @@ export const backToHomeBtn = document.querySelector('.back-to-home-btn');
 
 
 // ! State and global Variables
+const apiUrl = process.env.API_URL;
 export let quizTopic = useLocalStorage('quizTopic') || ''
 export let quizData = useLocalStorage(quizTopic) || {}
 
@@ -96,7 +99,7 @@ export async function prepareQuiz(topic){
   try {
     quizData = useLocalStorage(topic)
     if (!quizData) {
-      const response = await fetch(`${API_KEY}/${topic}`)
+      const response = await fetch(`${apiUrl}/${topic}`)
   
       if (!response.ok) throw new Error('Please, check your network connection!')
   
