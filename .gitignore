@@ -1,5 +1,5 @@
 mcq_data.js
-assets.js
+# assets.js
 node_modules/
 dist/
 .parcel-cache
