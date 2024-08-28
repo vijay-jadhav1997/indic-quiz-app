@@ -1,5 +1,3 @@
-import 'dotenv/config';
-
 // import {apiUrl} from "../../assets/assets.js"
 
 
@@ -27,7 +25,7 @@ export const backToHomeBtn = document.querySelector('.back-to-home-btn');
 
 
 // ! State and global Variables
-const apiUrl = process.env.API_URL;
+const apiUrl = process.env.PARCEL_API_URL;
 export let quizTopic = useLocalStorage('quizTopic') || ''
 export let quizData = useLocalStorage(quizTopic) || {}
 
